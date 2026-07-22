@@ -13,6 +13,13 @@ if sys.platform == "win32":
     except Exception:
         pass
 
+# Lista de domínios agregadores/diretórios que NÃO são estabelecimentos reais
+AGGREGATOR_DOMAINS = [
+    'doctoralia.com.br', 'medprev.online', 'psitto.com.br', 'acheioprofissional.com.br',
+    'psinote.com.br', 'olx.com.br', 'cliniguia.com', 'linktr.ee', 'google.com',
+    'facebook.com', 'instagram.com', 'youtube.com', 'terappia.com.br', 'falapsi.com.br'
+]
+
 def clean_phone(phone_str):
     if not phone_str or pd.isna(phone_str):
         return None
@@ -50,7 +57,8 @@ def clean_company_name(title_raw):
     t = re.sub(r'[\ufffd\x80-\xff]', '', t)
     t = re.sub(r'\s+', ' ', t).strip()
     
-    if any(domain in t.lower() for domain in ['maps.google', 'google.com', 'instagram.com', 'facebook.com', 'doctoralia.com']):
+    # Descartar agregadores e títulos genéricos de busca
+    if any(agg in t.lower() for agg in ['doctoralia', 'medprev', 'psitto', 'os 10 melhores', 'os 20', 'acheioprofissional', 'maps.google', 'google.com']):
         return ""
         
     t = re.sub(r'(?i)\s*[-|—–:]?\s*(agende|agendamento|consulta|valores|desconto|preço|saiba mais|whatsapp|telefones?|os \d+|mais recomendados|em curitiba|em são paulo).*', '', t)
@@ -63,43 +71,39 @@ def clean_company_name(title_raw):
         
     return clean_name[:45].strip()
 
-# Auditoria em tempo real de links de sites
+# Auditoria rigorosa de status de site
 def audit_website_status(url):
     if not url or pd.isna(url) or len(str(url).strip()) < 5 or str(url).strip() in ["Sem Site Cadastrado", "Apenas Redes / Sem Site"]:
-        return "SEM SITE (OPORTUNIDADE QUENTE 🔥)"
+        return "SEM SITE (OPORTUNIDADE QUENTE 🔥)", ""
         
     url_str = str(url).strip()
     
-    # Lista de agregadores / diretórios que não são sites próprios
-    is_directory = any(domain in url_str.lower() for domain in [
-        'linktr.ee', 'doctoralia.com.br', 'psitto.com.br', 'google.com', 
-        'acheioprofissional.com.br', 'psinote.com.br', 'olx.com.br', 'cliniguia.com', 'facebook.com'
-    ])
-    
-    if is_directory:
-        return "SEM SITE PRÓPRIO / USADOR DE DIRETÓRIO (OPORTUNIDADE ⚡)"
+    # Se for agregador/diretório, o estabelecimento em si NÃO tem site próprio
+    is_aggregator = any(domain in url_str.lower() for domain in AGGREGATOR_DOMAINS)
+    if is_aggregator:
+        return "SEM SITE PRÓPRIO (OPORTUNIDADE 🔥)", ""
         
-    # Verificar se o site próprio abre ou está fora do ar
+    # Verificar se o site próprio está no ar via HTTP
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     target_url = url_str if url_str.startswith("http") else "https://" + url_str
     
     try:
         r = requests.get(target_url, headers=headers, timeout=5, allow_redirects=True)
         if r.status_code == 200:
-            return "SITE ATIVO / AVALIAR CELULAR 📱"
+            return "SITE ATIVO 📱", target_url
         else:
-            return f"SITE FORA DO AR (ERRO {r.status_code}) 🚨"
+            return f"SITE FORA DO AR (ERRO {r.status_code}) 🚨", target_url
     except Exception:
-        return "SITE FORA DO AR / LINK QUEBRADO 🚨"
+        return "SITE FORA DO AR / LINK QUEBRADO 🚨", target_url
 
-# Mensagens super personalizadas conforme a auditoria real do site
+# Mensagens inteligentes
 def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     nome_limpo = clean_company_name(nome_empresa)
     if not nome_limpo:
         nome_limpo = "empresa"
     cidade_fmt = cidade.capitalize()
     
-    if "FORA DO AR" in status_site or "QUEBRADO" in status_site or "DESATUALIZADO" in status_site or "ATIVO" in status_site:
+    if "SITE ATIVO" in status_site or "FORA DO AR" in status_site:
         pergunta = "Posso te fazer uma pergunta rápida sobre o site de vocês?"
     else:
         pergunta = "Posso te fazer uma pergunta rápida sobre a presença online de vocês?"
@@ -115,8 +119,8 @@ def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     
     if "FORA DO AR" in status_site or "QUEBRADO" in status_site:
         contexto = "É que fui tentar acessar o site de vocês pelo celular e percebi que ele está fora do ar / com erro, o que faz vocês perderem muitos clientes do Google todos os dias."
-    elif "DIRETÓRIO" in status_site or "ATIVO" in status_site:
-        contexto = "É que vi que o site de vocês está um pouco desatualizado no celular e vocês estão perdendo clientes do Google para a concorrência."
+    elif "SITE ATIVO" in status_site:
+        contexto = "É que vi que o site de vocês está um pouco desatualizado para celular e vocês estão perdendo clientes do Google para a concorrência."
     else:
         contexto = "É que vi que vocês ainda não têm um site próprio para celular e estão perdendo clientes do Google para a concorrência todos os dias."
         
@@ -129,13 +133,14 @@ def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     return message
 
 def fetch_leads(nicho, cidade):
-    print(f"\n🔍 Buscando empresas/profissionais de '{nicho}' em '{cidade}' (Google Maps & Web)...")
+    print(f"\n🔍 Buscando empresas/profissionais reais de '{nicho}' em '{cidade}'...")
     
     queries = [
         f"consultorio {nicho} {cidade}",
         f"clinica {nicho} {cidade}",
         f"atendimento {nicho} {cidade}",
-        f"{nicho} em {cidade}"
+        f"barbearia {cidade}",
+        f"salao {nicho} {cidade}"
     ]
     
     all_raw_items = []
@@ -143,7 +148,7 @@ def fetch_leads(nicho, cidade):
     for q in queries:
         try:
             with DDGS() as ddg:
-                res = list(ddg.text(q, max_results=15))
+                res = list(ddg.text(q, max_results=20))
                 for item in res:
                     all_raw_items.append({
                         "title": item.get("title", ""),
@@ -154,7 +159,7 @@ def fetch_leads(nicho, cidade):
             print(f"⚠️ Aviso na busca por '{q}': {e}")
             
     processed_leads = []
-    seen_titles = set()
+    seen_keys = set()
     
     for item in all_raw_items:
         raw_title = item.get('title', '').strip()
@@ -164,21 +169,28 @@ def fetch_leads(nicho, cidade):
         if not raw_title or len(raw_title) < 4:
             continue
             
+        # Descartar links diretos de agregadores
+        if any(agg in url.lower() for agg in ['doctoralia.com', 'medprev.online', 'psitto.com', 'acheioprofissional.com']):
+            url_site_proprio = ""
+        else:
+            url_site_proprio = url
+            
         clean_name = clean_company_name(raw_title)
         if not clean_name or len(clean_name) < 3:
             continue
             
-        title_key = clean_name.lower()[:25]
-        if title_key in seen_titles:
+        # Deduplicação rigorosa por nome
+        title_key = clean_name.lower()[:20]
+        if title_key in seen_keys:
             continue
-        seen_titles.add(title_key)
+        seen_keys.add(title_key)
         
         phones = re.findall(r'\(?\d{2}\)?\s?\d{4,5}[-\s]?\d{4}', raw_title + " " + snippet)
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
-        # Auditar status real do site via HTTP
-        status_site = audit_website_status(url)
+        # Auditar status real do site
+        status_site, checked_url = audit_website_status(url_site_proprio)
             
         maps_query = urllib.parse.quote(f"{clean_name} {cidade}")
         google_maps_url = f"https://www.google.com/maps/search/{maps_query}"
@@ -190,7 +202,7 @@ def fetch_leads(nicho, cidade):
             "bairro": "Centro / Região",
             "rua": snippet[:100] + "..." if snippet else "Sem descrição registrada",
             "tem_site": status_site,
-            "site": url if url else "Sem Site Cadastrado",
+            "site": checked_url if checked_url else "Sem Site Cadastrado",
             "telefone_original": phone_found if phone_found else "Buscar WhatsApp no Google Maps",
             "whatsapp_limpo": clean_p,
             "link_google_maps": google_maps_url
@@ -226,9 +238,10 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             l1 = f"https://wa.me/{clean_wa}?text={enc1}"
             l2 = f"https://wa.me/{clean_wa}?text={enc2}"
         else:
-            search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
-            l1 = f"https://www.google.com/search?q={search_q}"
-            l2 = f"https://www.google.com/search?q={search_q}"
+            # Se não pegou o telefone direto no snippet, abre o Google Maps / busca onde o usuário clica e vê o telefone na hora
+            maps_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
+            l1 = f"https://www.google.com/search?q={maps_q}"
+            l2 = f"https://www.google.com/search?q={maps_q}"
             
         wa_links_step1.append(l1)
         wa_links_step2.append(l2)
@@ -249,11 +262,9 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     for idx, row in df.iterrows():
         status_str = str(row['tem_site'])
         if "FORA DO AR" in status_str or "QUEBRADO" in status_str:
-            status_badge = '<span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">FORA DO AR 🚨</span>'
+            status_badge = '<span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SITE FORA DO AR 🚨</span>'
         elif "SEM SITE" in status_str:
             status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SEM SITE 🔥</span>'
-        elif "DIRETÓRIO" in status_str:
-            status_badge = '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SEM SITE PRÓPRIO ⚡</span>'
         else:
             status_badge = '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SITE ATIVO 📱</span>'
             
@@ -262,6 +273,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         wa_p = row.get('whatsapp_limpo')
         clean_wa = clean_phone(wa_p)
         
+        # TODOS os estabelecimentos válidos exibem SEMPRE as opções da 1ª Msg e 2ª Msg!
         if clean_wa:
             enc1 = urllib.parse.quote(row['mensagem_1_inicial'])
             enc2 = urllib.parse.quote(row['mensagem_2_preco_oferta'])
@@ -274,8 +286,12 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             {maps_button}
             """
         else:
-            search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
-            wa_buttons = f'<a href="https://www.google.com/search?q={search_q}" target="_blank" style="background: #3b82f6; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">🔍 Buscar no Google</a>' + maps_button
+            maps_search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
+            wa_buttons = f"""
+            <a href="https://www.google.com/search?q={maps_search_q}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (Ver WhatsApp)</a>
+            <a href="https://www.google.com/search?q={maps_search_q}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Preço)</a>
+            {maps_button}
+            """
             
         rows_html += f"""
         <tr style="border-bottom: 1px solid #e5e7eb;">
@@ -314,20 +330,20 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO E AUDITORIA AUTOMÁTICA DE SITES:</strong><br><br>
-                🚨 <strong>SITE FORA DO AR / QUEBRADO:</strong> O robô testou o link e detectou que a página não abre. A 2ª mensagem avisa: <em>"fui tentar acessar e percebi que o site está fora do ar..."</em><br>
-                ⚡ <strong>SEM SITE PRÓPRIO:</strong> A empresa depende de cadastros genéricos.<br>
-                🔥 <strong>SEM SITE:</strong> A 2ª mensagem avisa que a empresa ainda não tem site próprio para celular.
+                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO COMPLETA DE ESTABELECIMENTOS REAIS:</strong><br><br>
+                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a mensagem inicial adaptada se o estabelecimento tem ou não site.<br>
+                🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Envia a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).<br>
+                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato no Google Maps.
             </div>
 
             <div class="stats">
                 <div class="card">
-                    <h3>Total Oportunidades</h3>
+                    <h3>Total Oportunidades Reais</h3>
                     <p>{len(df)}</p>
                 </div>
                 <div class="card" style="border-left-color: #ef4444; background: #fef2f2;">
                     <h3 style="color: #991b1b;">Sem Site / Fora do Ar 🔥</h3>
-                    <p style="color: #7f1d1d;">{len(df[df['tem_site'].str.contains('SEM SITE|FORA DO AR|QUEBRADO|DIRETÓRIO', na=False)])}</p>
+                    <p style="color: #7f1d1d;">{len(df[df['tem_site'].str.contains('SEM SITE|FORA DO AR|QUEBRADO', na=False)])}</p>
                 </div>
             </div>
 
@@ -365,7 +381,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Auto-audit sites HTTP status and custom messages" && git push')
+        os.system('git add . && git commit -m "Auto-audit real local businesses" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
