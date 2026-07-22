@@ -63,14 +63,14 @@ def clean_company_name(title_raw):
         
     return clean_name[:45].strip()
 
-# Mensagem inteligente baseada se TEM ou NÃO TEM site
-def generate_pitch_step1(nome_empresa, nicho, cidade, tem_site=False):
+# Mensagens inteligentes
+def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM_SITE"):
     nome_limpo = clean_company_name(nome_empresa)
     if not nome_limpo:
         nome_limpo = "empresa"
     cidade_fmt = cidade.capitalize()
     
-    if tem_site:
+    if "DESATUALIZADO" in status_site or "SIM" in status_site:
         pergunta = "Posso te fazer uma pergunta rápida sobre o site de vocês?"
     else:
         pergunta = "Posso te fazer uma pergunta rápida sobre a presença online de vocês?"
@@ -81,10 +81,10 @@ def generate_pitch_step1(nome_empresa, nicho, cidade, tem_site=False):
     )
     return message
 
-def generate_pitch_step2(nome_empresa, nicho, cidade, tem_site=False):
+def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM_SITE"):
     nicho_fmt = format_niche_display(nicho)
     
-    if tem_site:
+    if "DESATUALIZADO" in status_site or "SIM" in status_site:
         contexto = "É que vi que o site de vocês está um pouco desatualizado para celular e vocês estão perdendo clientes do Google para a concorrência."
     else:
         contexto = "É que vi que vocês ainda não têm um site próprio para celular e estão perdendo clientes do Google para a concorrência todos os dias."
@@ -146,14 +146,18 @@ def fetch_leads(nicho, cidade):
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
-        is_directory_or_social = any(domain in url.lower() for domain in [
-            'instagram.com', 'facebook.com', 'whatsapp.com', 'linktr.ee', 
-            'doctoralia.com.br', 'psitto.com.br', 'google.com', 'youtube.com',
+        is_directory = any(domain in url.lower() for domain in [
+            'linktr.ee', 'doctoralia.com.br', 'psitto.com.br', 'google.com', 
             'acheioprofissional.com.br', 'psinote.com.br', 'olx.com.br', 'cliniguia.com'
         ])
         
-        has_custom_site = bool(url and not is_directory_or_social)
-        
+        if not url or len(url.strip()) < 5:
+            status_site = "SEM SITE (OPORTUNIDADE QUENTE 🔥)"
+        elif is_directory:
+            status_site = "DESATUALIZADO / SEM SITE PRÓPRIO (OPORTUNIDADE ⚡)"
+        else:
+            status_site = "SITE ATIVO / AVALIAR CELULAR 📱"
+            
         maps_query = urllib.parse.quote(f"{clean_name} {cidade}")
         google_maps_url = f"https://www.google.com/maps/search/{maps_query}"
         
@@ -163,9 +167,9 @@ def fetch_leads(nicho, cidade):
             "cidade": cidade.capitalize(),
             "bairro": "Centro / Região",
             "rua": snippet[:100] + "..." if snippet else "Sem descrição registrada",
-            "tem_site": "SIM" if has_custom_site else "NÃO (OPORTUNIDADE 🔥)",
-            "site": url if url else "Apenas Redes / Sem Site",
-            "telefone_original": phone_found if phone_found else "Buscar WhatsApp no Google/IG",
+            "tem_site": status_site,
+            "site": url if url else "Sem Site Cadastrado",
+            "telefone_original": phone_found if phone_found else "Buscar WhatsApp no Google Maps",
             "whatsapp_limpo": clean_p,
             "link_google_maps": google_maps_url
         })
@@ -179,14 +183,15 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         
     df = pd.DataFrame(leads)
     
-    whatsapp_links = []
+    wa_links_step1 = []
+    wa_links_step2 = []
     pitches_step1 = []
     pitches_step2 = []
     
     for _, row in df.iterrows():
-        has_site = "SIM" in str(row.get('tem_site', '')).upper()
-        p1 = generate_pitch_step1(row['nome'], nicho, cidade, tem_site=has_site)
-        p2 = generate_pitch_step2(row['nome'], nicho, cidade, tem_site=has_site)
+        status_s = str(row.get('tem_site', ''))
+        p1 = generate_pitch_step1(row['nome'], nicho, cidade, status_site=status_s)
+        p2 = generate_pitch_step2(row['nome'], nicho, cidade, status_site=status_s)
         pitches_step1.append(p1)
         pitches_step2.append(p2)
         
@@ -194,17 +199,22 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         clean_wa = clean_phone(wa_p)
         
         if clean_wa:
-            encoded_pitch = urllib.parse.quote(p1)
-            wa_link = f"https://wa.me/{clean_wa}?text={encoded_pitch}"
+            enc1 = urllib.parse.quote(p1)
+            enc2 = urllib.parse.quote(p2)
+            l1 = f"https://wa.me/{clean_wa}?text={enc1}"
+            l2 = f"https://wa.me/{clean_wa}?text={enc2}"
         else:
-            search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp instagram")
-            wa_link = f"https://www.google.com/search?q={search_q}"
+            search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
+            l1 = f"https://www.google.com/search?q={search_q}"
+            l2 = f"https://www.google.com/search?q={search_q}"
             
-        whatsapp_links.append(wa_link)
+        wa_links_step1.append(l1)
+        wa_links_step2.append(l2)
         
-    df['mensagem_curta_inicial'] = pitches_step1
-    df['mensagem_explicacao_preco'] = pitches_step2
-    df['link_whatsapp_direto'] = whatsapp_links
+    df['mensagem_1_inicial'] = pitches_step1
+    df['mensagem_2_preco_oferta'] = pitches_step2
+    df['link_whatsapp_msg1'] = wa_links_step1
+    df['link_whatsapp_msg2'] = wa_links_step2
     
     csv_file = os.path.join(output_dir, f"leads_{nicho}_{cidade}.csv".lower().replace(" ", "_"))
     df.to_csv(csv_file, index=False, encoding='utf-8-sig')
@@ -215,23 +225,42 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     
     rows_html = ""
     for idx, row in df.iterrows():
-        status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">NÃO TEM SITE 🔥</span>' if "NÃO" in str(row['tem_site']) else '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">Já tem site</span>'
-        
-        maps_button = f'<a href="{row["link_google_maps"]}" target="_blank" style="background: #ea4335; color: white; text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-left: 6px;">📍 Ver no Maps</a>'
-        
-        if row.get('whatsapp_limpo') and not pd.isna(row.get('whatsapp_limpo')):
-            wa_button = f'<a href="{row["link_whatsapp_direto"]}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; display: inline-block;">💬 Enviar 1º Mensagem</a>' + maps_button
+        status_str = str(row['tem_site'])
+        if "SEM SITE" in status_str:
+            status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SEM SITE 🔥</span>'
+        elif "DESATUALIZADO" in status_str:
+            status_badge = '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">DESATUALIZADO ⚡</span>'
         else:
-            wa_button = f'<a href="{row["link_whatsapp_direto"]}" target="_blank" style="background: #3b82f6; color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; display: inline-block;">🔍 Buscar no Google / IG</a>' + maps_button
+            status_badge = '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SITE ATIVO 📱</span>'
+            
+        maps_button = f'<a href="{row["link_google_maps"]}" target="_blank" style="background: #ea4335; color: white; text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-left: 4px;">📍 Maps</a>'
+        
+        wa_p = row.get('whatsapp_limpo')
+        clean_wa = clean_phone(wa_p)
+        
+        if clean_wa:
+            enc1 = urllib.parse.quote(row['mensagem_1_inicial'])
+            enc2 = urllib.parse.quote(row['mensagem_2_preco_oferta'])
+            link_m1 = f"https://wa.me/{clean_wa}?text={enc1}"
+            link_m2 = f"https://wa.me/{clean_wa}?text={enc2}"
+            
+            wa_buttons = f"""
+            <a href="{link_m1}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg</a>
+            <a href="{link_m2}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Preço)</a>
+            {maps_button}
+            """
+        else:
+            search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
+            wa_buttons = f'<a href="https://www.google.com/search?q={search_q}" target="_blank" style="background: #3b82f6; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">🔍 Buscar no Google</a>' + maps_button
             
         rows_html += f"""
         <tr style="border-bottom: 1px solid #e5e7eb;">
             <td style="padding: 12px; font-weight: bold; color: #1f2937;">{row['nome']}</td>
             <td style="padding: 12px;">{row['cidade']}</td>
             <td style="padding: 12px;">{status_badge}</td>
-            <td style="padding: 12px; color: #4b5563; font-size: 13px;"><a href="{row['site']}" target="_blank">{str(row['site'])[:40]}</a></td>
+            <td style="padding: 12px; color: #4b5563; font-size: 13px;"><a href="{row['site']}" target="_blank">{str(row['site'])[:35]}</a></td>
             <td style="padding: 12px;">{row['telefone_original']}</td>
-            <td style="padding: 12px;">{wa_button}</td>
+            <td style="padding: 12px; white-space: nowrap;">{wa_buttons}</td>
         </tr>
         """
         
@@ -244,7 +273,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         <title>Leads Webfy - {nicho.capitalize()} em {cidade.capitalize()}</title>
         <style>
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; margin: 0; padding: 20px; color: #111827; }}
-            .container {{ max-width: 1250px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }}
+            .container {{ max-width: 1300px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }}
             h1 {{ color: #0284c7; margin-top: 0; }}
             .stats {{ display: flex; gap: 20px; margin-bottom: 20px; }}
             .card {{ background: #e0f2fe; padding: 15px 20px; border-radius: 8px; flex: 1; border-left: 4px solid #0284c7; }}
@@ -257,37 +286,36 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     </head>
     <body>
         <div class="container">
-            <h1>🚀 Webfy - Relatório de Prospecção Dividido em Etapas (João)</h1>
+            <h1>🚀 Webfy - Painel de Prospecção Avançado (João)</h1>
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 ROTEIRO ADAPTADO (SE TEM SITE OU NÃO TEM SITE):</strong><br><br>
-                <strong>1º Mensagem (Botão Verde):</strong><br>
-                • <em>Se NÃO TEM site:</em> "Olá, tudo bem? Meu nome é João, sou da agência Webfy. Vi o perfil da [Empresa] aí em {cidade.capitalize()} no Google e achei o trabalho de vocês muito bacana! Posso te fazer uma pergunta rápida sobre a presença online de vocês?"<br>
-                • <em>Se TEM site:</em> "Olá, tudo bem? Meu nome é João, sou da agência Webfy. Vi o perfil da [Empresa] aí em {cidade.capitalize()} e achei o trabalho de vocês muito bacana! Posso te fazer uma pergunta rápida sobre o site de vocês?"<br><br>
-                <strong>2º Mensagem (Quando responderem "Pode sim"):</strong> Explicar a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).
+                <strong style="color: #166534; font-size: 16px;">💡 BOTÕES DE DISPARO RÁPIDO NO WHATSAPP:</strong><br><br>
+                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a saudação curta perguntando sobre o site/presença online.<br>
+                🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Quando o cliente responder "Pode sim", clique neste botão! Ele envia a explicação da ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação) direto na conversa!<br>
+                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato do Google Maps da empresa.
             </div>
 
             <div class="stats">
                 <div class="card">
-                    <h3>Total de Oportunidades</h3>
+                    <h3>Total Oportunidades</h3>
                     <p>{len(df)}</p>
                 </div>
                 <div class="card" style="border-left-color: #ef4444; background: #fef2f2;">
-                    <h3 style="color: #991b1b;">Sem Site (Oportunidades Quentes 🔥)</h3>
-                    <p style="color: #7f1d1d;">{len(df[df['tem_site'].str.contains('NÃO')])}</p>
+                    <h3 style="color: #991b1b;">Sem Site / Desatualizado 🔥</h3>
+                    <p style="color: #7f1d1d;">{len(df[df['tem_site'].str.contains('SEM SITE|DESATUALIZADO', na=False)])}</p>
                 </div>
             </div>
 
             <table>
                 <thead>
                     <tr>
-                        <th>Nome da Empresa / Profissional</th>
+                        <th>Empresa / Profissional</th>
                         <th>Cidade</th>
                         <th>Status do Site</th>
                         <th>Link / Redes</th>
                         <th>Telefone</th>
-                        <th>Ações Rápida (WhatsApp & Google Maps)</th>
+                        <th>Ações Rápida (1ª Msg | 2ª Msg | Maps)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -313,7 +341,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Auto-update leads & portal" && git push')
+        os.system('git add . && git commit -m "Auto-update 1st & 2nd msg buttons" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
