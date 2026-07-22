@@ -63,14 +63,43 @@ def clean_company_name(title_raw):
         
     return clean_name[:45].strip()
 
-# Mensagens inteligentes
-def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM_SITE"):
+# Auditoria em tempo real de links de sites
+def audit_website_status(url):
+    if not url or pd.isna(url) or len(str(url).strip()) < 5 or str(url).strip() in ["Sem Site Cadastrado", "Apenas Redes / Sem Site"]:
+        return "SEM SITE (OPORTUNIDADE QUENTE 🔥)"
+        
+    url_str = str(url).strip()
+    
+    # Lista de agregadores / diretórios que não são sites próprios
+    is_directory = any(domain in url_str.lower() for domain in [
+        'linktr.ee', 'doctoralia.com.br', 'psitto.com.br', 'google.com', 
+        'acheioprofissional.com.br', 'psinote.com.br', 'olx.com.br', 'cliniguia.com', 'facebook.com'
+    ])
+    
+    if is_directory:
+        return "SEM SITE PRÓPRIO / USADOR DE DIRETÓRIO (OPORTUNIDADE ⚡)"
+        
+    # Verificar se o site próprio abre ou está fora do ar
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    target_url = url_str if url_str.startswith("http") else "https://" + url_str
+    
+    try:
+        r = requests.get(target_url, headers=headers, timeout=5, allow_redirects=True)
+        if r.status_code == 200:
+            return "SITE ATIVO / AVALIAR CELULAR 📱"
+        else:
+            return f"SITE FORA DO AR (ERRO {r.status_code}) 🚨"
+    except Exception:
+        return "SITE FORA DO AR / LINK QUEBRADO 🚨"
+
+# Mensagens super personalizadas conforme a auditoria real do site
+def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     nome_limpo = clean_company_name(nome_empresa)
     if not nome_limpo:
         nome_limpo = "empresa"
     cidade_fmt = cidade.capitalize()
     
-    if "DESATUALIZADO" in status_site or "SIM" in status_site:
+    if "FORA DO AR" in status_site or "QUEBRADO" in status_site or "DESATUALIZADO" in status_site or "ATIVO" in status_site:
         pergunta = "Posso te fazer uma pergunta rápida sobre o site de vocês?"
     else:
         pergunta = "Posso te fazer uma pergunta rápida sobre a presença online de vocês?"
@@ -81,11 +110,13 @@ def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM_SITE"):
     )
     return message
 
-def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM_SITE"):
+def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     nicho_fmt = format_niche_display(nicho)
     
-    if "DESATUALIZADO" in status_site or "SIM" in status_site:
-        contexto = "É que vi que o site de vocês está um pouco desatualizado para celular e vocês estão perdendo clientes do Google para a concorrência."
+    if "FORA DO AR" in status_site or "QUEBRADO" in status_site:
+        contexto = "É que fui tentar acessar o site de vocês pelo celular e percebi que ele está fora do ar / com erro, o que faz vocês perderem muitos clientes do Google todos os dias."
+    elif "DIRETÓRIO" in status_site or "ATIVO" in status_site:
+        contexto = "É que vi que o site de vocês está um pouco desatualizado no celular e vocês estão perdendo clientes do Google para a concorrência."
     else:
         contexto = "É que vi que vocês ainda não têm um site próprio para celular e estão perdendo clientes do Google para a concorrência todos os dias."
         
@@ -146,17 +177,8 @@ def fetch_leads(nicho, cidade):
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
-        is_directory = any(domain in url.lower() for domain in [
-            'linktr.ee', 'doctoralia.com.br', 'psitto.com.br', 'google.com', 
-            'acheioprofissional.com.br', 'psinote.com.br', 'olx.com.br', 'cliniguia.com'
-        ])
-        
-        if not url or len(url.strip()) < 5:
-            status_site = "SEM SITE (OPORTUNIDADE QUENTE 🔥)"
-        elif is_directory:
-            status_site = "DESATUALIZADO / SEM SITE PRÓPRIO (OPORTUNIDADE ⚡)"
-        else:
-            status_site = "SITE ATIVO / AVALIAR CELULAR 📱"
+        # Auditar status real do site via HTTP
+        status_site = audit_website_status(url)
             
         maps_query = urllib.parse.quote(f"{clean_name} {cidade}")
         google_maps_url = f"https://www.google.com/maps/search/{maps_query}"
@@ -226,10 +248,12 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     rows_html = ""
     for idx, row in df.iterrows():
         status_str = str(row['tem_site'])
-        if "SEM SITE" in status_str:
+        if "FORA DO AR" in status_str or "QUEBRADO" in status_str:
+            status_badge = '<span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">FORA DO AR 🚨</span>'
+        elif "SEM SITE" in status_str:
             status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SEM SITE 🔥</span>'
-        elif "DESATUALIZADO" in status_str:
-            status_badge = '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">DESATUALIZADO ⚡</span>'
+        elif "DIRETÓRIO" in status_str:
+            status_badge = '<span style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SEM SITE PRÓPRIO ⚡</span>'
         else:
             status_badge = '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SITE ATIVO 📱</span>'
             
@@ -286,14 +310,14 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     </head>
     <body>
         <div class="container">
-            <h1>🚀 Webfy - Painel de Prospecção Avançado (João)</h1>
+            <h1>🚀 Webfy - Painel de Prospecção Auditado (João)</h1>
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 BOTÕES DE DISPARO RÁPIDO NO WHATSAPP:</strong><br><br>
-                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a saudação curta perguntando sobre o site/presença online.<br>
-                🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Quando o cliente responder "Pode sim", clique neste botão! Ele envia a explicação da ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação) direto na conversa!<br>
-                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato do Google Maps da empresa.
+                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO E AUDITORIA AUTOMÁTICA DE SITES:</strong><br><br>
+                🚨 <strong>SITE FORA DO AR / QUEBRADO:</strong> O robô testou o link e detectou que a página não abre. A 2ª mensagem avisa: <em>"fui tentar acessar e percebi que o site está fora do ar..."</em><br>
+                ⚡ <strong>SEM SITE PRÓPRIO:</strong> A empresa depende de cadastros genéricos.<br>
+                🔥 <strong>SEM SITE:</strong> A 2ª mensagem avisa que a empresa ainda não tem site próprio para celular.
             </div>
 
             <div class="stats">
@@ -302,8 +326,8 @@ def export_reports(leads, nicho, cidade, output_dir="."):
                     <p>{len(df)}</p>
                 </div>
                 <div class="card" style="border-left-color: #ef4444; background: #fef2f2;">
-                    <h3 style="color: #991b1b;">Sem Site / Desatualizado 🔥</h3>
-                    <p style="color: #7f1d1d;">{len(df[df['tem_site'].str.contains('SEM SITE|DESATUALIZADO', na=False)])}</p>
+                    <h3 style="color: #991b1b;">Sem Site / Fora do Ar 🔥</h3>
+                    <p style="color: #7f1d1d;">{len(df[df['tem_site'].str.contains('SEM SITE|FORA DO AR|QUEBRADO|DIRETÓRIO', na=False)])}</p>
                 </div>
             </div>
 
@@ -312,8 +336,8 @@ def export_reports(leads, nicho, cidade, output_dir="."):
                     <tr>
                         <th>Empresa / Profissional</th>
                         <th>Cidade</th>
-                        <th>Status do Site</th>
-                        <th>Link / Redes</th>
+                        <th>Status do Site (Auditado HTTP)</th>
+                        <th>Link Registrado</th>
                         <th>Telefone</th>
                         <th>Ações Rápida (1ª Msg | 2ª Msg | Maps)</th>
                     </tr>
@@ -341,7 +365,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Auto-update 1st & 2nd msg buttons" && git push')
+        os.system('git add . && git commit -m "Auto-audit sites HTTP status and custom messages" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
