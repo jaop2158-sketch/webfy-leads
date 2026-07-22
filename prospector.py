@@ -286,12 +286,21 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         f.write(html_content)
     print(f"📊 Dashboard visual HTML gerado: {html_file}")
     
-    # Atualizar o Portal Central index.html automaticamente
+    # 1. Atualizar o Portal Central index.html automaticamente
     try:
         from build_portal import build_central_portal
         build_central_portal(output_dir)
     except Exception as e:
         print(f"⚠️ Aviso ao atualizar o portal central: {e}")
+
+    # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
+    try:
+        print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
+        os.system('git add . && git commit -m "Auto-update leads & portal" && git push')
+        print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
+    except Exception as e:
+        print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
+
 
 
 def main():

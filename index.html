@@ -134,7 +134,7 @@
                 <label>Filtrar por Nicho</label>
                 <select id="filterNicho" onchange="filterCards()">
                     <option value="todos">Todos os Nichos</option>
-                    <option value="odontologia">Odontologia</option><option value="psicologia">Psicologia</option>
+                    <option value="barbearia">Barbearia</option><option value="odontologia">Odontologia</option><option value="psicologia">Psicologia</option>
                 </select>
             </div>
             <div class="filter-group">
@@ -148,6 +148,28 @@
 
         <div class="grid" id="cardsGrid">
             
+        <div class="card" data-nicho="barbearia" data-cidade="curitiba">
+            <div class="card-header">
+                <span class="badge-nicho">Barbearia</span>
+                <span class="badge-cidade">📍 Curitiba</span>
+            </div>
+            <h2>Barbearia em Curitiba</h2>
+            <div class="stats-row">
+                <div>
+                    <span class="stat-num">23</span>
+                    <span class="stat-label">Total Oportunidades</span>
+                </div>
+                <div>
+                    <span class="stat-num sem-site">1</span>
+                    <span class="stat-label">Sem Site 🔥</span>
+                </div>
+            </div>
+            <div class="card-actions">
+                <a href="dashboard_leads_barbearia_curitiba.html" class="btn-view">📊 Abrir Painel com WhatsApp</a>
+                <a href="leads_barbearia_curitiba.csv" class="btn-download" download>📥 Baixar Excel</a>
+            </div>
+        </div>
+        
         <div class="card" data-nicho="odontologia" data-cidade="campinas">
             <div class="card-header">
                 <span class="badge-nicho">Odontologia</span>
