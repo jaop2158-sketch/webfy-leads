@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "webfy-prospeccao-leads",
+  "builds": [
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ]
+}

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Odontológica OdontoPremium | Seu Sorriso Perfeito</title>
+    <meta name="description" content="Especialistas em Implantes, Lentes de Contato e Clareamento Dental. Agende sua consulta pelo WhatsApp.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary: #06b6d4;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --accent: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 24px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-header {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-header:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 24px 100px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #ffffff 100%);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            background: #dbeafe;
+            color: var(--primary-dark);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 32px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 10px 25px rgba(2, 132, 199, 0.3);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(2, 132, 199, 0.4);
+        }
+
+        .hero-card {
+            background: white;
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0f2fe;
+            position: relative;
+        }
+
+        .hero-card img {
+            width: 100%;
+            border-radius: 16px;
+            object-fit: cover;
+            height: 380px;
+        }
+
+        .floating-badge {
+            position: absolute;
+            bottom: -20px;
+            left: -20px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .floating-badge span {
+            font-size: 28px;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 18px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(2, 132, 199, 0.12);
+            border-color: #bae6fd;
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: #e0f2fe;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .service-card p {
+            color: var(--gray);
+            font-size: 15px;
+        }
+
+        /* CTA WhatsApp */
+        .cta-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            max-width: 1200px;
+            margin: 60px auto 100px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(2, 132, 199, 0.3);
+        }
+
+        .cta-box h2 {
+            font-size: 38px;
+            margin-bottom: 16px;
+        }
+
+        .cta-box p {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-whatsapp-large {
+            background: #25D366;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-whatsapp-large:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
+        }
+
+        /* Float Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.5);
+            text-decoration: none;
+            z-index: 10000;
+            transition: transform 0.3s;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+
+        footer {
+            background: var(--dark);
+            color: #94a3b8;
+            padding: 40px 24px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                🦷 Odonto<span>Premium</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#tratamentos">Tratamentos</a></li>
+                <li><a href="#sobre">A Clínica</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+            <a href="https://wa.me/5519999999999?text=Olá!%20Gostaria%20de%20agendar%20uma%20avaliação." target="_blank" class="btn-header">
+                💬 Agendar Consulta
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="inicio">
+        <div class="hero-container">
+            <div>
+                <span class="hero-badge">✨ Tecnologia Odontológica de Ponta</span>
+                <h1>Transforme o seu <span>Sorriso</span> com Especialistas</h1>
+                <p>Recupere sua autoestima com tratamentos indolores, estéticos e de alta precisão. Agende sua avaliação sem compromisso.</p>
+                <div class="hero-cta">
+                    <a href="https://wa.me/5519999999999?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20uma%20avaliação." target="_blank" class="btn-primary">
+                        Agendar Avaliação Grátis
+                    </a>
+                </div>
+            </div>
+            <div class="hero-card">
+                <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=800&q=80" alt="Consultório Odontológico">
+                <div class="floating-badge">
+                    <span>⭐ 4.9/5</span>
+                    <div>
+                        <strong>+ 1.500 Pacientes</strong>
+                        <p style="margin:0; font-size:12px; color:var(--gray);">Atendidos com excelência</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class="services" id="tratamentos">
+        <div class="section-title">
+            <h2>Nossos Tratamentos Especializados</h2>
+            <p>Soluções completas para a saúde e beleza do seu sorriso.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h3>Clareamento Dental</h3>
+                <p>Dentes visivelmente mais brancos com tecnologia a laser e gel atóxico de alta precisão.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">😁</div>
+                <h3>Lentes de Contato</h3>
+                <p>Facetas de porcelana ultra finas para alinhar, harmonizar e aperfeiçoar seu sorriso.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔩</div>
+                <h3>Implantes Dentários</h3>
+                <p>Substituição segura e definitiva com materiais importados e cicatrização rápida.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🦷</div>
+                <h3>Ortodontia Invisível</h3>
+                <p>Alinhadores transparentes modernos para alinhar seus dentes sem aparelhos fixos de metal.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Box -->
+    <section class="cta-box" id="contato">
+        <h2>Pronto para sorrir com confiança?</h2>
+        <p>Clique no botão abaixo para conversar direto com a nossa equipe no WhatsApp e escolher o melhor horário.</p>
+        <a href="https://wa.me/5519999999999?text=Olá!%20Quero%20agendar%20um%20horário%20com%20o%20dentista." target="_blank" class="btn-whatsapp-large">
+            📱 Agendar pelo WhatsApp Agora
+        </a>
+    </section>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5519999999999?text=Olá!%20Vim%20pelo%20site." class="whatsapp-float" target="_blank">
+        💬
+    </a>
+
+    <footer>
+        <p>© 2026 Clínica OdontoPremium. Todos os direitos reservados.</p>
+        <p style="font-size:12px; margin-top:8px; opacity:0.7;">Desenvolvido por <strong>CriaSite Studio</strong></p>
+    </footer>
+
+</body>
+</html>
