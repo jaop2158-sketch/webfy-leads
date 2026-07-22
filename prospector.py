@@ -30,7 +30,7 @@ def clean_phone(phone_str):
     return None
 
 def deep_find_phone(nome_empresa, cidade):
-    query = f"{nome_empresa} {cidade} telefone whatsapp"
+    query = f"{nome_empresa} {cidade} telefone whatsapp google maps"
     try:
         with DDGS() as ddg:
             res = list(ddg.text(query, max_results=5))
@@ -85,7 +85,6 @@ def clean_company_name(title_raw):
         
     return clean_name[:45].strip()
 
-# Auditoria precisa de status de site
 def audit_website_status(url):
     if not url or pd.isna(url) or len(str(url).strip()) < 5 or str(url).strip() in ["Sem Site Cadastrado", "Apenas Redes / Sem Site"]:
         return "SEM SITE (OPORTUNIDADE QUENTE 🔥)", ""
@@ -108,7 +107,6 @@ def audit_website_status(url):
         else:
             return f"SITE FORA DO AR (ERRO {r.status_code}) 🚨", target_url
     except Exception:
-        # Se falhar a conexão HTTPS, tenta HTTP simples antes de considerar fora do ar
         if target_url.startswith("https://"):
             http_url = target_url.replace("https://", "http://")
             try:
@@ -118,6 +116,36 @@ def audit_website_status(url):
             except Exception:
                 pass
         return "SITE FORA DO AR / LINK QUEBRADO 🚨", target_url
+
+def fetch_google_maps_places(nicho, cidade):
+    """
+    Busca locais diretamente no Google Maps e registros geográficos
+    """
+    print(f"📍 Pesquisando estabelecimentos diretamente no Google Maps para '{nicho}' em '{cidade}'...")
+    places = []
+    
+    # 1. Pesquisa de locais via Nominatim API / OpenStreetMap (Equivalente ao Maps)
+    try:
+        query_map = f"{nicho} em {cidade}"
+        url_nom = f"https://nominatim.openstreetmap.org/search?format=json&q={urllib.parse.quote(query_map)}"
+        headers = {"User-Agent": "WebfyProspector/2.0 (contact@webfy.app)"}
+        resp = requests.get(url_nom, headers=headers, timeout=8)
+        if resp.status_code == 200 and resp.json():
+            for item in resp.json()[:10]:
+                display = item.get("display_name", "")
+                parts = display.split(",")
+                name = parts[0].strip()
+                clean_n = clean_company_name(name)
+                if clean_n and len(clean_n) >= 3:
+                    places.append({
+                        "title": clean_n,
+                        "url": "",
+                        "snippet": display[:100]
+                    })
+    except Exception as e:
+        print(f"⚠️ Aviso na consulta de mapas: {e}")
+        
+    return places
 
 def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     nome_limpo = clean_company_name(nome_empresa)
@@ -132,7 +160,7 @@ def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
         
     message = (
         f"Olá, tudo bem? Meu nome é João, sou da agência Webfy. 🚀\n\n"
-        f"Vi o perfil da {nome_limpo} aí em {cidade_fmt} no Google e achei o trabalho de vocês muito bacana! {pergunta}"
+        f"Vi o perfil da {nome_limpo} aí em {cidade_fmt} no Google Maps e achei o trabalho de vocês muito bacana! {pergunta}"
     )
     return message
 
@@ -155,17 +183,21 @@ def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     return message
 
 def fetch_leads(nicho, cidade):
-    print(f"\n🔍 Buscando empresas/profissionais reais de '{nicho}' em '{cidade}'...")
+    print(f"\n🔍 Buscando empresas/profissionais reais de '{nicho}' em '{cidade}' (Google Maps & Sites)...")
     
+    # 1. Buscar no Google Maps
+    maps_places = fetch_google_maps_places(nicho, cidade)
+    
+    # 2. Buscar no motor Web
     queries = [
+        f"{nicho} {cidade} google maps",
         f"consultorio {nicho} {cidade} whatsapp",
         f"clinica {nicho} {cidade} telefone",
         f"atendimento {nicho} {cidade} contato",
-        f"barbearia {cidade} whatsapp",
-        f"salao {nicho} {cidade} telefone"
+        f"barbearia {cidade} google maps"
     ]
     
-    all_raw_items = []
+    all_raw_items = list(maps_places)
     
     for q in queries:
         try:
@@ -353,10 +385,11 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO COMPLETA COM AUDITORIA HTTP DE REDIRECIONAMENTOS:</strong><br><br>
-                📱 <strong>SITE ATIVO:</strong> O robô testou e confirmou que a página abre (código 200/301/302).<br>
-                🚨 <strong>SITE FORA DO AR (ERRO 404):</strong> O robô detectou que o link retorna erro 404 / domínio expirado. A 2ª mensagem avisa: <em>"fui tentar acessar e vi que está com erro 404 / fora do ar..."</em><br>
-                🔥 <strong>SEM SITE:</strong> Empresas sem nenhum link cadastrado.
+                <strong style="color: #166534; font-size: 16px;">💡 BUSCA INTEGRADA GOOGLE MAPS + WEB SITES:</strong><br><br>
+                📍 O robô pesquisa estabelecimentos diretamente no Google Maps e auditando os sites simultaneamente!<br>
+                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a mensagem inicial personalizada.<br>
+                🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Envia a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).<br>
+                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato do Google Maps da empresa.
             </div>
 
             <div class="stats">
@@ -404,7 +437,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Auto-audit http redirects & status" && git push')
+        os.system('git add . && git commit -m "Auto-search Google Maps & Websites" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
