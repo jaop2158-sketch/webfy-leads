@@ -30,9 +30,6 @@ def clean_phone(phone_str):
     return None
 
 def deep_find_phone(nome_empresa, cidade):
-    """
-    Busca profunda no Google/DuckDuckGo especificamente para extrair o telefone/WhatsApp de uma empresa
-    """
     query = f"{nome_empresa} {cidade} telefone whatsapp"
     try:
         with DDGS() as ddg:
@@ -88,6 +85,7 @@ def clean_company_name(title_raw):
         
     return clean_name[:45].strip()
 
+# Auditoria precisa de status de site
 def audit_website_status(url):
     if not url or pd.isna(url) or len(str(url).strip()) < 5 or str(url).strip() in ["Sem Site Cadastrado", "Apenas Redes / Sem Site"]:
         return "SEM SITE (OPORTUNIDADE QUENTE 🔥)", ""
@@ -98,16 +96,27 @@ def audit_website_status(url):
     if is_aggregator:
         return "SEM SITE PRÓPRIO (OPORTUNIDADE 🔥)", ""
         
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"}
     target_url = url_str if url_str.startswith("http") else "https://" + url_str
     
     try:
         r = requests.get(target_url, headers=headers, timeout=5, allow_redirects=True)
-        if r.status_code == 200:
+        if r.status_code in [200, 301, 302, 307, 308, 403]:
             return "SITE ATIVO 📱", target_url
+        elif r.status_code == 404:
+            return "SITE FORA DO AR (ERRO 404) 🚨", target_url
         else:
             return f"SITE FORA DO AR (ERRO {r.status_code}) 🚨", target_url
     except Exception:
+        # Se falhar a conexão HTTPS, tenta HTTP simples antes de considerar fora do ar
+        if target_url.startswith("https://"):
+            http_url = target_url.replace("https://", "http://")
+            try:
+                r2 = requests.get(http_url, headers=headers, timeout=5, allow_redirects=True)
+                if r2.status_code in [200, 301, 302, 307, 308, 403]:
+                    return "SITE ATIVO 📱", http_url
+            except Exception:
+                pass
         return "SITE FORA DO AR / LINK QUEBRADO 🚨", target_url
 
 def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
@@ -116,7 +125,7 @@ def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
         nome_limpo = "empresa"
     cidade_fmt = cidade.capitalize()
     
-    if "FORA DO AR" in status_site or "QUEBRADO" in status_site or "ATIVO" in status_site:
+    if "ATIVO" in status_site or "FORA DO AR" in status_site or "QUEBRADO" in status_site:
         pergunta = "Posso te fazer uma pergunta rápida sobre o site de vocês?"
     else:
         pergunta = "Posso te fazer uma pergunta rápida sobre a presença online de vocês?"
@@ -132,14 +141,14 @@ def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     
     if "FORA DO AR" in status_site or "QUEBRADO" in status_site:
         contexto = "É que fui tentar acessar o site de vocês pelo celular e percebi que ele está fora do ar / com erro, o que faz vocês perderem muitos clientes do Google todos os dias."
-    elif "SITE ATIVO" in status_site:
+    elif "ATIVO" in status_site:
         contexto = "É que vi que o site de vocês está um pouco desatualizado para celular e vocês estão perdendo clientes do Google para a concorrência."
     else:
         contexto = "É que vi que vocês ainda não têm um site próprio para celular e estão perdendo clientes do Google para a concorrência todos os dias."
         
     message = (
         f"{contexto}\n\n"
-        f"Um site desse nível no mercado custa entre R$ 2.000 e R$ 3.000,满, mas nós da Webfy estamos com uma ação de portfólio onde a criação e mão de obra saem 100% DE GRAÇA.\n\n"
+        f"Um site desse nível no mercado custa entre R$ 2.000 e R$ 3.000, mas nós da Webfy estamos com uma ação de portfólio onde a criação e mão de obra saem 100% DE GRAÇA.\n\n"
         f"Você não paga nada pela criação. A única coisa necessária é a taxa de hospedagem para o site ficar online no seu nome.\n\n"
         f"Já deixei uma prévia demonstrativa do site de vocês pronta. Posso te mandar o link para você dar uma olhada sem compromisso?"
     )
@@ -196,12 +205,10 @@ def fetch_leads(nicho, cidade):
             continue
         seen_keys.add(title_key)
         
-        # Extração primária de telefone
         phones = re.findall(r'\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}', raw_title + " " + snippet)
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
-        # Se não achou na primeira passada, realiza busca profunda de telefone AUTOMÁTICA
         if not clean_p:
             orig_p, clean_p = deep_find_phone(clean_name, cidade)
             if orig_p:
@@ -346,10 +353,10 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO COMPLETA COM EXTRAÇÃO AUTOMÁTICA DE WHATSAPP:</strong><br><br>
-                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a mensagem inicial adaptada.<br>
-                🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Envia a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).<br>
-                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil no Google Maps.
+                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO COMPLETA COM AUDITORIA HTTP DE REDIRECIONAMENTOS:</strong><br><br>
+                📱 <strong>SITE ATIVO:</strong> O robô testou e confirmou que a página abre (código 200/301/302).<br>
+                🚨 <strong>SITE FORA DO AR (ERRO 404):</strong> O robô detectou que o link retorna erro 404 / domínio expirado. A 2ª mensagem avisa: <em>"fui tentar acessar e vi que está com erro 404 / fora do ar..."</em><br>
+                🔥 <strong>SEM SITE:</strong> Empresas sem nenhum link cadastrado.
             </div>
 
             <div class="stats">
@@ -397,7 +404,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Auto-extract whatsapp numbers" && git push')
+        os.system('git add . && git commit -m "Auto-audit http redirects & status" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
