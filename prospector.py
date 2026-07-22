@@ -14,7 +14,7 @@ if sys.platform == "win32":
         pass
 
 def clean_phone(phone_str):
-    if not phone_str:
+    if not phone_str or pd.isna(phone_str):
         return None
     digits = re.sub(r'\D', '', str(phone_str))
     if len(digits) >= 10:
@@ -24,7 +24,7 @@ def clean_phone(phone_str):
     return None
 
 def format_niche_display(nicho_raw):
-    n = nicho_raw.lower().strip()
+    n = str(nicho_raw).lower().strip()
     mapping = {
         "psicologo": "Psicologia",
         "psicóloga": "Psicologia",
@@ -43,14 +43,14 @@ def format_niche_display(nicho_raw):
         "petshop": "Pet Shop",
         "pet shop": "Pet Shop"
     }
-    return mapping.get(n, nicho_raw.capitalize())
+    return mapping.get(n, str(nicho_raw).capitalize())
 
 def clean_company_name(title_raw):
     t = str(title_raw)
     t = re.sub(r'[\ufffd\x80-\xff]', '', t)
     t = re.sub(r'\s+', ' ', t).strip()
     
-    if any(domain in t.lower() for domain in ['maps.google', 'google.com', 'instagram.com', 'facebook.com']):
+    if any(domain in t.lower() for domain in ['maps.google', 'google.com', 'instagram.com', 'facebook.com', 'doctoralia.com']):
         return ""
         
     t = re.sub(r'(?i)\s*[-|—–:]?\s*(agende|agendamento|consulta|valores|desconto|preço|saiba mais|whatsapp|telefones?|os \d+|mais recomendados|em curitiba|em são paulo).*', '', t)
@@ -62,6 +62,40 @@ def clean_company_name(title_raw):
         clean_name = t
         
     return clean_name[:45].strip()
+
+# Mensagem inteligente baseada se TEM ou NÃO TEM site
+def generate_pitch_step1(nome_empresa, nicho, cidade, tem_site=False):
+    nome_limpo = clean_company_name(nome_empresa)
+    if not nome_limpo:
+        nome_limpo = "empresa"
+    cidade_fmt = cidade.capitalize()
+    
+    if tem_site:
+        pergunta = "Posso te fazer uma pergunta rápida sobre o site de vocês?"
+    else:
+        pergunta = "Posso te fazer uma pergunta rápida sobre a presença online de vocês?"
+        
+    message = (
+        f"Olá, tudo bem? Meu nome é João, sou da agência Webfy. 🚀\n\n"
+        f"Vi o perfil da {nome_limpo} aí em {cidade_fmt} no Google e achei o trabalho de vocês muito bacana! {pergunta}"
+    )
+    return message
+
+def generate_pitch_step2(nome_empresa, nicho, cidade, tem_site=False):
+    nicho_fmt = format_niche_display(nicho)
+    
+    if tem_site:
+        contexto = "É que vi que o site de vocês está um pouco desatualizado para celular e vocês estão perdendo clientes do Google para a concorrência."
+    else:
+        contexto = "É que vi que vocês ainda não têm um site próprio para celular e estão perdendo clientes do Google para a concorrência todos os dias."
+        
+    message = (
+        f"{contexto}\n\n"
+        f"Um site desse nível no mercado custa entre R$ 2.000 e R$ 3.000, mas nós da Webfy estamos com uma ação de portfólio onde a criação e mão de obra saem 100% DE GRAÇA.\n\n"
+        f"Você não paga nada pela criação. A única coisa necessária é a taxa de hospedagem para o site ficar online no seu nome.\n\n"
+        f"Já deixei uma prévia demonstrativa do site de vocês pronta. Posso te mandar o link para você dar uma olhada sem compromisso?"
+    )
+    return message
 
 def fetch_leads(nicho, cidade):
     print(f"\n🔍 Buscando empresas/profissionais de '{nicho}' em '{cidade}' (Google Maps & Web)...")
@@ -138,29 +172,6 @@ def fetch_leads(nicho, cidade):
         
     return processed_leads
 
-# Mensagem 1: Curta e Humana (Quebra-gelo)
-def generate_pitch_step1(nome_empresa, nicho, cidade):
-    nome_limpo = clean_company_name(nome_empresa)
-    cidade_fmt = cidade.capitalize()
-    
-    message = (
-        f"Olá, tudo bem? Meu nome é João, sou da agência Webfy. 🚀\n\n"
-        f"Vi o perfil da {nome_limpo} aí em {cidade_fmt} e achei o trabalho de vocês muito bacana! Posso te fazer uma pergunta rápida sobre o site de vocês?"
-    )
-    return message
-
-# Mensagem 2: Explicando o valor normal vs oferta grátis
-def generate_pitch_step2(nome_empresa, nicho, cidade):
-    nicho_fmt = format_niche_display(nicho)
-    
-    message = (
-        f"É que vi que vocês não têm um site moderno para celular e estão perdendo clientes do Google para a concorrência.\n\n"
-        f"Um site desse nível no mercado custa entre R$ 2.000 e R$ 3.000, mas nós da Webfy estamos com uma ação onde a criação e mão de obra saem 100% DE GRAÇA.\n\n"
-        f"A única coisa necessária é a taxa de hospedagem para o site ficar online no seu nome.\n\n"
-        f"Já deixei uma prévia demonstrativa do site de vocês pronta. Posso te mandar o link para você dar uma olhada sem compromisso?"
-    )
-    return message
-
 def export_reports(leads, nicho, cidade, output_dir="."):
     if not leads:
         print("❌ Nenhum lead encontrado para exportar.")
@@ -173,14 +184,18 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     pitches_step2 = []
     
     for _, row in df.iterrows():
-        p1 = generate_pitch_step1(row['nome'], nicho, cidade)
-        p2 = generate_pitch_step2(row['nome'], nicho, cidade)
+        has_site = "SIM" in str(row.get('tem_site', '')).upper()
+        p1 = generate_pitch_step1(row['nome'], nicho, cidade, tem_site=has_site)
+        p2 = generate_pitch_step2(row['nome'], nicho, cidade, tem_site=has_site)
         pitches_step1.append(p1)
         pitches_step2.append(p2)
         
-        if row['whatsapp_limpo']:
+        wa_p = row.get('whatsapp_limpo')
+        clean_wa = clean_phone(wa_p)
+        
+        if clean_wa:
             encoded_pitch = urllib.parse.quote(p1)
-            wa_link = f"https://wa.me/{row['whatsapp_limpo']}?text={encoded_pitch}"
+            wa_link = f"https://wa.me/{clean_wa}?text={encoded_pitch}"
         else:
             search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp instagram")
             wa_link = f"https://www.google.com/search?q={search_q}"
@@ -195,25 +210,26 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     df.to_csv(csv_file, index=False, encoding='utf-8-sig')
     print(f"\n✅ Planilha CSV gerada com sucesso: {csv_file}")
     
-    html_file = os.path.join(output_dir, f"dashboard_leads_{nicho}_{cidade}.html".lower().replace(" ", "_"))
+    core_name = f"{nicho}_{cidade}".lower().replace(" ", "_")
+    html_file = os.path.join(output_dir, f"dashboard_leads_{core_name}.html")
     
     rows_html = ""
     for idx, row in df.iterrows():
-        status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">NÃO TEM SITE 🔥</span>' if "NÃO" in row['tem_site'] else '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">Já tem site</span>'
+        status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">NÃO TEM SITE 🔥</span>' if "NÃO" in str(row['tem_site']) else '<span style="background: #10b981; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">Já tem site</span>'
         
         maps_button = f'<a href="{row["link_google_maps"]}" target="_blank" style="background: #ea4335; color: white; text-decoration: none; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; margin-left: 6px;">📍 Ver no Maps</a>'
         
-        if row['whatsapp_limpo']:
-            wa_button = f'<a href="{row["link_whatsapp_direto"]}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; display: inline-block;">💬 Enviar Oi no WhatsApp</a>' + maps_button
+        if row.get('whatsapp_limpo') and not pd.isna(row.get('whatsapp_limpo')):
+            wa_button = f'<a href="{row["link_whatsapp_direto"]}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; display: inline-block;">💬 Enviar 1º Mensagem</a>' + maps_button
         else:
-            wa_button = f'<a href="{row["link_whatsapp_direto"]}" target="_blank" style="background: #3b82f6; color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; display: inline-block;">🔍 Abrir no Google / IG</a>' + maps_button
+            wa_button = f'<a href="{row["link_whatsapp_direto"]}" target="_blank" style="background: #3b82f6; color: white; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: bold; display: inline-block;">🔍 Buscar no Google / IG</a>' + maps_button
             
         rows_html += f"""
         <tr style="border-bottom: 1px solid #e5e7eb;">
             <td style="padding: 12px; font-weight: bold; color: #1f2937;">{row['nome']}</td>
             <td style="padding: 12px;">{row['cidade']}</td>
             <td style="padding: 12px;">{status_badge}</td>
-            <td style="padding: 12px; color: #4b5563; font-size: 13px;"><a href="{row['site']}" target="_blank">{row['site'][:40]}</a></td>
+            <td style="padding: 12px; color: #4b5563; font-size: 13px;"><a href="{row['site']}" target="_blank">{str(row['site'])[:40]}</a></td>
             <td style="padding: 12px;">{row['telefone_original']}</td>
             <td style="padding: 12px;">{wa_button}</td>
         </tr>
@@ -245,10 +261,11 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 ROTEIRO DE VENDAS EM 3 PASSOS CURTOS:</strong><br><br>
-                <strong>1º Mensagem (Botão Verde):</strong> <em>"Olá, tudo bem? Meu nome é João, sou da agência Webfy. Vi o perfil de vocês aí em {cidade.capitalize()} e achei o trabalho muito bacana! Posso te fazer uma pergunta rápida sobre o site de vocês?"</em><br><br>
-                <strong>2º Mensagem (Quando ele responder "Pode sim"):</strong> <em>"É que vi que vocês não têm um site moderno para celular... Um site desse nível custa normalmente entre R$ 2.000 e R$ 3.000, mas a nossa criação sai 100% DE GRAÇA. A única coisa necessária é a taxa de hospedagem para o site ficar online no seu nome. Já deixei uma prévia pronta. Posso te mandar o link para dar uma olhada?"</em><br><br>
-                <strong>3º Mensagem (Quando ele aceitar ver a prévia):</strong> Envie o link do site de demonstração + o link de afiliado para ele assinar a hospedagem!
+                <strong style="color: #166534; font-size: 16px;">💡 ROTEIRO ADAPTADO (SE TEM SITE OU NÃO TEM SITE):</strong><br><br>
+                <strong>1º Mensagem (Botão Verde):</strong><br>
+                • <em>Se NÃO TEM site:</em> "Olá, tudo bem? Meu nome é João, sou da agência Webfy. Vi o perfil da [Empresa] aí em {cidade.capitalize()} no Google e achei o trabalho de vocês muito bacana! Posso te fazer uma pergunta rápida sobre a presença online de vocês?"<br>
+                • <em>Se TEM site:</em> "Olá, tudo bem? Meu nome é João, sou da agência Webfy. Vi o perfil da [Empresa] aí em {cidade.capitalize()} e achei o trabalho de vocês muito bacana! Posso te fazer uma pergunta rápida sobre o site de vocês?"<br><br>
+                <strong>2º Mensagem (Quando responderem "Pode sim"):</strong> Explicar a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).
             </div>
 
             <div class="stats">
@@ -270,7 +287,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
                         <th>Status do Site</th>
                         <th>Link / Redes</th>
                         <th>Telefone</th>
-                        <th>Ações Rápida (Enviar 1º Mensagem)</th>
+                        <th>Ações Rápida (WhatsApp & Google Maps)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -300,8 +317,6 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
-
-
 
 def main():
     print("=" * 60)
