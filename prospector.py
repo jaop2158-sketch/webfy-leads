@@ -29,6 +29,25 @@ def clean_phone(phone_str):
         return digits
     return None
 
+def deep_find_phone(nome_empresa, cidade):
+    """
+    Busca profunda no Google/DuckDuckGo especificamente para extrair o telefone/WhatsApp de uma empresa
+    """
+    query = f"{nome_empresa} {cidade} telefone whatsapp"
+    try:
+        with DDGS() as ddg:
+            res = list(ddg.text(query, max_results=5))
+            for item in res:
+                text = item.get('title', '') + " " + item.get('body', '')
+                phones = re.findall(r'\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}', text)
+                for p in phones:
+                    clean = clean_phone(p)
+                    if clean:
+                        return p, clean
+    except Exception:
+        pass
+    return None, None
+
 def format_niche_display(nicho_raw):
     n = str(nicho_raw).lower().strip()
     mapping = {
@@ -120,7 +139,7 @@ def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
         
     message = (
         f"{contexto}\n\n"
-        f"Um site desse nível no mercado custa entre R$ 2.000 e R$ 3.000, mas nós da Webfy estamos com uma ação de portfólio onde a criação e mão de obra saem 100% DE GRAÇA.\n\n"
+        f"Um site desse nível no mercado custa entre R$ 2.000 e R$ 3.000,满, mas nós da Webfy estamos com uma ação de portfólio onde a criação e mão de obra saem 100% DE GRAÇA.\n\n"
         f"Você não paga nada pela criação. A única coisa necessária é a taxa de hospedagem para o site ficar online no seu nome.\n\n"
         f"Já deixei uma prévia demonstrativa do site de vocês pronta. Posso te mandar o link para você dar uma olhada sem compromisso?"
     )
@@ -130,11 +149,11 @@ def fetch_leads(nicho, cidade):
     print(f"\n🔍 Buscando empresas/profissionais reais de '{nicho}' em '{cidade}'...")
     
     queries = [
-        f"consultorio {nicho} {cidade}",
-        f"clinica {nicho} {cidade}",
-        f"atendimento {nicho} {cidade}",
-        f"barbearia {cidade}",
-        f"salao {nicho} {cidade}"
+        f"consultorio {nicho} {cidade} whatsapp",
+        f"clinica {nicho} {cidade} telefone",
+        f"atendimento {nicho} {cidade} contato",
+        f"barbearia {cidade} whatsapp",
+        f"salao {nicho} {cidade} telefone"
     ]
     
     all_raw_items = []
@@ -177,10 +196,17 @@ def fetch_leads(nicho, cidade):
             continue
         seen_keys.add(title_key)
         
-        phones = re.findall(r'\(?\d{2}\)?\s?\d{4,5}[-\s]?\d{4}', raw_title + " " + snippet)
+        # Extração primária de telefone
+        phones = re.findall(r'\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}', raw_title + " " + snippet)
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
+        # Se não achou na primeira passada, realiza busca profunda de telefone AUTOMÁTICA
+        if not clean_p:
+            orig_p, clean_p = deep_find_phone(clean_name, cidade)
+            if orig_p:
+                phone_found = orig_p
+                
         status_site, checked_url = audit_website_status(url_site_proprio)
             
         maps_query = urllib.parse.quote(f"{clean_name} {cidade}")
@@ -194,7 +220,7 @@ def fetch_leads(nicho, cidade):
             "rua": snippet[:100] + "..." if snippet else "Sem descrição registrada",
             "tem_site": status_site,
             "site": checked_url if checked_url else "Sem Site Cadastrado",
-            "telefone_original": phone_found if phone_found else "Ver no Google Maps 📍",
+            "telefone_original": phone_found if phone_found else "WhatsApp no Maps 📍",
             "whatsapp_limpo": clean_p,
             "link_google_maps": google_maps_url
         })
@@ -252,7 +278,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     for idx, row in df.iterrows():
         status_str = str(row['tem_site'])
         if "FORA DO AR" in status_str or "QUEBRADO" in status_str:
-            status_badge = '<span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">FORA DO AR 🚨</span>'
+            status_badge = '<span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SITE FORA DO AR 🚨</span>'
         elif "SEM SITE" in status_str:
             status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SEM SITE 🔥</span>'
         else:
@@ -263,7 +289,6 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         wa_p = row.get('whatsapp_limpo')
         clean_wa = clean_phone(wa_p)
         
-        # TODOS os leads têm SEMPRE os botões verdes e azuis de 1ª e 2ª mensagem!
         if clean_wa:
             enc1 = urllib.parse.quote(row['mensagem_1_inicial'])
             enc2 = urllib.parse.quote(row['mensagem_2_preco_oferta'])
@@ -279,7 +304,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             maps_search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
             wa_search_link = f"https://www.google.com/search?q={maps_search_q}"
             wa_buttons = f"""
-            <a href="{wa_search_link}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (Pegar WhatsApp no Maps)</a>
+            <a href="{wa_search_link}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (Abrir WhatsApp)</a>
             <a href="{wa_search_link}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Preço)</a>
             {maps_button}
             """
@@ -321,10 +346,10 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO COMPLETA DE ESTABELECIMENTOS REAIS:</strong><br><br>
+                <strong style="color: #166534; font-size: 16px;">💡 REVISÃO COMPLETA COM EXTRAÇÃO AUTOMÁTICA DE WHATSAPP:</strong><br><br>
                 🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a mensagem inicial adaptada.<br>
                 🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Envia a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).<br>
-                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato no Google Maps para ver o WhatsApp ou fotos da empresa.
+                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil no Google Maps.
             </div>
 
             <div class="stats">
@@ -372,7 +397,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Auto-update phone fallbacks and buttons" && git push')
+        os.system('git add . && git commit -m "Auto-extract whatsapp numbers" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
