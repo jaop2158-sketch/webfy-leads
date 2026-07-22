@@ -13,7 +13,6 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-# Lista de domínios agregadores/diretórios que NÃO são estabelecimentos reais
 AGGREGATOR_DOMAINS = [
     'doctoralia.com.br', 'medprev.online', 'psitto.com.br', 'acheioprofissional.com.br',
     'psinote.com.br', 'olx.com.br', 'cliniguia.com', 'linktr.ee', 'google.com',
@@ -57,7 +56,6 @@ def clean_company_name(title_raw):
     t = re.sub(r'[\ufffd\x80-\xff]', '', t)
     t = re.sub(r'\s+', ' ', t).strip()
     
-    # Descartar agregadores e títulos genéricos de busca
     if any(agg in t.lower() for agg in ['doctoralia', 'medprev', 'psitto', 'os 10 melhores', 'os 20', 'acheioprofissional', 'maps.google', 'google.com']):
         return ""
         
@@ -71,19 +69,16 @@ def clean_company_name(title_raw):
         
     return clean_name[:45].strip()
 
-# Auditoria rigorosa de status de site
 def audit_website_status(url):
     if not url or pd.isna(url) or len(str(url).strip()) < 5 or str(url).strip() in ["Sem Site Cadastrado", "Apenas Redes / Sem Site"]:
         return "SEM SITE (OPORTUNIDADE QUENTE 🔥)", ""
         
     url_str = str(url).strip()
     
-    # Se for agregador/diretório, o estabelecimento em si NÃO tem site próprio
     is_aggregator = any(domain in url_str.lower() for domain in AGGREGATOR_DOMAINS)
     if is_aggregator:
         return "SEM SITE PRÓPRIO (OPORTUNIDADE 🔥)", ""
         
-    # Verificar se o site próprio está no ar via HTTP
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
     target_url = url_str if url_str.startswith("http") else "https://" + url_str
     
@@ -96,14 +91,13 @@ def audit_website_status(url):
     except Exception:
         return "SITE FORA DO AR / LINK QUEBRADO 🚨", target_url
 
-# Mensagens inteligentes
 def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     nome_limpo = clean_company_name(nome_empresa)
     if not nome_limpo:
         nome_limpo = "empresa"
     cidade_fmt = cidade.capitalize()
     
-    if "SITE ATIVO" in status_site or "FORA DO AR" in status_site:
+    if "FORA DO AR" in status_site or "QUEBRADO" in status_site or "ATIVO" in status_site:
         pergunta = "Posso te fazer uma pergunta rápida sobre o site de vocês?"
     else:
         pergunta = "Posso te fazer uma pergunta rápida sobre a presença online de vocês?"
@@ -169,7 +163,6 @@ def fetch_leads(nicho, cidade):
         if not raw_title or len(raw_title) < 4:
             continue
             
-        # Descartar links diretos de agregadores
         if any(agg in url.lower() for agg in ['doctoralia.com', 'medprev.online', 'psitto.com', 'acheioprofissional.com']):
             url_site_proprio = ""
         else:
@@ -179,7 +172,6 @@ def fetch_leads(nicho, cidade):
         if not clean_name or len(clean_name) < 3:
             continue
             
-        # Deduplicação rigorosa por nome
         title_key = clean_name.lower()[:20]
         if title_key in seen_keys:
             continue
@@ -189,7 +181,6 @@ def fetch_leads(nicho, cidade):
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
-        # Auditar status real do site
         status_site, checked_url = audit_website_status(url_site_proprio)
             
         maps_query = urllib.parse.quote(f"{clean_name} {cidade}")
@@ -203,7 +194,7 @@ def fetch_leads(nicho, cidade):
             "rua": snippet[:100] + "..." if snippet else "Sem descrição registrada",
             "tem_site": status_site,
             "site": checked_url if checked_url else "Sem Site Cadastrado",
-            "telefone_original": phone_found if phone_found else "Buscar WhatsApp no Google Maps",
+            "telefone_original": phone_found if phone_found else "Ver no Google Maps 📍",
             "whatsapp_limpo": clean_p,
             "link_google_maps": google_maps_url
         })
@@ -238,10 +229,9 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             l1 = f"https://wa.me/{clean_wa}?text={enc1}"
             l2 = f"https://wa.me/{clean_wa}?text={enc2}"
         else:
-            # Se não pegou o telefone direto no snippet, abre o Google Maps / busca onde o usuário clica e vê o telefone na hora
-            maps_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
-            l1 = f"https://www.google.com/search?q={maps_q}"
-            l2 = f"https://www.google.com/search?q={maps_q}"
+            search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
+            l1 = f"https://www.google.com/search?q={search_q}"
+            l2 = f"https://www.google.com/search?q={search_q}"
             
         wa_links_step1.append(l1)
         wa_links_step2.append(l2)
@@ -262,7 +252,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     for idx, row in df.iterrows():
         status_str = str(row['tem_site'])
         if "FORA DO AR" in status_str or "QUEBRADO" in status_str:
-            status_badge = '<span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SITE FORA DO AR 🚨</span>'
+            status_badge = '<span style="background: #dc2626; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">FORA DO AR 🚨</span>'
         elif "SEM SITE" in status_str:
             status_badge = '<span style="background: #ef4444; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">SEM SITE 🔥</span>'
         else:
@@ -273,7 +263,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         wa_p = row.get('whatsapp_limpo')
         clean_wa = clean_phone(wa_p)
         
-        # TODOS os estabelecimentos válidos exibem SEMPRE as opções da 1ª Msg e 2ª Msg!
+        # TODOS os leads têm SEMPRE os botões verdes e azuis de 1ª e 2ª mensagem!
         if clean_wa:
             enc1 = urllib.parse.quote(row['mensagem_1_inicial'])
             enc2 = urllib.parse.quote(row['mensagem_2_preco_oferta'])
@@ -287,9 +277,10 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             """
         else:
             maps_search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
+            wa_search_link = f"https://www.google.com/search?q={maps_search_q}"
             wa_buttons = f"""
-            <a href="https://www.google.com/search?q={maps_search_q}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (Ver WhatsApp)</a>
-            <a href="https://www.google.com/search?q={maps_search_q}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Preço)</a>
+            <a href="{wa_search_link}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (Pegar WhatsApp no Maps)</a>
+            <a href="{wa_search_link}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Preço)</a>
             {maps_button}
             """
             
@@ -331,9 +322,9 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             
             <div class="script-box">
                 <strong style="color: #166534; font-size: 16px;">💡 REVISÃO COMPLETA DE ESTABELECIMENTOS REAIS:</strong><br><br>
-                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a mensagem inicial adaptada se o estabelecimento tem ou não site.<br>
+                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a mensagem inicial adaptada.<br>
                 🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Envia a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).<br>
-                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato no Google Maps.
+                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato no Google Maps para ver o WhatsApp ou fotos da empresa.
             </div>
 
             <div class="stats">
@@ -381,7 +372,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Auto-audit real local businesses" && git push')
+        os.system('git add . && git commit -m "Auto-update phone fallbacks and buttons" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
