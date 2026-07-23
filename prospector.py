@@ -32,6 +32,21 @@ GENERIC_NOISE_NAMES = [
     'pesquisa', 'home', 'contato', 'agende sua', 'saiba mais', 'atendimento', 'clinica', 'consultorio'
 ]
 
+PREPOSITIONS = {'de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'por', 'a', 'o', 'as', 'os'}
+
+def format_title_pt(text):
+    if not text:
+        return ""
+    words = text.split()
+    formatted = []
+    for i, w in enumerate(words):
+        w_lower = w.lower()
+        if i > 0 and w_lower in PREPOSITIONS:
+            formatted.append(w_lower)
+        else:
+            formatted.append(w.capitalize())
+    return " ".join(formatted)
+
 def clean_phone(phone_str):
     if not phone_str or pd.isna(phone_str):
         return None
@@ -98,24 +113,33 @@ def format_niche_display(nicho_raw):
     return mapping.get(n, str(nicho_raw).capitalize())
 
 def clean_company_name(title_raw):
-    t = str(title_raw)
+    if not title_raw or pd.isna(title_raw):
+        return ""
+        
+    t = str(title_raw).strip()
+    
     t = re.sub(r'[\ufffd\x80-\xff]', '', t)
     t = re.sub(r'\s+', ' ', t).strip()
     
     t_low = t.lower()
     if any(agg in t_low for agg in GENERIC_NOISE_NAMES):
-        return ""
-        
-    t = re.sub(r'(?i)\s*[-|—–:]?\s*(agende|agendamento|consulta|valores|desconto|preço|saiba mais|whatsapp|telefones?|os \d+|mais recomendados|em curitiba|em são paulo).*', '', t)
-    
-    parts = re.split(r'\s+[-|—–:]\s+', t)
+        if t_low in ['google maps', 'google', 'maps', 'empresa', 'profissional', 'home', 'contato', 'pesquisa']:
+            return ""
+
+    t = re.sub(r'(?i)\s*[-|—–:/]\s*(agende|agendamento|consulta|valores|desconto|preço|saiba mais|whatsapp|telefones?|os \d+|mais recomendados|em curitiba|em são paulo|em campinas|em sorocaba|em sp|em pr).*', '', t)
+    t = re.sub(r'(?i)\s*[-|—–:/]\s*(psicologia|psicologo|psicologa|dentista|odontologia|barbearia|estetica|advocacia|advogado|medico).*', '', t)
+    t = re.sub(r'(?i)\s+(em curitiba|em são paulo|em campinas|em sorocaba|curitiba|campinas|são paulo|sp|pr)$', '', t)
+
+    parts = re.split(r'\s+[-|—–:/]\s+', t)
     clean_name = parts[0] if (parts and len(parts[0]) >= 3) else t
-    clean_name = clean_name[:45].strip()
+    clean_name = clean_name[:40].strip()
+
+    clean_name = re.sub(r'[\s\-|,.:/]+$', '', clean_name).strip()
     
-    if clean_name.lower() in ['google maps', 'google', 'maps', 'empresa', 'profissional', 'home', 'contato', 'pesquisa']:
+    if len(clean_name) < 3 or clean_name.lower() in ['google maps', 'google', 'maps', 'empresa', 'profissional', 'home', 'contato', 'pesquisa', 'site']:
         return ""
         
-    return clean_name
+    return format_title_pt(clean_name)
 
 def audit_website_status(url):
     if not url or pd.isna(url) or len(str(url).strip()) < 5 or str(url).strip() in ["Sem Site Cadastrado", "Apenas Redes / Sem Site"]:
@@ -556,7 +580,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Optimize lead queries for niche accuracy" && git push')
+        os.system('git add . && git commit -m "Refine company name cleaning logic with Portuguese title casing rules" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
