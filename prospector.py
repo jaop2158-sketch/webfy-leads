@@ -193,7 +193,7 @@ def fetch_google_maps_places(nicho, cidade):
         headers = {"User-Agent": "WebfyProspector/2.0 (contact@webfy.app)"}
         resp = requests.get(url_nom, headers=headers, timeout=8)
         if resp.status_code == 200 and resp.json():
-            for item in resp.json()[:10]:
+            for item in resp.json()[:15]:
                 display = item.get("display_name", "")
                 parts = display.split(",")
                 name = parts[0].strip()
@@ -269,11 +269,11 @@ def fetch_leads(nicho, cidade):
     maps_places = fetch_google_maps_places(nicho, cidade)
     
     queries = [
-        f"{nicho} {cidade} google maps",
+        f"escritorio {nicho} {cidade} google maps",
         f"consultorio {nicho} {cidade} whatsapp",
         f"clinica {nicho} {cidade} telefone",
         f"atendimento {nicho} {cidade} contato",
-        f"barbearia {cidade} google maps"
+        f"{nicho} {cidade} telefone whatsapp"
     ]
     
     all_raw_items = list(maps_places)
@@ -556,7 +556,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Add interactive MENSAGEM ENVIADA badge tracking system" && git push')
+        os.system('git add . && git commit -m "Optimize lead queries for niche accuracy" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
