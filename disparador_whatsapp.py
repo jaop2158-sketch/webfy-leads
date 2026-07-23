@@ -12,6 +12,15 @@ if sys.platform == "win32":
     except Exception:
         pass
 
+def limpar_teclado_stdin():
+    if sys.platform == "win32":
+        try:
+            import msvcrt
+            while msvcrt.kbhit():
+                msvcrt.getch()
+        except Exception:
+            pass
+
 def disparar_mensagens_automaticas(csv_path, max_leads=12):
     if not os.path.exists(csv_path):
         print(f"❌ Arquivo de planilha não encontrado: {csv_path}")
@@ -39,9 +48,13 @@ def disparar_mensagens_automaticas(csv_path, max_leads=12):
         print(f" • {row['nome']} | Tel: {row['whatsapp_limpo']} | Status: {row['tem_site']}")
         
     print("\n" + "=" * 65)
-    resposta = input(f"❓ Deseja iniciar o disparo da 1ª Mensagem para esses {len(leads_selecionados)} leads? (s/n): ").strip().lower()
     
-    if resposta != 's':
+    resposta = ""
+    while resposta not in ['s', 'sim', 'y', 'yes', 'n', 'nao', 'não']:
+        limpar_teclado_stdin()
+        resposta = input(f"❓ Deseja iniciar o disparo da 1ª Mensagem para esses {len(leads_selecionados)} leads? (Digite 's' para SIM ou 'n' para NÃO): ").strip().lower()
+    
+    if resposta not in ['s', 'sim', 'y', 'yes']:
         print("❌ Operação cancelada por você. Nenhum disparo foi realizado.")
         return
 
@@ -64,7 +77,6 @@ def disparar_mensagens_automaticas(csv_path, max_leads=12):
         
         webbrowser.open(wa_url)
         
-        # Registrar no CRM que a mensagem foi enviada
         if nome not in df_crm['nome'].values:
             new_id = len(df_crm) + 1
             new_row = {
@@ -77,7 +89,6 @@ def disparar_mensagens_automaticas(csv_path, max_leads=12):
         print("⏳ Aguardando 10 segundos antes do próximo envio (Proteção anti-bloqueio)...")
         time.sleep(10)
 
-    # Salvar e atualizar o CRM no ar no Vercel
     salvar_e_publicar_crm(df_crm)
 
     print("\n✅ TODOS OS DISPAROS FORAM CONCLUÍDOS E REGISTRADOS COMO ENVIADOS NO CRM!")

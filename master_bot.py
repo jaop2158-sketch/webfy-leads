@@ -12,6 +12,16 @@ if sys.platform == "win32":
     except Exception:
         pass
 
+def limpar_teclado_stdin():
+    """Limpa o buffer do teclado no Windows para não pular o input()"""
+    if sys.platform == "win32":
+        try:
+            import msvcrt
+            while msvcrt.kbhit():
+                msvcrt.getch()
+        except Exception:
+            pass
+
 def iniciar_piloto_automatico_total():
     print("=" * 70)
     print("🤖 ROBÔ PILOTO AUTOMÁTICO MASTER - WEBFY (JOÃO)")
@@ -23,6 +33,7 @@ def iniciar_piloto_automatico_total():
     print("4. Disparar a 1ª Mensagem (Criação 100% Grátis) direto no WhatsApp Web!")
     print("=" * 70)
     
+    limpar_teclado_stdin()
     pergunta = input("\n❓ Pode iniciar o processo completo de prospecção e disparos? (s/n): ").strip().lower()
     
     if pergunta not in ['s', 'sim', 'y', 'yes']:
@@ -67,7 +78,13 @@ def iniciar_piloto_automatico_total():
         print(f" • {row['nome']} | Tel: {row['whatsapp_limpo']} | Status: {row['tem_site']}")
     print("=" * 70)
     
-    confirm_disparo = input(f"\n❓ Iniciar os disparos de WhatsApp Web agora? (s/n): ").strip().lower()
+    # Limpa o buffer do teclado antes da pergunta para NUNCA pular o input
+    confirm_disparo = ""
+    while confirm_disparo not in ['s', 'sim', 'y', 'yes', 'n', 'nao', 'não']:
+        limpar_teclado_stdin()
+        confirm_disparo = input(f"\n❓ Iniciar os disparos de WhatsApp Web agora? (Digite 's' para SIM ou 'n' para NÃO): ").strip().lower()
+        if confirm_disparo not in ['s', 'sim', 'y', 'yes', 'n', 'nao', 'não']:
+            print("⚠️ Por favor, digite 's' e aperte Enter para SIM, ou 'n' para NÃO.")
     
     if confirm_disparo not in ['s', 'sim', 'y', 'yes']:
         print("❌ Disparos ignorados. Os relatórios já foram salvos e enviados para o Vercel!")
@@ -80,7 +97,6 @@ def iniciar_piloto_automatico_total():
         nome = row['nome']
         phone = str(row['whatsapp_limpo']).replace('.0', '')
         
-        # Gerar a 1ª Mensagem com o gancho do 100% Grátis
         msg1 = (
             f"Olá, tudo bem? Meu nome é João, sou da agência Webfy. 🚀\n\n"
             f"Vi o perfil da {nome} aí em {cidade.capitalize()} no Google e vi que vocês ainda não têm um site próprio para celular.\n\n"
@@ -94,7 +110,6 @@ def iniciar_piloto_automatico_total():
         print(f"[{i}/{len(leads_para_disparo)}] 💬 Enviando para: {nome} ({phone})...")
         webbrowser.open(wa_url)
         
-        # Pausa anti-spam de 10 segundos
         print("⏳ Pausa de segurança de 10 segundos...")
         time.sleep(10)
 
