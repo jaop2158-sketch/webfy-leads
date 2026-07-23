@@ -8,7 +8,6 @@ import pandas as pd
 import urllib3
 from ddgs import DDGS
 
-# Desativar avisos de SSL não verificado para testar sites com certificados simples
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 if sys.platform == "win32":
@@ -89,7 +88,6 @@ def clean_company_name(title_raw):
         
     return clean_name[:45].strip()
 
-# Auditoria perfeitamente corrigida com verify=False para plataformas como AppBarber, Wix, Trinks, etc.
 def audit_website_status(url):
     if not url or pd.isna(url) or len(str(url).strip()) < 5 or str(url).strip() in ["Sem Site Cadastrado", "Apenas Redes / Sem Site"]:
         return "SEM SITE (OPORTUNIDADE QUENTE 🔥)", ""
@@ -110,10 +108,8 @@ def audit_website_status(url):
         elif r.status_code == 404:
             return "SITE FORA DO AR (ERRO 404) 🚨", target_url
         else:
-            # Qualquer resposta válida de servidor indica que o site existe
             return "SITE ATIVO 📱", target_url
     except Exception:
-        # Tentar via HTTP simples caso a porta HTTPS tenha bloqueio
         if target_url.startswith("https://"):
             http_url = target_url.replace("https://", "http://")
             try:
@@ -123,11 +119,42 @@ def audit_website_status(url):
             except Exception:
                 pass
                 
-        # Se for um domínio de plataforma válida (ex: appbarber, trinks, wix), assume SITE ATIVO
         if any(plat in target_url.lower() for plat in ['appbarber', 'trinks', 'wix', 'wordpress', 'canva', 'simplesvet']):
             return "SITE ATIVO 📱", target_url
             
         return "SITE FORA DO AR / LINK QUEBRADO 🚨", target_url
+
+# 1ª MENSAGEM COM O GANCHO DO "CRIAÇÃO 100% GRATUITA / GRÁTIS"
+def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
+    nome_limpo = clean_company_name(nome_empresa)
+    if not nome_limpo:
+        nome_limpo = "empresa"
+    cidade_fmt = cidade.capitalize()
+    
+    if "FORA DO AR" in status_site or "QUEBRADO" in status_site:
+        situacao = "fui tentar acessar o site de vocês e vi que está fora do ar"
+    elif "ATIVO" in status_site:
+        situacao = "vi que o site de vocês está um pouco desatualizado para celular"
+    else:
+        situacao = "vi que vocês ainda não têm um site próprio para celular"
+        
+    message = (
+        f"Olá, tudo bem? Meu nome é João, sou da agência Webfy. 🚀\n\n"
+        f"Vi o perfil da {nome_limpo} aí em {cidade_fmt} no Google e {situacao}.\n\n"
+        f"Nós estamos selecionando 5 empresas na região para **GANHAR A CRIAÇÃO DE UM SITE NOVO 100% GRATUITO** para o nosso portfólio deste mês.\n\n"
+        f"Já deixei uma demonstração pronta. Posso te mandar o link para você dar uma olhada sem compromisso?"
+    )
+    return message
+
+# 2ª MENSAGEM EXPLOCANDO A HOSPEDAGEM OBRIGATÓRIA QUE TODO SITE PRECISA
+def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
+    message = (
+        f"Show! Como te falei, a **criação e o desenvolvimento do site saem 100% GRATUITOS** (você economiza cerca de R$ 2.000 que é o valor de mercado). 🎁\n\n"
+        f"A única coisa necessária é a taxa anual de hospedagem e servidor (R$ 599/ano ou parcelado), que é a taxa padrão que todo site na internet precisa ter para ficar online no seu nome com domínio próprio (.com.br).\n\n"
+        f"Incluso: Hospedagem rápida para celular, suporte, botão de WhatsApp e presença no Google!\n\n"
+        f"Posso te mandar a prévia demonstrativa que fiz para a {clean_company_name(nome_empresa)}?"
+    )
+    return message
 
 def fetch_google_maps_places(nicho, cidade):
     print(f"📍 Pesquisando estabelecimentos diretamente no Google Maps para '{nicho}' em '{cidade}'...")
@@ -154,41 +181,6 @@ def fetch_google_maps_places(nicho, cidade):
         print(f"⚠️ Aviso na consulta de mapas: {e}")
         
     return places
-
-def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
-    nome_limpo = clean_company_name(nome_empresa)
-    if not nome_limpo:
-        nome_limpo = "empresa"
-    cidade_fmt = cidade.capitalize()
-    
-    if "ATIVO" in status_site or "FORA DO AR" in status_site or "QUEBRADO" in status_site:
-        pergunta = "Posso te fazer uma pergunta rápida sobre o site de vocês?"
-    else:
-        pergunta = "Posso te fazer uma pergunta rápida sobre a presença online de vocês?"
-        
-    message = (
-        f"Olá, tudo bem? Meu nome é João, sou da agência Webfy. 🚀\n\n"
-        f"Vi o perfil da {nome_limpo} aí em {cidade_fmt} no Google e achei o trabalho de vocês muito bacana! {pergunta}"
-    )
-    return message
-
-def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
-    nicho_fmt = format_niche_display(nicho)
-    
-    if "FORA DO AR" in status_site or "QUEBRADO" in status_site:
-        contexto = "É que fui tentar acessar o site de vocês pelo celular e percebi que ele está fora do ar / com erro, o que faz vocês perderem muitos clientes do Google todos os dias."
-    elif "ATIVO" in status_site:
-        contexto = "É que vi que o site de vocês está um pouco desatualizado para celular e vocês estão perdendo clientes do Google para a concorrência."
-    else:
-        contexto = "É que vi que vocês ainda não têm um site próprio para celular e estão perdendo clientes do Google para a concorrência todos os dias."
-        
-    message = (
-        f"{contexto}\n\n"
-        f"Um site desse nível no mercado custa entre R$ 2.000 e R$ 3.000, mas nós da Webfy estamos com uma ação de portfólio onde a criação e mão de obra saem 100% DE GRAÇA.\n\n"
-        f"Você não paga nada pela criação. A única coisa necessária é a taxa de hospedagem para o site ficar online no seu nome.\n\n"
-        f"Já deixei uma prévia demonstrativa do site de vocês pronta. Posso te mandar o link para você dar uma olhada sem compromisso?"
-    )
-    return message
 
 def fetch_leads(nicho, cidade):
     print(f"\n🔍 Buscando empresas/profissionais reais de '{nicho}' em '{cidade}' (Google Maps & Sites)...")
@@ -341,16 +333,16 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             link_m2 = f"https://wa.me/{clean_wa}?text={enc2}"
             
             wa_buttons = f"""
-            <a href="{link_m1}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg</a>
-            <a href="{link_m2}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Preço)</a>
+            <a href="{link_m1}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (100% Grátis)</a>
+            <a href="{link_m2}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Hospedagem)</a>
             {maps_button}
             """
         else:
             maps_search_q = urllib.parse.quote(f"{row['nome']} {cidade} whatsapp")
             wa_search_link = f"https://www.google.com/search?q={maps_search_q}"
             wa_buttons = f"""
-            <a href="{wa_search_link}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (Abrir WhatsApp)</a>
-            <a href="{wa_search_link}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Preço)</a>
+            <a href="{wa_search_link}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (100% Grátis)</a>
+            <a href="{wa_search_link}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Hospedagem)</a>
             {maps_button}
             """
             
@@ -387,15 +379,14 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     </head>
     <body>
         <div class="container">
-            <h1>🚀 Webfy - Painel de Prospecção Auditado (João)</h1>
+            <h1>🚀 Webfy - Painel de Prospecção (Estratégia 100% Grátis)</h1>
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
             
             <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">💡 CORREÇÃO DE AUDITORIA SSL & PLATAFORMAS (AppBarber, Trinks, Wix):</strong><br><br>
-                📱 <strong>SITE ATIVO:</strong> Plataformas como AppBarber, Wix e Trinks são reconhecidas corretamente como sites ativos.<br>
-                🟢 <strong>Botão "💬 1ª Msg":</strong> Envia a mensagem inicial adaptada.<br>
-                🔵 <strong>Botão "💰 2ª Msg (Preço)":</strong> Envia a ancoragem de preço (R$ 2.000 - R$ 3.000 vs R$ 0 criação).<br>
-                📍 <strong>Botão "📍 Maps":</strong> Abre o perfil exato do Google Maps da empresa.
+                <strong style="color: #166534; font-size: 16px;">🎁 ESTRATÉGIA DO GANCHO "CRIAÇÃO 100% GRATUITA":</strong><br><br>
+                🟢 <strong>1ª Mensagem:</strong> Oferece a criação do site 100% GRATUITA para o portfólio da agência.<br>
+                🔵 <strong>2ª Mensagem:</strong> Explica que a criação é grátis e que a única taxa é a hospedagem anual (que todo site precisa ter).<br>
+                📍 <strong>Botão Maps:</strong> Abre o perfil no Google Maps.
             </div>
 
             <div class="stats">
@@ -417,7 +408,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
                         <th>Status do Site (Auditado HTTP)</th>
                         <th>Link Registrado</th>
                         <th>Telefone</th>
-                        <th>Ações Rápida (1ª Msg | 2ª Msg | Maps)</th>
+                        <th>Ações Rápida (1ª Msg 100% Grátis | 2ª Msg Hospedagem | Maps)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -443,7 +434,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Fix SSL verification for SaaS sites like AppBarber" && git push')
+        os.system('git add . && git commit -m "Hook 100% free creation in 1st msg" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
