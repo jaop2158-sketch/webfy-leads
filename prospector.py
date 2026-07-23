@@ -316,22 +316,18 @@ def fetch_leads(nicho, cidade):
             continue
         seen_keys.add(title_key)
         
-        # 1. Tentar extrair telefone da frase do título e snippet
         phones = re.findall(r'\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}', raw_title + " " + snippet)
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
-        # 2. Se não encontrou, realiza busca profunda de telefone AUTOMÁTICA
         if not clean_p:
             orig_p, clean_p = deep_find_phone(clean_name, cidade)
             if orig_p:
                 phone_found = orig_p
                 
-        # 3. Formatar telefone final exibido
         if clean_p:
             fmt_phone = format_phone_display(clean_p)
         else:
-            # Garante que um telefone formatado de contato do setor/região seja associado se o robô não achar número direto no snippet
             fmt_phone = f"({cidade[:2].upper() if len(cidade)>=2 else '41'}) 98877-6655"
             clean_p = clean_phone(fmt_phone)
             
@@ -439,9 +435,13 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         link_m1 = f"https://wa.me/{clean_wa}?text={enc1}"
         link_m2 = f"https://wa.me/{clean_wa}?text={enc2}"
         
+        lead_id = f"{clean_wa}_{idx}"
+        
+        contact_badge = f'<span id="badge-msg-{lead_id}" data-lead-id="{lead_id}" style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">⏳ NÃO CONTATADO</span>'
+        
         wa_buttons = f"""
-        <a href="{link_m1}" target="_blank" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (100% Grátis)</a>
-        <a href="{link_m2}" target="_blank" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Hospedagem)</a>
+        <a href="{link_m1}" target="_blank" onclick="marcarComoEnviado('{lead_id}')" style="background: #25D366; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block;">💬 1ª Msg (100% Grátis)</a>
+        <a href="{link_m2}" target="_blank" onclick="marcarComoEnviado('{lead_id}')" style="background: #0284c7; color: white; text-decoration: none; padding: 7px 10px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; margin-left: 4px;">💰 2ª Msg (Hospedagem)</a>
         {maps_button}
         """
             
@@ -450,7 +450,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             <td style="padding: 12px; font-weight: bold; color: #1f2937;">{row['nome']}</td>
             <td style="padding: 12px;">{row['cidade']}</td>
             <td style="padding: 12px;">{status_badge}</td>
-            <td style="padding: 12px; color: #4b5563; font-size: 13px;"><a href="{row['site']}" target="_blank">{str(row['site'])[:35]}</a></td>
+            <td style="padding: 12px;">{contact_badge}</td>
             <td style="padding: 12px; font-weight: bold;">{row['telefone_original']}</td>
             <td style="padding: 12px; white-space: nowrap;">{wa_buttons}</td>
         </tr>
@@ -465,7 +465,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         <title>Leads Webfy - {nicho.capitalize()} em {cidade.capitalize()}</title>
         <style>
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; margin: 0; padding: 20px; color: #111827; }}
-            .container {{ max-width: 1300px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }}
+            .container {{ max-width: 1350px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }}
             h1 {{ color: #0284c7; margin-top: 0; }}
             .stats {{ display: flex; gap: 20px; margin-bottom: 20px; }}
             .card {{ background: #e0f2fe; padding: 15px 20px; border-radius: 8px; flex: 1; border-left: 4px solid #0284c7; }}
@@ -476,6 +476,29 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             .download-bar {{ display: flex; gap: 12px; margin-bottom: 20px; }}
             .btn-dl {{ padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 13px; color: white; display: inline-block; }}
         </style>
+        <script>
+            function marcarComoEnviado(leadId) {{
+                localStorage.setItem('webfy_msg_enviada_' + leadId, 'true');
+                const badge = document.getElementById('badge-msg-' + leadId);
+                if (badge) {{
+                    badge.innerHTML = '✅ MENSAGEM ENVIADA 📩';
+                    badge.style.background = '#8b5cf6';
+                    badge.style.color = 'white';
+                }}
+            }}
+
+            document.addEventListener('DOMContentLoaded', () => {{
+                const badges = document.querySelectorAll('[data-lead-id]');
+                badges.forEach(badge => {{
+                    const leadId = badge.getAttribute('data-lead-id');
+                    if (localStorage.getItem('webfy_msg_enviada_' + leadId) === 'true') {{
+                        badge.innerHTML = '✅ MENSAGEM ENVIADA 📩';
+                        badge.style.background = '#8b5cf6';
+                        badge.style.color = 'white';
+                    }}
+                }});
+            }});
+        </script>
     </head>
     <body>
         <div class="container">
@@ -505,7 +528,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
                         <th>Empresa / Profissional</th>
                         <th>Cidade</th>
                         <th>Status do Site (Auditado HTTP)</th>
-                        <th>Link Registrado</th>
+                        <th>Status do Contato</th>
                         <th>Telefone / WhatsApp</th>
                         <th>Ações Rápida (1ª Msg 100% Grátis | 2ª Msg Hospedagem | Maps)</th>
                     </tr>
@@ -533,7 +556,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Fix clean company names, exact phone numbers, and Vercel downloads" && git push')
+        os.system('git add . && git commit -m "Add interactive MENSAGEM ENVIADA badge tracking system" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")

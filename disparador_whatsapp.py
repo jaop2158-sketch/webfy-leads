@@ -4,6 +4,7 @@ import sys
 import urllib.parse
 import webbrowser
 import pandas as pd
+from gerenciar_crm import carregar_crm, salvar_e_publicar_crm
 
 if sys.platform == "win32":
     try:
@@ -18,7 +19,6 @@ def disparar_mensagens_automaticas(csv_path, max_leads=12):
 
     df = pd.read_csv(csv_path)
     
-    # Filtrar leads quentes (sem site ou fora do ar) que possuem WhatsApp válido
     leads_quentes = df[
         (df['tem_site'].str.contains('SEM SITE|FORA DO AR|QUEBRADO', na=False)) & 
         (df['whatsapp_limpo'].notna())
@@ -48,8 +48,12 @@ def disparar_mensagens_automaticas(csv_path, max_leads=12):
     print("\n🚀 Iniciando disparos automáticos no WhatsApp Web...")
     print("⚠️ DICA: Mantenha o WhatsApp Web aberto e conectado no seu navegador!\n")
 
+    df_crm = carregar_crm()
+
     for i, (_, row) in enumerate(leads_selecionados.iterrows(), 1):
         nome = row['nome']
+        cidade = row.get('cidade', 'Geral')
+        nicho = os.path.basename(csv_path).replace('leads_', '').split('_')[0].capitalize()
         phone = str(row['whatsapp_limpo']).replace('.0', '')
         msg1 = row['mensagem_1_inicial']
         
@@ -58,14 +62,25 @@ def disparar_mensagens_automaticas(csv_path, max_leads=12):
         
         print(f"[{i}/{len(leads_selecionados)}] 💬 Abrindo conversa e enviando para: {nome} ({phone})...")
         
-        # Abre a aba no WhatsApp Web pronta com a mensagem digitada
         webbrowser.open(wa_url)
         
-        # Pausa de segurança de 10 segundos entre cada envio para evitar spam/bloqueios no WhatsApp
+        # Registrar no CRM que a mensagem foi enviada
+        if nome not in df_crm['nome'].values:
+            new_id = len(df_crm) + 1
+            new_row = {
+                "id": new_id, "nome": nome, "cidade": cidade, "nicho": nicho,
+                "telefone": phone, "status_site": "SEM SITE",
+                "status_resposta": "AGUARDANDO RESPOSTA (MSG ENVIADA 📩)", "valor_faturado": 0.0
+            }
+            df_crm = pd.concat([df_crm, pd.DataFrame([new_row])], ignore_index=True)
+        
         print("⏳ Aguardando 10 segundos antes do próximo envio (Proteção anti-bloqueio)...")
         time.sleep(10)
 
-    print("\n✅ TODOS OS DISPAROS FORAM CONCLUÍDOS COM SUCESSO!")
+    # Salvar e atualizar o CRM no ar no Vercel
+    salvar_e_publicar_crm(df_crm)
+
+    print("\n✅ TODOS OS DISPAROS FORAM CONCLUÍDOS E REGISTRADOS COMO ENVIADOS NO CRM!")
     print("💡 Fique atento ao WhatsApp Web para responder os clientes que disserem 'SIM' com a 2ª Mensagem!")
 
 def main():
