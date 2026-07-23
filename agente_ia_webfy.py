@@ -8,79 +8,88 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-# Agente de Inteligência Artificial para Atendimento e Vendas Webfy (João)
 def agente_ia_responder(nome_empresa, nicho, cidade, mensagem_cliente):
     """
-    IA de Atendimento Humano para entender qualquer tipo de resposta do cliente
-    e gerar a réplica perfeita da agência Webfy.
+    Inteligência Conversacional da Webfy (João)
+    Mapeia e responde estrategicamente a qualquer mensagem do cliente:
+    - SIM: Inicia a construção imediatamente e avisa que já vai enviar o link e acertar a hospedagem.
+    - NÃO: Argumenta com pontos positivos e mostra o que o cliente está perdendo sem site no celular.
+    - DÚVIDAS / OUTROS: Explica a criação grátis + hospedagem transparente.
     """
     txt = str(mensagem_cliente).lower().strip()
     
-    # 1. Intenção: Interesse direto / Pedido de proposta / "Como funciona?"
-    if any(k in txt for k in ['interesse', 'proposta', 'como funciona', 'quanto custa', 'qual o valor', 'me manda', 'quero ver', 'explic', 'detalhe', 'pode ser', 'sim']):
-        resposta_ia = (
-            f"Que bacana! Fico feliz pelo interesse! 🚀\n\n"
-            f"Funciona assim: a criação e o desenvolvimento do site novo para a {nome_empresa} saem 100% GRATUITOS (uma economia de R$ 2.000 para o nosso portfólio deste mês).\n\n"
-            f"A única coisa necessária é a taxa anual de hospedagem e servidor rápido no celular (R$ 599/ano ou parcelado), que é a taxa padrão que qualquer site precisa ter para ficar online no seu nome com domínio próprio (.com.br).\n\n"
-            f"Já deixei uma prévia demonstrativa do site pronta. Posso te mandar o link para você dar uma olhada agora?"
-        )
-        status_funil = "INTERESSADO 🔥"
+    # Palavras de Aceite (SIM, PODE, VAMOS, QUERO, INTERESSE, MANDA)
+    palavras_sim = ['sim', 'pode', 'quero', 'manda', 'mostra', 'claro', 'com certeza', 'vamos', 'pode ser', 'dar inicio', 'dá inicio', 'iniciar', 'interesse', 'aceito']
+    
+    # Palavras de Recusa (NÃO, NAO, AGORA NÃO, NÃO QUERO, SEM INTERESSE)
+    palavras_nao = ['não', 'nao', 'agora não', 'agora nao', 'não quero', 'nao quero', 'sem interesse', 'não preciso', 'nao preciso', 'já tenho', 'ja tenho']
 
-    # 2. Intenção: Objeção de Preço / "Tenho que pagar algo?"
-    elif any(k in txt for k in ['pagar', 'cobrar', 'de graça', 'gratis', 'gratuito', 'pegadinha', 'custo']):
+    # 1. FLUXO QUANDO O CLIENTE RESPONDE "SIM" / "PODE SER" / "QUERO VER"
+    if any(k in txt for k in palavras_sim) and not any(k in txt for k in palavras_nao):
         resposta_ia = (
-            f"Sem pegadinhas! A nossa mão de obra de design e programação é 100% de graça mesmo, pois estamos selecionando 5 empresas aí em {cidade.capitalize()} para divulgar no nosso portfólio. 🎁\n\n"
-            f"O único custo é o servidor e a hospedagem anual (R$ 599/ano), que vai direto para manter o seu site no ar com segurança e domínio próprio (.com.br).\n\n"
-            f"Quer dar uma olhadinha na prévia que fiz para vocês sem compromisso?"
+            f"Show de bola! 🚀\n\n"
+            f"Então já vou dar início à construção do site da {nome_empresa} aqui no nosso sistema agora mesmo!\n\n"
+            f"Assim que a prévia demonstrativa estiver pronta, já te mando o link por aqui para você dar uma olhada no celular. "
+            f"E estando tudo do seu agrado, a gente já faz o procedimento da hospedagem (R$ 599/ano ou parcelado) para colocar o seu site online no ar com domínio próprio (.com.br)!\n\n"
+            f"Já estou finalizando a estrutura aqui e em breve te chamo com o link! 👍"
         )
-        status_funil = "DÚVIDA PREÇO 💰"
+        status_funil = "ACEITOU / INICIAR CONSTRUÇÃO 🚀"
 
-    # 3. Intenção: Dúvida sobre quem somos / Onde fica a agência
-    elif any(k in txt for k in ['onde fica', 'quem são', 'agencia', 'empresa', 'onde voces', 'telefone', 'contato']):
+    # 2. FLUXO QUANDO O CLIENTE RESPONDE "NÃO" / "AGORA NÃO" (CONVENCIMENTO PERSUASIVO)
+    elif any(k in txt for k in palavras_nao):
         resposta_ia = (
-            f"Nós somos a Webfy, uma agência especializada na criação de sites rápidos e otimizados para celular e Google! 📱🚀\n\n"
-            f"Meu nome é João e eu cuido do desenvolvimento de novos projetos aqui na agência. Nós atendemos empresas em toda a região de {cidade.capitalize()}.\n\n"
-            f"Posso te mandar o link da prévia do site da {nome_empresa} para você ver a qualidade do nosso trabalho?"
+            f"Entendo perfeitamente o seu lado! 🎯\n\n"
+            f"Mas deixa eu te fazer uma rápida reflexão: hoje mais de 82% dos clientes aí em {cidade.capitalize()} pesquisam no Google pelo celular antes de fechar com uma {nicho}.\n\n"
+            f"💡 **O que você ganha com o site:**\n"
+            f"• Passa 10x mais credibilidade e autoridade no mercado.\n"
+            f"• Aparece no Google quando os clientes procurarem por {nicho} aí na cidade.\n"
+            f"• Botão de WhatsApp direto para agendamentos rápidos.\n\n"
+            f"⚠️ **O que você perde ficando sem site ou com ele parado:**\n"
+            f"• Perde clientes diariamente direto para os seus concorrentes que aparecem no Google.\n\n"
+            f"Como a mão de obra e a criação saem **100% GRATUITAS** no nosso portfólio este mês (você só paga a hospedagem se aprovar), você não corre risco nenhum!\n\n"
+            f"Quer que eu monte a prévia sem compromisso só para você ver como ficaria?"
         )
-        status_funil = "INSTITUCIONAL 🏢"
+        status_funil = "RECUSOU / ENVIAR PONTOS POSITIVOS 🔥"
 
-    # 4. Intenção: Negativa / "Não tenho interesse" / "Já tenho quem faça"
-    elif any(k in txt for k in ['não', 'nao', 'agora nao', 'tenho site', 'obrigado', 'nao quero', 'sem interesse']):
+    # 3. DÚVIDA SOBRE PREÇO / VALORES / HOSPEDAGEM
+    elif any(k in txt for k in ['pagar', 'cobrar', 'de graça', 'gratis', 'gratuito', 'hospedagem', 'valor', 'quanto']):
         resposta_ia = (
-            f"Sem problemas! Entendo perfeitamente. 🎯\n\n"
-            f"Vou deixar meu contato salvo por aqui. Se no futuro vocês precisarem atualizar o site de vocês para celular ou quiserem atrair mais clientes no Google, é só me chamar!\n\n"
-            f"Desejo muito sucesso para a {nome_empresa}! Um abraço!"
+            f"A criação e a montagem do design saem 100% GRATUITAS para o nosso portfólio deste mês! 🎁\n\n"
+            f"O único investimento necessário é a taxa padrão de hospedagem e servidor rápido para celular (R$ 599/ano ou parcelado), que é o custo necessário para colocar qualquer site profissional online no seu nome com domínio próprio (.com.br).\n\n"
+            f"Posso iniciar a montagem da prévia da {nome_empresa} para te mostrar?"
         )
-        status_funil = "RECUSADO 🔴"
+        status_funil = "DÚVIDA VALORES 💰"
 
-    # 5. Intenção Genérica / Outras Respostas Humanas
+    # 4. QUALQUER OUTRO TIPO DE RESPOSTA HUMANA
     else:
         resposta_ia = (
-            f"Opa, entendi! Como nós da Webfy estamos com uma ação de portfólio aí em {cidade.capitalize()}, a criação do site para a {nome_empresa} sai 100% gratuita, restando apenas a taxa de hospedagem e domínio (.com.br).\n\n"
-            f"Posso te enviar o link da demonstração sem compromisso para você dar uma olhada?"
+            f"Legal! Como estamos selecionando 5 empresas aí em {cidade.capitalize()} para a ação de portfólio, a criação do site da {nome_empresa} sai 100% GRATUITO.\n\n"
+            f"Se você concordar, eu já dou início à construção da prévia aqui e te mando o link para você avaliar sem compromisso!\n\n"
+            f"Podemos dar início?"
         )
-        status_funil = "ATENDIMENTO IA 🤖"
+        status_funil = "ATENDIMENTO CONVERSACIONAL 🤖"
         
     return resposta_ia, status_funil
 
 def menu_agente_ia():
-    print("=" * 65)
-    print("🤖 AGENTE DE INTELIGÊNCIA ARTIFICIAL DE VENDAS - WEBFY (JOÃO)")
-    print("=" * 65)
-    print("Esta IA lê qualquer mensagem humana e gera a resposta perfeita!\n")
+    print("=" * 70)
+    print("🤖 AGENTE IA INTELIGENTE WEBFY - ESTRATÉGIA DE VENDAS E PERSUASÃO")
+    print("=" * 70)
+    print("Simule a conversa com o cliente para testar as respostas automáticas:\n")
     
-    empresa = input("👉 Nome da empresa (ex: Barbearia do Zé): ").strip()
-    cidade = input("👉 Cidade (ex: Curitiba): ").strip()
-    msg_cliente = input("\n💬 Digite o que o cliente falou no WhatsApp: ").strip()
+    empresa = input("👉 Nome da Empresa: ").strip() or "Barbearia Exemplo"
+    nicho = input("👉 Nicho: ").strip() or "barbearia"
+    cidade = input("👉 Cidade: ").strip() or "Curitiba"
+    msg_cliente = input("\n💬 Digite o que o cliente respondeu no WhatsApp: ").strip()
     
-    if empresa and msg_cliente:
-        resp, status = agente_ia_responder(empresa, "geral", cidade, msg_cliente)
-        print("\n" + "=" * 65)
-        print(f"🎯 INTENÇÃO DETECTADA PELA IA: {status}")
-        print("=" * 65)
-        print("💬 MENSAGEM GERADA PELA IA PARA ENVIAR NO WHATSAPP:\n")
+    if msg_cliente:
+        resp, status = agente_ia_responder(empresa, nicho, cidade, msg_cliente)
+        print("\n" + "=" * 70)
+        print(f"🎯 DECISÃO DA IA: {status}")
+        print("=" * 70)
+        print("💬 MENSAGEM QUE A IA VAI ENVIAR:\n")
         print(resp)
-        print("=" * 65)
+        print("=" * 70)
 
 if __name__ == "__main__":
     menu_agente_ia()
