@@ -7,6 +7,10 @@ import sys
 import pandas as pd
 import urllib3
 from ddgs import DDGS
+from pptx import Presentation
+from pptx.util import Inches, Pt
+from pptx.enum.text import PP_ALIGN
+from pptx.dml.color import RGBColor
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -124,7 +128,6 @@ def audit_website_status(url):
             
         return "SITE FORA DO AR / LINK QUEBRADO 🚨", target_url
 
-# 1ª MENSAGEM COM O GANCHO DO "CRIAÇÃO 100% GRATUITA / GRÁTIS"
 def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     nome_limpo = clean_company_name(nome_empresa)
     if not nome_limpo:
@@ -146,7 +149,6 @@ def generate_pitch_step1(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     )
     return message
 
-# 2ª MENSAGEM EXPLOCANDO A HOSPEDAGEM OBRIGATÓRIA QUE TODO SITE PRECISA
 def generate_pitch_step2(nome_empresa, nicho, cidade, status_site="SEM SITE"):
     message = (
         f"Show! Como te falei, a **criação e o desenvolvimento do site saem 100% GRATUITOS** (você economiza cerca de R$ 2.000 que é o valor de mercado). 🎁\n\n"
@@ -181,6 +183,61 @@ def fetch_google_maps_places(nicho, cidade):
         print(f"⚠️ Aviso na consulta de mapas: {e}")
         
     return places
+
+def generate_pptx_report(leads, nicho, cidade, pptx_file):
+    prs = Presentation()
+    slide_layout = prs.slide_layouts[6]
+    
+    # Slide 1 - Capa
+    slide = prs.slides.add_slide(slide_layout)
+    txBox = slide.shapes.add_textbox(Inches(1), Inches(2), Inches(8), Inches(3))
+    tf = txBox.text_frame
+    p = tf.paragraphs[0]
+    p.text = f"🚀 Relatório Executivo de Prospecção"
+    p.font.bold = True
+    p.font.size = Pt(36)
+    p.font.color.rgb = RGBColor(2, 132, 199)
+    
+    p2 = tf.add_paragraph()
+    p2.text = f"Agência Webfy (João) | {format_niche_display(nicho)} em {cidade.capitalize()}"
+    p2.font.size = Pt(20)
+    p2.font.color.rgb = RGBColor(71, 85, 105)
+
+    # Slide 2 - Lista de Oportunidades
+    slide2 = prs.slides.add_slide(slide_layout)
+    txBox2 = slide2.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(9), Inches(1))
+    tf2 = txBox2.text_frame
+    p3 = tf2.paragraphs[0]
+    p3.text = f"🎯 Oportunidades Identificadas em {cidade.capitalize()}"
+    p3.font.bold = True
+    p3.font.size = Pt(24)
+    p3.font.color.rgb = RGBColor(2, 132, 199)
+
+    # Tabela no Slide
+    rows = min(len(leads) + 1, 11)
+    cols = 4
+    table_shape = slide2.shapes.add_table(rows, cols, Inches(0.5), Inches(1.5), Inches(9), Inches(5))
+    table = table_shape.table
+
+    headers = ["Empresa / Profissional", "Status do Site", "Telefone / WhatsApp", "Ação Recomendada"]
+    for col_idx, header in enumerate(headers):
+        cell = table.cell(0, col_idx)
+        cell.text = header
+        cell.fill.solid()
+        cell.fill.fore_color.rgb = RGBColor(2, 132, 199)
+        for paragraph in cell.text_frame.paragraphs:
+            paragraph.font.color.rgb = RGBColor(255, 255, 255)
+            paragraph.font.bold = True
+            paragraph.font.size = Pt(12)
+
+    for row_idx, lead in enumerate(leads[:10], start=1):
+        table.cell(row_idx, 0).text = str(lead['nome'])[:25]
+        table.cell(row_idx, 1).text = str(lead['tem_site'])[:20]
+        table.cell(row_idx, 2).text = str(lead['telefone_original'])[:20]
+        table.cell(row_idx, 3).text = "Enviar 1ª Msg (100% Grátis)"
+        
+    prs.save(pptx_file)
+    print(f"📙 Apresentação PowerPoint (.pptx) gerada: {pptx_file}")
 
 def fetch_leads(nicho, cidade):
     print(f"\n🔍 Buscando empresas/profissionais reais de '{nicho}' em '{cidade}' (Google Maps & Sites)...")
@@ -304,11 +361,29 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     df['link_whatsapp_msg1'] = wa_links_step1
     df['link_whatsapp_msg2'] = wa_links_step2
     
-    csv_file = os.path.join(output_dir, f"leads_{nicho}_{cidade}.csv".lower().replace(" ", "_"))
-    df.to_csv(csv_file, index=False, encoding='utf-8-sig')
-    print(f"\n✅ Planilha CSV gerada com sucesso: {csv_file}")
-    
     core_name = f"{nicho}_{cidade}".lower().replace(" ", "_")
+    
+    # 1. Exportar CSV
+    csv_file = os.path.join(output_dir, f"leads_{core_name}.csv")
+    df.to_csv(csv_file, index=False, encoding='utf-8-sig')
+    print(f"\n✅ Planilha CSV gerada: {csv_file}")
+    
+    # 2. Exportar EXCEL REAL (.xlsx)
+    xlsx_file = os.path.join(output_dir, f"leads_{core_name}.xlsx")
+    try:
+        with pd.ExcelWriter(xlsx_file, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name="Leads Webfy")
+        print(f"📊 Planilha EXCEL REAL (.xlsx) gerada: {xlsx_file}")
+    except Exception as e:
+        print(f"⚠️ Erro ao gerar Excel .xlsx: {e}")
+        
+    # 3. Exportar POWERPOINT (.pptx)
+    pptx_file = os.path.join(output_dir, f"relatorio_{core_name}.pptx")
+    try:
+        generate_pptx_report(leads, nicho, cidade, pptx_file)
+    except Exception as e:
+        print(f"⚠️ Erro ao gerar PowerPoint .pptx: {e}")
+    
     html_file = os.path.join(output_dir, f"dashboard_leads_{core_name}.html")
     
     rows_html = ""
@@ -374,19 +449,19 @@ def export_reports(leads, nicho, cidade, output_dir="."):
             .card p {{ margin: 5px 0 0 0; font-size: 24px; font-weight: bold; color: #0f172a; }}
             table {{ width: 100%; border-collapse: collapse; margin-top: 10px; }}
             th {{ background: #f8fafc; text-align: left; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #475569; font-size: 13px; text-transform: uppercase; }}
-            .script-box {{ background: #f0fdf4; border: 1px solid #bbf7d0; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }}
+            .download-bar {{ display: flex; gap: 12px; margin-bottom: 20px; }}
+            .btn-dl {{ padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 13px; color: white; display: inline-block; }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>🚀 Webfy - Painel de Prospecção (Estratégia 100% Grátis)</h1>
+            <h1>🚀 Webfy - Relatório Completo (João)</h1>
             <p><strong>Nicho:</strong> {format_niche_display(nicho)} | <strong>Cidade:</strong> {cidade.capitalize()}</p>
-            
-            <div class="script-box">
-                <strong style="color: #166534; font-size: 16px;">🎁 ESTRATÉGIA DO GANCHO "CRIAÇÃO 100% GRATUITA":</strong><br><br>
-                🟢 <strong>1ª Mensagem:</strong> Oferece a criação do site 100% GRATUITA para o portfólio da agência.<br>
-                🔵 <strong>2ª Mensagem:</strong> Explica que a criação é grátis e que a única taxa é a hospedagem anual (que todo site precisa ter).<br>
-                📍 <strong>Botão Maps:</strong> Abre o perfil no Google Maps.
+
+            <div class="download-bar">
+                <a href="leads_{core_name}.xlsx" download class="btn-dl" style="background: #10b981;">📊 Baixar Excel Real (.xlsx)</a>
+                <a href="relatorio_{core_name}.pptx" download class="btn-dl" style="background: #d97706;">📙 Baixar PowerPoint (.pptx)</a>
+                <a href="leads_{core_name}.csv" download class="btn-dl" style="background: #64748b;">📄 Baixar CSV (.csv)</a>
             </div>
 
             <div class="stats">
@@ -434,7 +509,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Hook 100% free creation in 1st msg" && git push')
+        os.system('git add . && git commit -m "Add real .xlsx Excel & .pptx PowerPoint downloads" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")

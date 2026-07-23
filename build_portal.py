@@ -10,7 +10,7 @@ if sys.platform == "win32":
         pass
 
 def build_central_portal(project_dir="."):
-    print("🌐 Construindo Portal Central da Webfy com Seção de CRM & Funil de Vendas...")
+    print("🌐 Construindo Portal Central da Webfy com Seção de CRM, Excel (.xlsx) & PowerPoint (.pptx)...")
     
     html_files = glob.glob(os.path.join(project_dir, "dashboard_leads_*.html"))
     
@@ -43,6 +43,8 @@ def build_central_portal(project_dir="."):
             "nicho": nicho,
             "cidade": cidade,
             "html_file": filename,
+            "xlsx_file": f"leads_{core}.xlsx",
+            "pptx_file": f"relatorio_{core}.pptx",
             "csv_file": f"leads_{core}.csv",
             "count": count,
             "quentes": quentes
@@ -64,14 +66,14 @@ def build_central_portal(project_dir="."):
                 </div>
             </div>
             
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <a href="{rep['html_file']}" target="_blank" style="flex: 1; background: #0284c7; color: white; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 13px;">📊 Abrir Painel HTML</a>
-                <a href="{rep['csv_file']}" download style="background: #f1f5f9; color: #334155; text-align: center; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 13px;">📥 CSV</a>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+                <a href="{rep['html_file']}" target="_blank" style="flex: 1 1 100%; background: #0284c7; color: white; text-align: center; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 13px;">📊 Abrir Painel HTML</a>
+                <a href="{rep['xlsx_file']}" download style="flex: 1; background: #10b981; color: white; text-align: center; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px;">📗 Excel (.xlsx)</a>
+                <a href="{rep['pptx_file']}" download style="flex: 1; background: #d97706; color: white; text-align: center; padding: 8px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 12px;">📙 Slide (.pptx)</a>
             </div>
         </div>
         """
         
-    # Verificar se o arquivo CRM existe para exibir os contadores
     crm_file_path = os.path.join(project_dir, "crm_vendas_master.csv")
     crm_sim = 0
     crm_nao = 0
@@ -94,7 +96,7 @@ def build_central_portal(project_dir="."):
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Webfy - Portal Central de Relatórios & CRM (João)</title>
+        <title>Webfy - Portal Central de Relatórios, Excel & PowerPoint (João)</title>
         <style>
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 0; color: #0f172a; }}
             .header {{ background: linear-gradient(135deg, #0284c7, #0369a1); color: white; padding: 40px 20px; text-align: center; }}
@@ -114,7 +116,7 @@ def build_central_portal(project_dir="."):
     <body>
         <div class="header">
             <h1>🚀 Webfy - Agência de Sites (João)</h1>
-            <p>Portal Central de Prospecção Automatizada, Pesquisas do Google Maps & Funil de Respostas</p>
+            <p>Portal Central de Prospecção Automatizada, Excel Real (.xlsx) & Apresentações PowerPoint (.pptx)</p>
         </div>
 
         <div class="container">
@@ -149,7 +151,7 @@ def build_central_portal(project_dir="."):
                 <a href="crm_vendas.html" target="_blank">📊 Abrir Relatório de Respostas CRM</a>
             </div>
 
-            <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 15px;">📁 Pesquisas de Leads por Cidade e Categoria:</h2>
+            <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 15px;">📁 Relatórios de Leads (Download em Excel .xlsx e PowerPoint .pptx):</h2>
             <div class="grid">
                 {cards_html}
             </div>
