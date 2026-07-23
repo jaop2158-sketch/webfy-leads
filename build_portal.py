@@ -2,6 +2,7 @@ import os
 import glob
 import pandas as pd
 import sys
+from gerenciar_crm import carregar_crm, gerar_html_crm
 
 if sys.platform == "win32":
     try:
@@ -11,6 +12,10 @@ if sys.platform == "win32":
 
 def build_central_portal(project_dir="."):
     print("🌐 Construindo Portal Central da Webfy com Seção de CRM, Excel (.xlsx) & PowerPoint (.pptx)...")
+    
+    # Garante a geração do crm_vendas.html para nunca dar 404 no Vercel!
+    df_crm = carregar_crm()
+    gerar_html_crm(df_crm)
     
     html_files = glob.glob(os.path.join(project_dir, "dashboard_leads_*.html"))
     

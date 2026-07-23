@@ -1,7 +1,6 @@
 import os
 import sys
 import pandas as pd
-from build_portal import build_central_portal
 
 if sys.platform == "win32":
     try:
@@ -26,7 +25,8 @@ def salvar_e_publicar_crm(df):
     # Gerar HTML do CRM
     gerar_html_crm(df)
     
-    # Atualizar o Portal Central e Vercel
+    # Atualizar o Portal Central e Vercel (import interno para evitar import circular)
+    from build_portal import build_central_portal
     script_dir = os.path.dirname(os.path.abspath(__file__))
     try:
         build_central_portal(script_dir)
