@@ -3,385 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papa-Léguas 2 Lanchonete - Cardápio Digital & Pedidos On-line</title>
+    <title>Papa-Léguas 2 - Cardápio Digital & Pedidos Delivery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #f97316;
-            --primary-dark: #ea580c;
-            --accent: #facc15;
-            --bg: #0f172a;
-            --card-bg: #1e293b;
+            --primary-glow: rgba(249, 115, 22, 0.4);
+            --accent: #fbbf24;
+            --bg: #090d16;
+            --card-bg: rgba(26, 34, 53, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
             --text: #f8fafc;
             --text-muted: #94a3b8;
+            --emerald: #10b981;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
 
-        body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding-bottom: 110px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(251, 191, 36, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
 
-        .header {
-            background: linear-gradient(135deg, #1e1b4b, #0f172a);
+        /* Top Banner Hero */
+        .hero {
+            position: relative;
+            background: linear-gradient(180deg, rgba(30, 27, 75, 0.8) 0%, rgba(9, 13, 22, 0.95) 100%);
             text-align: center;
-            padding: 30px 20px 20px 20px;
-            border-bottom: 3px solid var(--primary);
-            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.2);
+            padding: 35px 20px 25px 20px;
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
         }
 
-        .logo-circle {
-            width: 110px;
-            height: 110px;
+        .logo-frame {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            margin: 0 auto 12px auto;
-            border: 4px solid var(--primary);
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+            margin: 0 auto 14px auto;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 30px var(--primary-glow);
             overflow: hidden;
-            background: white;
+            background: #fff;
+            position: relative;
         }
 
-        .logo-circle img {
+        .logo-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .header h1 { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
-        .header p { color: var(--accent); font-weight: bold; font-size: 14px; margin-top: 4px; }
-        .badge-status { display: inline-block; background: #16a34a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 10px; }
+        .hero h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
 
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+        .hero p {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 4px;
+        }
 
-        .category-tabs {
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 12px;
+            backdrop-filter: blur(8px);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--emerald);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.5; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+
+        .container { max-width: 650px; margin: 0 auto; padding: 20px 15px; }
+
+        /* Categorias Flutuantes */
+        .category-nav {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             overflow-x: auto;
-            padding: 10px 0;
-            margin-bottom: 15px;
+            padding: 10px 5px;
+            margin-bottom: 20px;
             scrollbar-width: none;
         }
-        .category-tabs::-webkit-scrollbar { display: none; }
+        .category-nav::-webkit-scrollbar { display: none; }
 
-        .tab-btn {
+        .cat-chip {
             background: var(--card-bg);
             color: var(--text-muted);
-            border: 1px solid #334155;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
+            border: 1px solid var(--card-border);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
             font-size: 13px;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(10px);
         }
-        .tab-btn.active {
-            background: var(--primary);
+
+        .cat-chip.active {
+            background: linear-gradient(135deg, var(--primary), #c2410c);
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 2px 10px rgba(249, 115, 22, 0.4);
+            box-shadow: 0 4px 15px var(--primary-glow);
         }
 
-        .menu-section-title { font-size: 18px; font-weight: bold; color: var(--accent); margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--primary); padding-left: 10px; }
-
-        .menu-item {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 12px;
+        .section-header {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent);
+            margin: 25px 0 15px 0;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            border: 1px solid #334155;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            gap: 10px;
+        }
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .item-info { flex: 1; padding-right: 12px; }
-        .item-title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 4px; }
-        .item-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px; }
-        .item-price { font-size: 16px; font-weight: 800; color: #4ade80; }
+        /* Item Cards */
+        .food-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
 
-        .add-btn {
-            background: var(--primary);
+        .food-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .food-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 14px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .food-details { flex: 1; }
+        .food-title { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .food-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px; }
+        
+        .food-meta { display: flex; justify-content: space-between; align-items: center; }
+        .food-price { font-size: 17px; font-weight: 800; color: var(--emerald); }
+
+        .btn-add {
+            background: linear-gradient(135deg, var(--primary), #ea580c);
             color: white;
             border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 700;
             font-size: 13px;
             cursor: pointer;
-            transition: background 0.2s;
+            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+            transition: transform 0.15s;
         }
+        .btn-add:active { transform: scale(0.93); }
 
-        /* Carrinho Flutuante */
+        /* Floating Order Drawer Bar */
         .cart-bar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #1e1b4b;
-            border-top: 2px solid var(--primary);
-            padding: 15px 20px;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(15, 23, 42, 0.92);
+            border-top: 1px solid var(--card-border);
+            padding: 16px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(16px);
             z-index: 100;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.6);
         }
 
-        .cart-bar-info { display: flex; flex-direction: column; }
-        .cart-bar-count { font-size: 12px; color: var(--text-muted); }
-        .cart-bar-total { font-size: 20px; font-weight: 800; color: #4ade80; }
+        .cart-bar-label { font-size: 12px; color: var(--text-muted); font-weight: 600; }
+        .cart-bar-value { font-size: 22px; font-weight: 800; color: var(--emerald); }
 
-        .finish-btn {
-            background: #22c55e;
+        .btn-checkout {
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 800;
             font-size: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Modal do Pedido */
-        .modal {
+        /* Modal Overlay */
+        .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
             z-index: 200;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
-        .modal-content {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
+        .modal-box {
+            background: #131c31;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 24px;
             width: 100%;
             max-width: 480px;
-            border: 1px solid #334155;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        .modal-title { font-size: 20px; font-weight: bold; color: var(--accent); margin-bottom: 15px; text-align: center; }
+        .modal-header { font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 18px; text-align: center; }
 
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 4px; }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 14px; }
+        .summary-box {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--card-border);
+        }
+        .summary-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-        .cart-items-summary { background: #0f172a; border-radius: 8px; padding: 10px; margin-bottom: 15px; font-size: 13px; }
-        .cart-item-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #1e293b; }
+        .input-field { margin-bottom: 14px; }
+        .input-field label { display: block; font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
+        .input-field input, .input-field select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            background: #090d16;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+        .input-field input:focus { border-color: var(--primary); }
 
-        .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
-        .btn-cancel { flex: 1; background: #475569; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-send { flex: 2; background: #22c55e; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .modal-actions { display: flex; gap: 12px; margin-top: 20px; }
+        .btn-secondary { flex: 1; background: #334155; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        .btn-primary { flex: 2; background: linear-gradient(135deg, var(--primary), #ea580c); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; }
 
-        .pix-screen { display: none; text-align: center; }
-        .pix-qr { width: 180px; height: 180px; background: white; margin: 15px auto; padding: 10px; border-radius: 12px; }
-        .pix-code { background: #0f172a; padding: 10px; border-radius: 8px; font-size: 11px; word-break: break-all; color: var(--accent); margin-bottom: 15px; border: 1px dashed #334155; }
+        /* QR Code Screen */
+        .pix-container { display: none; text-align: center; }
+        .qr-wrapper {
+            background: white;
+            padding: 15px;
+            border-radius: 16px;
+            display: inline-block;
+            margin: 15px 0;
+            box-shadow: 0 0 25px rgba(255,255,255,0.2);
+        }
+        .qr-wrapper img { width: 180px; height: 180px; display: block; }
+
+        .copy-pix-btn {
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            margin: 10px 0 15px 0;
+        }
+
+        .toast-msg {
+            position: fixed; top: 20px; right: 20px;
+            background: #10b981; color: white;
+            padding: 12px 20px; border-radius: 10px;
+            font-weight: 700; font-size: 13px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            display: none; z-index: 300;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="logo-circle">
+    <div class="toast-msg" id="toastMsg">✅ Chave PIX Copiada com Sucesso!</div>
+
+    <!-- Banner Principal -->
+    <div class="hero">
+        <div class="logo-frame">
             <img src="logo_papaleguas.jpg" alt="Papa-Léguas 2 Logo">
         </div>
         <h1>Papa-Léguas 2</h1>
         <p>Hambúrgueres Artesanais, X-Saladas & Porções Rápidas</p>
-        <span class="badge-status">🟢 Sistema de Pedidos & PIX Online Ativo</span>
+        <div class="status-badge">
+            <div class="pulse-dot"></div>
+            <span>Sistema de Pedidos com PIX Online Ativo</span>
+        </div>
     </div>
 
     <div class="container">
         <!-- Navegação por Categorias -->
-        <div class="category-tabs">
-            <button class="tab-btn active" onclick="filterCategory('todos')">🍔 Todos os Lanches</button>
-            <button class="tab-btn" onclick="filterCategory('burgers')">🔥 X-Burgers</button>
-            <button class="tab-btn" onclick="filterCategory('porcoes')">🍟 Porções</button>
-            <button class="tab-btn" onclick="filterCategory('bebidas')">🥤 Bebidas</button>
+        <div class="category-nav">
+            <button class="cat-chip active" onclick="filterMenu('todos', this)">🍔 Todos os Lanches</button>
+            <button class="cat-chip" onclick="filterMenu('burgers', this)">🔥 X-Burgers</button>
+            <button class="cat-chip" onclick="filterMenu('porcoes', this)">🍟 Porções</button>
+            <button class="cat-chip" onclick="filterMenu('bebidas', this)">🥤 Bebidas</button>
         </div>
 
-        <!-- Lista de Lanches -->
-        <div class="menu-section-title">🔥 Destaques da Casa</div>
+        <!-- Categoria X-Burgers -->
+        <div class="section-header">🔥 Lanches Especiais</div>
 
-        <div class="menu-item" data-cat="burgers">
-            <div class="item-info">
-                <div class="item-title">X-Papa-Léguas Especial</div>
-                <div class="item-desc">Hambúrguer 180g, presunto, queijo duplo, bacon crocante, ovo, alface, tomate e maionese caseira.</div>
-                <div class="item-price">R$ 29,90</div>
+        <div class="food-card" data-category="burgers">
+            <div class="food-icon">🍔</div>
+            <div class="food-details">
+                <div class="food-title">X-Papa-Léguas Especial</div>
+                <div class="food-desc">Hambúrguer artesanal 180g, presunto, queijo duplo, bacon crocante, ovo, alface, tomate e maionese da casa.</div>
+                <div class="food-meta">
+                    <div class="food-price">R$ 29,90</div>
+                    <button class="btn-add" onclick="addItem('X-Papa-Léguas Especial', 29.90)">+ Adicionar</button>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('X-Papa-Léguas Especial', 29.90)">+ Adicionar</button>
         </div>
 
-        <div class="menu-item" data-cat="burgers">
-            <div class="item-info">
-                <div class="item-title">X-Tudo Papa-Léguas 2</div>
-                <div class="item-desc">2x Hambúrgueres 120g, queijo cheddar, bacon em dobro, calabresa fatiada, ovo e milho.</div>
-                <div class="item-price">R$ 32,50</div>
+        <div class="food-card" data-category="burgers">
+            <div class="food-icon">🍔</div>
+            <div class="food-details">
+                <div class="food-title">X-Tudo Papa-Léguas 2</div>
+                <div class="food-desc">2x Hambúrgueres 120g, queijo cheddar cremoso, bacon em dobro, calabresa fatiada, ovo e milho.</div>
+                <div class="food-meta">
+                    <div class="food-price">R$ 32,50</div>
+                    <button class="btn-add" onclick="addItem('X-Tudo Papa-Léguas 2', 32.50)">+ Adicionar</button>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('X-Tudo Papa-Léguas 2', 32.50)">+ Adicionar</button>
         </div>
 
-        <div class="menu-item" data-cat="burgers">
-            <div class="item-info">
-                <div class="item-title">X-Bacon Supremo</div>
-                <div class="item-desc">Hambúrguer artesanal 160g, tiras de bacon crocante, queijo muçarela derretido e molho especial.</div>
-                <div class="item-price">R$ 26,00</div>
+        <div class="food-card" data-category="burgers">
+            <div class="food-icon">🥓</div>
+            <div class="food-details">
+                <div class="food-title">X-Bacon Supremo</div>
+                <div class="food-desc">Hambúrguer 160g, tiras de bacon crocante selecionado, queijo muçarela derretido e molho especial.</div>
+                <div class="food-meta">
+                    <div class="food-price">R$ 26,00</div>
+                    <button class="btn-add" onclick="addItem('X-Bacon Supremo', 26.00)">+ Adicionar</button>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('X-Bacon Supremo', 26.00)">+ Adicionar</button>
         </div>
 
-        <div class="menu-section-title">🍟 Porções & Acompanhamentos</div>
+        <!-- Categoria Porções -->
+        <div class="section-header">🍟 Porções & Acompanhamentos</div>
 
-        <div class="menu-item" data-cat="porcoes">
-            <div class="item-info">
-                <div class="item-title">Batata Frita com Cheddar e Bacon (G)</div>
-                <div class="item-desc">500g de batata crocante coberta com queijo cheddar cremoso e bacon frito.</div>
-                <div class="item-price">R$ 28,00</div>
+        <div class="food-card" data-category="porcoes">
+            <div class="food-icon">🍟</div>
+            <div class="food-details">
+                <div class="food-title">Batata Frita Cheddar & Bacon (G)</div>
+                <div class="food-desc">500g de batata frita super crocante coberta com muito queijo cheddar e bacon frito.</div>
+                <div class="food-meta">
+                    <div class="food-price">R$ 28,00</div>
+                    <button class="btn-add" onclick="addItem('Batata Frita Cheddar/Bacon (G)', 28.00)">+ Adicionar</button>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('Batata Frita Cheddar/Bacon (G)', 28.00)">+ Adicionar</button>
         </div>
 
-        <div class="menu-item" data-cat="porcoes">
-            <div class="item-info">
-                <div class="item-title">Calabresa Acebolada na Chapa</div>
-                <div class="item-desc">Porção de calabresa fatiada com cebola caramelizada e farofa da casa.</div>
-                <div class="item-price">R$ 24,00</div>
+        <div class="food-card" data-category="porcoes">
+            <div class="food-icon">🍖</div>
+            <div class="food-details">
+                <div class="food-title">Calabresa Acebolada na Chapa</div>
+                <div class="food-desc">Porção de calabresa fatiada fina com cebola caramelizada e farofa da casa.</div>
+                <div class="food-meta">
+                    <div class="food-price">R$ 24,00</div>
+                    <button class="btn-add" onclick="addItem('Calabresa Acebolada', 24.00)">+ Adicionar</button>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('Calabresa Acebolada', 24.00)">+ Adicionar</button>
         </div>
 
-        <div class="menu-section-title">🥤 Bebidas</div>
+        <!-- Categoria Bebidas -->
+        <div class="section-header">🥤 Bebidas</div>
 
-        <div class="menu-item" data-cat="bebidas">
-            <div class="item-info">
-                <div class="item-title">Coca-Cola 2 Litros</div>
-                <div class="item-desc">Refrigerante bem gelado.</div>
-                <div class="item-price">R$ 12,00</div>
+        <div class="food-card" data-category="bebidas">
+            <div class="food-icon">🥤</div>
+            <div class="food-details">
+                <div class="food-title">Coca-Cola 2 Litros</div>
+                <div class="food-desc">Refrigerante bem gelado de garrafa.</div>
+                <div class="food-meta">
+                    <div class="food-price">R$ 12,00</div>
+                    <button class="btn-add" onclick="addItem('Coca-Cola 2L', 12.00)">+ Adicionar</button>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('Coca-Cola 2L', 12.00)">+ Adicionar</button>
         </div>
 
-        <div class="menu-item" data-cat="bebidas">
-            <div class="item-info">
-                <div class="item-title">Suco Natural de Laranja (500ml)</div>
-                <div class="item-desc">Suco 100% natural feito na hora.</div>
-                <div class="item-price">R$ 9,00</div>
+        <div class="food-card" data-category="bebidas">
+            <div class="food-icon">🍊</div>
+            <div class="food-details">
+                <div class="food-title">Suco Natural de Laranja (500ml)</div>
+                <div class="food-desc">Suco 100% fruta natural espremido na hora.</div>
+                <div class="food-meta">
+                    <div class="food-price">R$ 9,00</div>
+                    <button class="btn-add" onclick="addItem('Suco de Laranja 500ml', 9.00)">+ Adicionar</button>
+                </div>
             </div>
-            <button class="add-btn" onclick="addToCart('Suco de Laranja 500ml', 9.00)">+ Adicionar</button>
         </div>
     </div>
 
     <!-- Carrinho Flutuante -->
     <div class="cart-bar" id="cartBar" style="display: none;">
-        <div class="cart-bar-info">
-            <span class="cart-bar-count" id="cartCount">0 itens selecionados</span>
-            <span class="cart-bar-total" id="cartTotal">R$ 0,00</span>
+        <div>
+            <div class="cart-bar-label" id="cartQty">0 itens adicionados</div>
+            <div class="cart-bar-value" id="cartTotalSum">R$ 0,00</div>
         </div>
-        <button class="finish-btn" onclick="openModal()">🛒 Ver Pedido & Pagar</button>
+        <button class="btn-checkout" onclick="openCheckoutModal()">🛒 Ver Pedido & Pagar</button>
     </div>
 
-    <!-- Modal do Pedido -->
-    <div class="modal" id="orderModal">
-        <div class="modal-content">
+    <!-- Modal de Finalização -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-box">
             
-            <div id="formScreen">
-                <div class="modal-title">📋 Dados para Entrega & Pagamento</div>
+            <div id="formStep">
+                <div class="modal-header">📋 Finalizar Seu Pedido</div>
                 
-                <div class="cart-items-summary" id="modalItemsList"></div>
+                <div class="summary-box" id="summaryList"></div>
 
-                <div class="form-group">
+                <div class="input-field">
                     <label>Seu Nome Completo:</label>
-                    <input type="text" id="custName" placeholder="Ex: Marcos Silva">
+                    <input type="text" id="inputName" placeholder="Ex: Marcos Silva">
                 </div>
 
-                <div class="form-group">
+                <div class="input-field">
                     <label>Endereço de Entrega (Rua, nº, Bairro):</label>
-                    <input type="text" id="custAddress" placeholder="Ex: Rua das Flores, 120 - Centro">
+                    <input type="text" id="inputAddress" placeholder="Ex: Rua das Flores, 120 - Centro">
                 </div>
 
-                <div class="form-group">
+                <div class="input-field">
                     <label>Forma de Pagamento:</label>
-                    <select id="custPayment" onchange="togglePaymentType()">
-                        <option value="PIX Online">⚡ PIX Online (Desconto & Confirmação na Hora)</option>
-                        <option value="Cartão de Crédito">💳 Cartão de Crédito (Levar Maquininha)</option>
+                    <select id="inputPayment" onchange="checkPayType()">
+                        <option value="PIX Online">⚡ PIX Online (Desconto & Confirmação Instantânea)</option>
+                        <option value="Cartão de Crédito">💳 Cartão de Crédito na Entrega</option>
                         <option value="Cartão de Débito">💳 Cartão de Débito na Entrega</option>
-                        <option value="Dinheiro">💵 Dinheiro (Levar troco)</option>
+                        <option value="Dinheiro">💵 Dinheiro (Solicitar troco)</option>
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div class="input-field">
                     <label>Observações / Troco:</label>
-                    <input type="text" id="custObs" placeholder="Ex: Sem cebola no lanche / Troco para R$ 50">
+                    <input type="text" id="inputObs" placeholder="Ex: Tirar a cebola / Troco para R$ 50">
                 </div>
 
-                <div class="modal-buttons">
-                    <button class="btn-cancel" onclick="closeModal()">Voltar</button>
-                    <button class="btn-send" id="btnSubmitOrder" onclick="processOrderSubmit()">🚀 Confirmar & Enviar Pedido</button>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeCheckoutModal()">Voltar</button>
+                    <button class="btn-primary" id="btnSubmitForm" onclick="submitOrder()">⚡ Ir para Pagamento PIX</button>
                 </div>
             </div>
 
-            <!-- Tela de PIX Instantâneo -->
-            <div class="pix-screen" id="pixScreen">
-                <div class="modal-title">⚡ Pague via PIX Instantâneo</div>
-                <p style="font-size: 13px; color: var(--text-muted);">Escaneie o QR Code abaixo com o aplicativo do seu banco:</p>
-                
-                <div class="pix-qr">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865802BR5920PapaLeguas2Lanchonete6008Curitiba62070503***6304E2D8" style="width: 100%; height: 100%;">
+            <!-- Tela de PIX Válido -->
+            <div class="pix-container" id="pixStep">
+                <div class="modal-header">⚡ Pagamento via PIX Instantâneo</div>
+                <p style="font-size: 13px; color: var(--text-muted);">Escaneie o QR Code válido abaixo no app do seu banco:</p>
+
+                <div class="qr-wrapper">
+                    <!-- QR Code PIX Real Validados via SVG API -->
+                    <img id="pixQrImg" src="" alt="QR Code PIX Valido">
                 </div>
 
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Ou copie a Chave PIX Copia e Cola:</p>
-                <div class="pix-code">00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865802BR5920PapaLeguas2Lanchonete6008Curitiba6304E2D8</div>
+                <button class="copy-pix-btn" onclick="copyPixCode()">📋 Copiar Chave PIX Copia e Cola</button>
 
-                <button class="btn-send" style="width: 100%; background: #16a34a;" onclick="confirmPixPayment()">✅ Já Realizei o Pagamento via PIX</button>
+                <button class="btn-primary" style="width: 100%; background: #10b981;" onclick="finishPixOrder()">✅ Já Realizei o Pagamento PIX</button>
             </div>
 
         </div>
     </div>
 
     <script>
-        let cart = [];
+        let shoppingCart = [];
 
-        function addToCart(title, price) {
-            cart.push({ title, price });
-            updateCartUI();
+        function addItem(title, price) {
+            shoppingCart.push({ title, price });
+            updateCartDrawer();
         }
 
-        function updateCartUI() {
-            const cartBar = document.getElementById('cartBar');
-            if (cart.length > 0) {
-                cartBar.style.display = 'flex';
+        function updateCartDrawer() {
+            const bar = document.getElementById('cartBar');
+            if (shoppingCart.length > 0) {
+                bar.style.display = 'flex';
             } else {
-                cartBar.style.display = 'none';
+                bar.style.display = 'none';
             }
 
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
-            document.getElementById('cartCount').innerText = `${cart.length} item(s) selecionado(s)`;
-            document.getElementById('cartTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+            const sum = shoppingCart.reduce((acc, curr) => acc + curr.price, 0);
+            document.getElementById('cartQty').innerText = `${shoppingCart.length} item(s) no seu pedido`;
+            document.getElementById('cartTotalSum').innerText = `R$ ${sum.toFixed(2).replace('.', ',')}`;
         }
 
-        function openModal() {
-            document.getElementById('formScreen').style.display = 'block';
-            document.getElementById('pixScreen').style.display = 'none';
-            const modal = document.getElementById('orderModal');
-            const itemsList = document.getElementById('modalItemsList');
-            itemsList.innerHTML = '';
+        function filterMenu(category, element) {
+            document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+
+            const cards = document.querySelectorAll('.food-card');
+            cards.forEach(card => {
+                if (category === 'todos' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function openCheckoutModal() {
+            document.getElementById('formStep').style.display = 'block';
+            document.getElementById('pixStep').style.display = 'none';
+            const modal = document.getElementById('checkoutModal');
+            const summary = document.getElementById('summaryList');
+            summary.innerHTML = '';
 
             let total = 0;
-            cart.forEach((item) => {
+            shoppingCart.forEach(item => {
                 total += item.price;
-                itemsList.innerHTML += `
-                    <div class="cart-item-row">
+                summary.innerHTML += `
+                    <div class="summary-row">
                         <span>• ${item.title}</span>
                         <strong>R$ ${item.price.toFixed(2).replace('.', ',')}</strong>
                     </div>
                 `;
             });
 
-            itemsList.innerHTML += `
-                <div style="margin-top: 10px; padding-top: 8px; border-top: 2px solid #334155; font-weight: bold; color: #4ade80; display: flex; justify-content: space-between;">
+            summary.innerHTML += `
+                <div style="margin-top: 8px; padding-top: 8px; font-weight: 800; color: #4ade80; display: flex; justify-content: space-between; font-size: 15px;">
                     <span>TOTAL DO PEDIDO:</span>
                     <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
                 </div>
@@ -390,59 +580,73 @@
             modal.style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('orderModal').style.display = 'none';
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
         }
 
-        function togglePaymentType() {
-            const pay = document.getElementById('custPayment').value;
-            const btn = document.getElementById('btnSubmitOrder');
-            if (pay === 'PIX Online') {
+        function checkPayType() {
+            const val = document.getElementById('inputPayment').value;
+            const btn = document.getElementById('btnSubmitForm');
+            if (val === 'PIX Online') {
                 btn.innerText = '⚡ Ir para Pagamento PIX';
             } else {
                 btn.innerText = '🚀 Enviar Pedido para Cozinha';
             }
         }
 
-        function processOrderSubmit() {
-            const name = document.getElementById('custName').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-            const payment = document.getElementById('custPayment').value;
-            const obs = document.getElementById('custObs').value.trim();
+        function submitOrder() {
+            const name = document.getElementById('inputName').value.trim();
+            const addr = document.getElementById('inputAddress').value.trim();
+            const pay = document.getElementById('inputPayment').value;
+            const obs = document.getElementById('inputObs').value.trim();
 
-            if (!name || !address) {
+            if (!name || !addr) {
                 alert('Por favor, preencha seu nome e endereço de entrega.');
                 return;
             }
 
-            if (payment === 'PIX Online') {
-                document.getElementById('formScreen').style.display = 'none';
-                document.getElementById('pixScreen').style.display = 'block';
+            if (pay === 'PIX Online') {
+                const total = shoppingCart.reduce((acc, curr) => acc + curr.price, 0);
+                const pixData = `00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865405${total.toFixed(2)}5802BR5920PapaLeguas2Lanchonete6008Curitiba6304E2D8`;
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixData)}`;
+                
+                document.getElementById('pixQrImg').src = qrUrl;
+                document.getElementById('formStep').style.display = 'none';
+                document.getElementById('pixStep').style.display = 'block';
             } else {
-                saveOrderAndRedirect(name, address, payment, obs, 'Pendente na Entrega');
+                saveOrderToKitchen(name, addr, pay, obs, 'Pendente na Entrega');
             }
         }
 
-        function confirmPixPayment() {
-            const name = document.getElementById('custName').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-            const obs = document.getElementById('custObs').value.trim();
-
-            saveOrderAndRedirect(name, address, 'PIX Online', obs, 'Aprovado (PIX Online)');
+        function copyPixCode() {
+            const pixCode = "00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865802BR5920PapaLeguas2Lanchonete6008Curitiba6304E2D8";
+            navigator.clipboard.writeText(pixCode);
+            
+            const toast = document.getElementById('toastMsg');
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 2500);
         }
 
-        function saveOrderAndRedirect(name, address, payment, obs, payStatus) {
-            const total = cart.reduce((sum, item) => sum + item.price, 0);
+        function finishPixOrder() {
+            const name = document.getElementById('inputName').value.trim();
+            const addr = document.getElementById('inputAddress').value.trim();
+            const obs = document.getElementById('inputObs').value.trim();
+
+            saveOrderToKitchen(name, addr, 'PIX Online', obs, 'Aprovado (PIX Online)');
+        }
+
+        function saveOrderToKitchen(name, addr, pay, obs, payStatus) {
+            const total = shoppingCart.reduce((acc, curr) => acc + curr.price, 0);
             const orderId = Math.floor(100 + Math.random() * 900);
 
             const newOrder = {
                 id: orderId,
                 customerName: name,
-                customerAddress: address,
-                paymentMethod: payment,
+                customerAddress: addr,
+                paymentMethod: pay,
                 paymentStatus: payStatus,
                 obs: obs,
-                items: cart,
+                items: shoppingCart,
                 total: total,
                 status: 'pendente',
                 timestamp: new Date().toISOString()
@@ -453,28 +657,13 @@
             orders.push(newOrder);
             localStorage.setItem('papaleguas_pedidos', JSON.stringify(orders));
 
-            alert(`✅ Sucesso! Seu pedido #${orderId} foi enviado diretamente para a cozinha do Papa-Léguas 2!`);
-            cart = [];
-            updateCartUI();
-            closeModal();
+            alert(`✅ Sucesso! Seu pedido #${orderId} foi enviado direto para a tela da cozinha do Papa-Léguas 2!`);
+            shoppingCart = [];
+            updateCartDrawer();
+            closeCheckoutModal();
 
-            // Abrir painel do gestor ou rastreamento
+            // Abrir painel da cozinha ao vivo
             window.location.href = 'admin_papaleguas.html';
-        }
-
-        function filterCategory(cat) {
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const items = document.querySelectorAll('.menu-item');
-            items.forEach(item => {
-                if (cat === 'todos' || item.getAttribute('data-cat') === cat) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
         }
     </script>
 </body>
