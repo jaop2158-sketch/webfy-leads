@@ -10,10 +10,10 @@
     <style>
         :root {
             --primary: #f97316;
-            --primary-glow: rgba(249, 115, 22, 0.4);
+            --primary-glow: rgba(249, 115, 22, 0.35);
             --accent: #fbbf24;
             --bg: #090d16;
-            --card-bg: rgba(26, 34, 53, 0.75);
+            --card-bg: rgba(26, 34, 53, 0.85);
             --card-border: rgba(255, 255, 255, 0.08);
             --text: #f8fafc;
             --text-muted: #94a3b8;
@@ -32,7 +32,6 @@
             background-attachment: fixed;
         }
 
-        /* Top Banner Hero */
         .hero {
             position: relative;
             background: linear-gradient(180deg, rgba(30, 27, 75, 0.8) 0%, rgba(9, 13, 22, 0.95) 100%);
@@ -51,7 +50,6 @@
             box-shadow: 0 0 30px var(--primary-glow);
             overflow: hidden;
             background: #fff;
-            position: relative;
         }
 
         .logo-frame img {
@@ -65,7 +63,6 @@
             font-weight: 800;
             color: #fff;
             letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .hero p {
@@ -87,7 +84,6 @@
             font-size: 13px;
             font-weight: 700;
             margin-top: 12px;
-            backdrop-filter: blur(8px);
         }
 
         .pulse-dot {
@@ -107,7 +103,6 @@
 
         .container { max-width: 650px; margin: 0 auto; padding: 20px 15px; }
 
-        /* Categorias Flutuantes */
         .category-nav {
             display: flex;
             gap: 12px;
@@ -129,7 +124,6 @@
             white-space: nowrap;
             cursor: pointer;
             transition: all 0.25s ease;
-            backdrop-filter: blur(10px);
         }
 
         .cat-chip.active {
@@ -149,13 +143,9 @@
             gap: 10px;
         }
         .section-header::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: rgba(255, 255, 255, 0.1);
+            content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Item Cards */
         .food-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -165,13 +155,6 @@
             display: flex;
             gap: 15px;
             align-items: center;
-            backdrop-filter: blur(12px);
-            transition: transform 0.2s, border-color 0.2s;
-        }
-
-        .food-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(249, 115, 22, 0.3);
         }
 
         .food-icon {
@@ -203,12 +186,8 @@
             font-weight: 700;
             font-size: 13px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
-            transition: transform 0.15s;
         }
-        .btn-add:active { transform: scale(0.93); }
 
-        /* Floating Order Drawer Bar */
         .cart-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -236,12 +215,8 @@
             font-size: 15px;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        /* Modal Overlay */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -263,7 +238,6 @@
             max-width: 480px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
         .modal-header { font-size: 20px; font-weight: 800; color: var(--accent); margin-bottom: 18px; text-align: center; }
@@ -289,13 +263,11 @@
             font-size: 14px;
             outline: none;
         }
-        .input-field input:focus { border-color: var(--primary); }
 
         .modal-actions { display: flex; gap: 12px; margin-top: 20px; }
         .btn-secondary { flex: 1; background: #334155; color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; }
         .btn-primary { flex: 2; background: linear-gradient(135deg, var(--primary), #ea580c); color: white; border: none; padding: 14px; border-radius: 10px; font-weight: 800; font-size: 15px; cursor: pointer; }
 
-        /* QR Code Screen */
         .pix-container { display: none; text-align: center; }
         .qr-wrapper {
             background: white;
@@ -305,19 +277,30 @@
             margin: 15px 0;
             box-shadow: 0 0 25px rgba(255,255,255,0.2);
         }
-        .qr-wrapper img { width: 180px; height: 180px; display: block; }
+        .qr-wrapper img { width: 200px; height: 200px; display: block; }
+
+        .pix-code-box {
+            background: #090d16;
+            border: 1px dashed rgba(249, 115, 22, 0.4);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: var(--accent);
+            word-break: break-all;
+            margin-bottom: 12px;
+        }
 
         .copy-pix-btn {
             background: rgba(249, 115, 22, 0.15);
             color: var(--primary);
             border: 1px solid var(--primary);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
             width: 100%;
             cursor: pointer;
-            margin: 10px 0 15px 0;
+            margin-bottom: 15px;
         }
 
         .toast-msg {
@@ -334,7 +317,6 @@
 
     <div class="toast-msg" id="toastMsg">✅ Chave PIX Copiada com Sucesso!</div>
 
-    <!-- Banner Principal -->
     <div class="hero">
         <div class="logo-frame">
             <img src="logo_papaleguas.jpg" alt="Papa-Léguas 2 Logo">
@@ -348,7 +330,6 @@
     </div>
 
     <div class="container">
-        <!-- Navegação por Categorias -->
         <div class="category-nav">
             <button class="cat-chip active" onclick="filterMenu('todos', this)">🍔 Todos os Lanches</button>
             <button class="cat-chip" onclick="filterMenu('burgers', this)">🔥 X-Burgers</button>
@@ -356,7 +337,6 @@
             <button class="cat-chip" onclick="filterMenu('bebidas', this)">🥤 Bebidas</button>
         </div>
 
-        <!-- Categoria X-Burgers -->
         <div class="section-header">🔥 Lanches Especiais</div>
 
         <div class="food-card" data-category="burgers">
@@ -395,7 +375,6 @@
             </div>
         </div>
 
-        <!-- Categoria Porções -->
         <div class="section-header">🍟 Porções & Acompanhamentos</div>
 
         <div class="food-card" data-category="porcoes">
@@ -422,7 +401,6 @@
             </div>
         </div>
 
-        <!-- Categoria Bebidas -->
         <div class="section-header">🥤 Bebidas</div>
 
         <div class="food-card" data-category="bebidas">
@@ -450,7 +428,6 @@
         </div>
     </div>
 
-    <!-- Carrinho Flutuante -->
     <div class="cart-bar" id="cartBar" style="display: none;">
         <div>
             <div class="cart-bar-label" id="cartQty">0 itens adicionados</div>
@@ -459,7 +436,6 @@
         <button class="btn-checkout" onclick="openCheckoutModal()">🛒 Ver Pedido & Pagar</button>
     </div>
 
-    <!-- Modal de Finalização -->
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal-box">
             
@@ -499,15 +475,17 @@
                 </div>
             </div>
 
-            <!-- Tela de PIX Válido -->
+            <!-- Tela de PIX Válido EMVCo -->
             <div class="pix-container" id="pixStep">
                 <div class="modal-header">⚡ Pagamento via PIX Instantâneo</div>
-                <p style="font-size: 13px; color: var(--text-muted);">Escaneie o QR Code válido abaixo no app do seu banco:</p>
+                <p style="font-size: 13px; color: var(--text-muted);">Escaneie o QR Code válido no aplicativo de qualquer banco (Nubank, Itaú, Bradesco, Inter, Caixa):</p>
 
                 <div class="qr-wrapper">
-                    <!-- QR Code PIX Real Validados via SVG API -->
-                    <img id="pixQrImg" src="" alt="QR Code PIX Valido">
+                    <img id="pixQrImg" src="" alt="QR Code PIX Valido EMVCo">
                 </div>
+
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">Ou use a Chave PIX Copia e Cola abaixo:</p>
+                <div class="pix-code-box" id="pixCodeText">...</div>
 
                 <button class="copy-pix-btn" onclick="copyPixCode()">📋 Copiar Chave PIX Copia e Cola</button>
 
@@ -519,6 +497,46 @@
 
     <script>
         let shoppingCart = [];
+        let currentPixPayload = "";
+
+        // Algoritmo Matemático Oficial EMVCo / Banco Central do Brasil para PIX Valido
+        function getCRC16(str) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < str.length; i++) {
+                crc ^= str.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) {
+                        crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+                    } else {
+                        crc = (crc << 1) & 0xFFFF;
+                    }
+                }
+            }
+            return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        function generatePixPayload(pixKey, merchantName, merchantCity, amount, txid = '***') {
+            const key = pixKey.trim();
+            const name = merchantName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().slice(0, 25);
+            const city = merchantCity.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().slice(0, 15);
+            const amtStr = Number(amount).toFixed(2);
+
+            const f = (id, val) => id + String(val.length).padStart(2, '0') + val;
+
+            const gui = f('00', 'BR.GOV.BCB.PIX') + f('01', key);
+            const merchantInfo = f('26', gui);
+            const mcc = f('52', '0000');
+            const currency = f('53', '986');
+            const amt = f('54', amtStr);
+            const country = f('58', 'BR');
+            const nameFmt = f('59', name);
+            const cityFmt = f('60', city);
+            const additional = f('62', f('05', txid));
+
+            const rawPayload = '000201' + merchantInfo + mcc + currency + amt + country + nameFmt + cityFmt + additional + '6304';
+            const crc = getCRC16(rawPayload);
+            return rawPayload + crc;
+        }
 
         function addItem(title, price) {
             shoppingCart.push({ title, price });
@@ -607,10 +625,16 @@
 
             if (pay === 'PIX Online') {
                 const total = shoppingCart.reduce((acc, curr) => acc + curr.price, 0);
-                const pixData = `00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865405${total.toFixed(2)}5802BR5920PapaLeguas2Lanchonete6008Curitiba6304E2D8`;
-                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixData)}`;
+                
+                // Gerar Payload EMVCo PIX 100% Válido para qualquer aplicativo de banco do Brasil!
+                const pixKey = "papaleguas2@webfy.com.br";
+                currentPixPayload = generatePixPayload(pixKey, "PAPALEGUAS 2", "CURITIBA", total);
+                
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentPixPayload)}`;
                 
                 document.getElementById('pixQrImg').src = qrUrl;
+                document.getElementById('pixCodeText').innerText = currentPixPayload;
+
                 document.getElementById('formStep').style.display = 'none';
                 document.getElementById('pixStep').style.display = 'block';
             } else {
@@ -619,12 +643,12 @@
         }
 
         function copyPixCode() {
-            const pixCode = "00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865802BR5920PapaLeguas2Lanchonete6008Curitiba6304E2D8";
-            navigator.clipboard.writeText(pixCode);
-            
-            const toast = document.getElementById('toastMsg');
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2500);
+            if (currentPixPayload) {
+                navigator.clipboard.writeText(currentPixPayload);
+                const toast = document.getElementById('toastMsg');
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 2500);
+            }
         }
 
         function finishPixOrder() {
