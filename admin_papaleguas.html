@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Gestor - Papa-Léguas 2 (Cozinha & Pedidos)</title>
+    <style>
+        :root {
+            --primary: #ea580c;
+            --primary-dark: #c2410c;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #16a34a;
+            --warning: #eab308;
+            --info: #0284c7;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
+        body { background-color: var(--bg); color: var(--text); padding: 20px; }
+
+        .navbar {
+            background: #1e1b4b;
+            padding: 15px 25px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .brand-info { display: flex; align-items: center; gap: 15px; }
+        .brand-logo { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .brand-title h1 { font-size: 20px; font-weight: bold; color: white; }
+        .brand-title p { font-size: 12px; color: var(--primary); font-weight: bold; }
+
+        .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--card-bg); padding: 18px; border-radius: 12px; border: 1px solid #334155; }
+        .stat-card h3 { font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; }
+        .stat-card p { font-size: 26px; font-weight: 800; color: white; }
+
+        .filter-tabs { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; }
+        .filter-btn {
+            background: var(--card-bg); color: var(--text-muted); border: 1px solid #334155;
+            padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer;
+        }
+        .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .orders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+
+        .order-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .order-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid #334155; margin-bottom: 12px; }
+        .order-id { font-size: 16px; font-weight: bold; color: var(--accent, #facc15); }
+        .order-time { font-size: 12px; color: var(--text-muted); }
+
+        .badge-status { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .status-pendente { background: #eab308; color: black; }
+        .status-cozinha { background: #0284c7; color: white; }
+        .status-entrega { background: #8b5cf6; color: white; }
+        .status-concluido { background: #16a34a; color: white; }
+
+        .customer-box { background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; }
+        .customer-name { font-weight: bold; color: white; }
+        .customer-address { color: var(--text-muted); margin-top: 4px; font-size: 12px; }
+
+        .items-list { margin-bottom: 15px; font-size: 13px; }
+        .item-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dashed #334155; }
+
+        .payment-box { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 15px; }
+        .pay-status { font-size: 12px; font-weight: bold; }
+        .pay-paid { color: #4ade80; }
+        .pay-pending { color: #facc15; }
+
+        .action-btns { display: flex; gap: 8px; }
+        .btn-status { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: bold; font-size: 12px; cursor: pointer; color: white; transition: opacity 0.2s; }
+        .btn-status:hover { opacity: 0.9; }
+
+        .empty-orders { text-align: center; padding: 50px; background: var(--card-bg); border-radius: 12px; grid-column: 1 / -1; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="brand-info">
+            <img src="logo_papaleguas.jpg" class="brand-logo" alt="Papa-Léguas 2">
+            <div class="brand-title">
+                <h1>Painel da Cozinha & Gestão</h1>
+                <p>Papa-Léguas 2 • Pedidos ao Vivo</p>
+            </div>
+        </div>
+        <div>
+            <span style="background: #16a34a; color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold;">🟢 Cozinha Online</span>
+        </div>
+    </div>
+
+    <!-- Estatísticas da Noite -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <h3>Faturamento Hoje</h3>
+            <p id="totalRevenue">R$ 0,00</p>
+        </div>
+        <div class="stat-card">
+            <h3>Total de Pedidos</h3>
+            <p id="totalCount">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Em Preparo (Cozinha)</h3>
+            <p id="kitchenCount" style="color: #0284c7;">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Pagos via PIX Online</h3>
+            <p id="pixCount" style="color: #4ade80;">0</p>
+        </div>
+    </div>
+
+    <!-- Filtros de Visualização -->
+    <div class="filter-tabs">
+        <button class="filter-btn active" onclick="filterOrders('todos')">📋 Todos os Pedidos</button>
+        <button class="filter-btn" onclick="filterOrders('pendente')">⏳ Novos (Pendentes)</button>
+        <button class="filter-btn" onclick="filterOrders('cozinha')">🍳 Na Cozinha</button>
+        <button class="filter-btn" onclick="filterOrders('entrega')">🛵 Saiu p/ Entrega</button>
+        <button class="filter-btn" onclick="filterOrders('concluido')">✅ Concluídos</button>
+    </div>
+
+    <!-- Grid de Pedidos -->
+    <div class="orders-grid" id="ordersGrid">
+        <div class="empty-orders">
+            <h2>⏳ Aguardando novos pedidos ao vivo...</h2>
+            <p style="margin-top: 8px;">Abra a tela do cliente (<code>cardapio_papaleguas.html</code>) para fazer um pedido de teste!</p>
+        </div>
+    </div>
+
+    <script>
+        let currentFilter = 'todos';
+
+        function loadOrders() {
+            const raw = localStorage.getItem('papaleguas_pedidos');
+            const orders = raw ? JSON.parse(raw) : [];
+
+            updateStats(orders);
+            renderOrders(orders);
+        }
+
+        function updateStats(orders) {
+            let totalRev = 0;
+            let kitchen = 0;
+            let pixPaid = 0;
+
+            orders.forEach(o => {
+                totalRev += o.total;
+                if (o.status === 'cozinha') kitchen++;
+                if (o.paymentStatus === 'Aprovado (PIX Online)') pixPaid++;
+            });
+
+            document.getElementById('totalRevenue').innerText = `R$ ${totalRev.toFixed(2).replace('.', ',')}`;
+            document.getElementById('totalCount').innerText = orders.length;
+            document.getElementById('kitchenCount').innerText = kitchen;
+            document.getElementById('pixCount').innerText = pixPaid;
+        }
+
+        function renderOrders(orders) {
+            const grid = document.getElementById('ordersGrid');
+            grid.innerHTML = '';
+
+            let filtered = orders;
+            if (currentFilter !== 'todos') {
+                filtered = orders.filter(o => o.status === currentFilter);
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-orders">
+                        <h2>⏳ Nenhum pedido nesta categoria no momento</h2>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            filtered.forEach(o => {
+                let statusBadge = '';
+                if (o.status === 'pendente') statusBadge = '<span class="badge-status status-pendente">⏳ Novo Pedido</span>';
+                else if (o.status === 'cozinha') statusBadge = '<span class="badge-status status-cozinha">🍳 Na Cozinha</span>';
+                else if (o.status === 'entrega') statusBadge = '<span class="badge-status status-entrega">🛵 Saiu p/ Entrega</span>';
+                else if (o.status === 'concluido') statusBadge = '<span class="badge-status status-concluido">✅ Entregue</span>';
+
+                let itemsHtml = '';
+                o.items.forEach(it => {
+                    itemsHtml += `
+                        <div class="item-row">
+                            <span>• ${it.title}</span>
+                            <strong>R$ ${it.price.toFixed(2).replace('.', ',')}</strong>
+                        </div>
+                    `;
+                });
+
+                let payHtml = o.paymentStatus === 'Aprovado (PIX Online)' 
+                    ? `<span class="pay-status pay-paid">✅ PIX PAGO ONLINE</span>`
+                    : `<span class="pay-status pay-pending">💳 ${o.paymentMethod}</span>`;
+
+                grid.innerHTML += `
+                    <div class="order-card">
+                        <div>
+                            <div class="order-header">
+                                <span class="order-id">#${o.id}</span>
+                                <div>${statusBadge}</div>
+                            </div>
+
+                            <div class="customer-box">
+                                <div class="customer-name">👤 ${o.customerName}</div>
+                                <div class="customer-address">📍 ${o.customerAddress}</div>
+                                ${o.obs ? `<div style="color: #facc15; font-size: 11px; margin-top: 4px;">📝 ${o.obs}</div>` : ''}
+                            </div>
+
+                            <div class="items-list">
+                                ${itemsHtml}
+                            </div>
+
+                            <div class="payment-box">
+                                <div>
+                                    <div style="font-size: 11px; color: #94a3b8;">Total do Pedido</div>
+                                    <strong style="font-size: 18px; color: #4ade80;">R$ ${o.total.toFixed(2).replace('.', ',')}</strong>
+                                </div>
+                                ${payHtml}
+                            </div>
+                        </div>
+
+                        <div class="action-btns">
+                            ${o.status === 'pendente' ? `<button class="btn-status" style="background: #0284c7;" onclick="changeStatus(${o.id}, 'cozinha')">🍳 Ir p/ Cozinha</button>` : ''}
+                            ${o.status === 'cozinha' ? `<button class="btn-status" style="background: #8b5cf6;" onclick="changeStatus(${o.id}, 'entrega')">🛵 Mudar p/ Motoboy</button>` : ''}
+                            ${o.status === 'entrega' ? `<button class="btn-status" style="background: #16a34a;" onclick="changeStatus(${o.id}, 'concluido')">✅ Concluir Pedido</button>` : ''}
+                            ${o.status === 'concluido' ? `<button class="btn-status" style="background: #475569;" disabled>✔ Concluído</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function changeStatus(orderId, newStatus) {
+            const raw = localStorage.getItem('papaleguas_pedidos');
+            if (!raw) return;
+
+            let orders = JSON.parse(raw);
+            const idx = orders.findIndex(o => o.id === orderId);
+            if (idx !== -1) {
+                orders[idx].status = newStatus;
+                localStorage.setItem('papaleguas_pedidos', JSON.stringify(orders));
+                loadOrders();
+            }
+        }
+
+        function filterOrders(status) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            loadOrders();
+        }
+
+        // Atualizar pedidos a cada 3 segundos ao vivo
+        setInterval(loadOrders, 3000);
+        window.onload = loadOrders;
+    </script>
+</body>
+</html>

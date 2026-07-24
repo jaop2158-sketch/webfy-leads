@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papa-Léguas 2 Lanchonete - Cardápio Digital & Pedidos WhatsApp</title>
+    <title>Papa-Léguas 2 Lanchonete - Cardápio Digital & Pedidos On-line</title>
     <style>
         :root {
             --primary: #f97316;
@@ -109,7 +109,6 @@
             cursor: pointer;
             transition: background 0.2s;
         }
-        .add-btn:active { transform: scale(0.95); }
 
         /* Carrinho Flutuante */
         .cart-bar {
@@ -177,7 +176,11 @@
 
         .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
         .btn-cancel { flex: 1; background: #475569; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-send { flex: 2; background: #25D366; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        .btn-send { flex: 2; background: #22c55e; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+
+        .pix-screen { display: none; text-align: center; }
+        .pix-qr { width: 180px; height: 180px; background: white; margin: 15px auto; padding: 10px; border-radius: 12px; }
+        .pix-code { background: #0f172a; padding: 10px; border-radius: 8px; font-size: 11px; word-break: break-all; color: var(--accent); margin-bottom: 15px; border: 1px dashed #334155; }
     </style>
 </head>
 <body>
@@ -188,7 +191,7 @@
         </div>
         <h1>Papa-Léguas 2</h1>
         <p>Hambúrgueres Artesanais, X-Saladas & Porções Rápidas</p>
-        <span class="badge-status">🟢 Aberto para Pedidos no WhatsApp</span>
+        <span class="badge-status">🟢 Sistema de Pedidos & PIX Online Ativo</span>
     </div>
 
     <div class="container">
@@ -277,46 +280,64 @@
             <span class="cart-bar-count" id="cartCount">0 itens selecionados</span>
             <span class="cart-bar-total" id="cartTotal">R$ 0,00</span>
         </div>
-        <button class="finish-btn" onclick="openModal()">🛒 Ver Pedido</button>
+        <button class="finish-btn" onclick="openModal()">🛒 Ver Pedido & Pagar</button>
     </div>
 
-    <!-- Modal para Dados da Entrega -->
+    <!-- Modal do Pedido -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
-            <div class="modal-title">📋 Resumo do Seu Pedido</div>
             
-            <div class="cart-items-summary" id="modalItemsList">
+            <div id="formScreen">
+                <div class="modal-title">📋 Dados para Entrega & Pagamento</div>
+                
+                <div class="cart-items-summary" id="modalItemsList"></div>
+
+                <div class="form-group">
+                    <label>Seu Nome Completo:</label>
+                    <input type="text" id="custName" placeholder="Ex: Marcos Silva">
+                </div>
+
+                <div class="form-group">
+                    <label>Endereço de Entrega (Rua, nº, Bairro):</label>
+                    <input type="text" id="custAddress" placeholder="Ex: Rua das Flores, 120 - Centro">
+                </div>
+
+                <div class="form-group">
+                    <label>Forma de Pagamento:</label>
+                    <select id="custPayment" onchange="togglePaymentType()">
+                        <option value="PIX Online">⚡ PIX Online (Desconto & Confirmação na Hora)</option>
+                        <option value="Cartão de Crédito">💳 Cartão de Crédito (Levar Maquininha)</option>
+                        <option value="Cartão de Débito">💳 Cartão de Débito na Entrega</option>
+                        <option value="Dinheiro">💵 Dinheiro (Levar troco)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Observações / Troco:</label>
+                    <input type="text" id="custObs" placeholder="Ex: Sem cebola no lanche / Troco para R$ 50">
+                </div>
+
+                <div class="modal-buttons">
+                    <button class="btn-cancel" onclick="closeModal()">Voltar</button>
+                    <button class="btn-send" id="btnSubmitOrder" onclick="processOrderSubmit()">🚀 Confirmar & Enviar Pedido</button>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Seu Nome Completo:</label>
-                <input type="text" id="custName" placeholder="Ex: Marcos Silva">
+            <!-- Tela de PIX Instantâneo -->
+            <div class="pix-screen" id="pixScreen">
+                <div class="modal-title">⚡ Pague via PIX Instantâneo</div>
+                <p style="font-size: 13px; color: var(--text-muted);">Escaneie o QR Code abaixo com o aplicativo do seu banco:</p>
+                
+                <div class="pix-qr">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865802BR5920PapaLeguas2Lanchonete6008Curitiba62070503***6304E2D8" style="width: 100%; height: 100%;">
+                </div>
+
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Ou copie a Chave PIX Copia e Cola:</p>
+                <div class="pix-code">00020126580014BR.GOV.BCB.PIX0136papaleguas2@webfy.com.br5204000053039865802BR5920PapaLeguas2Lanchonete6008Curitiba6304E2D8</div>
+
+                <button class="btn-send" style="width: 100%; background: #16a34a;" onclick="confirmPixPayment()">✅ Já Realizei o Pagamento via PIX</button>
             </div>
 
-            <div class="form-group">
-                <label>Endereço de Entrega (Rua, nº, Bairro):</label>
-                <input type="text" id="custAddress" placeholder="Ex: Rua das Flores, 120 - Centro">
-            </div>
-
-            <div class="form-group">
-                <label>Forma de Pagamento:</label>
-                <select id="custPayment">
-                    <option value="PIX">PIX (Chave na entrega)</option>
-                    <option value="Cartão de Crédito">Cartão de Crédito (Levar Maquininha)</option>
-                    <option value="Cartão de Débito">Cartão de Débito</option>
-                    <option value="Dinheiro">Dinheiro (Precisa de troco)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Observações / Troco:</label>
-                <input type="text" id="custObs" placeholder="Ex: Sem cebola no lanche / Troco para R$ 50">
-            </div>
-
-            <div class="modal-buttons">
-                <button class="btn-cancel" onclick="closeModal()">Voltar</button>
-                <button class="btn-send" onclick="sendWhatsAppOrder()">💬 Enviar no WhatsApp</button>
-            </div>
         </div>
     </div>
 
@@ -342,12 +363,14 @@
         }
 
         function openModal() {
+            document.getElementById('formScreen').style.display = 'block';
+            document.getElementById('pixScreen').style.display = 'none';
             const modal = document.getElementById('orderModal');
             const itemsList = document.getElementById('modalItemsList');
             itemsList.innerHTML = '';
 
             let total = 0;
-            cart.forEach((item, idx) => {
+            cart.forEach((item) => {
                 total += item.price;
                 itemsList.innerHTML += `
                     <div class="cart-item-row">
@@ -371,7 +394,17 @@
             document.getElementById('orderModal').style.display = 'none';
         }
 
-        function sendWhatsAppOrder() {
+        function togglePaymentType() {
+            const pay = document.getElementById('custPayment').value;
+            const btn = document.getElementById('btnSubmitOrder');
+            if (pay === 'PIX Online') {
+                btn.innerText = '⚡ Ir para Pagamento PIX';
+            } else {
+                btn.innerText = '🚀 Enviar Pedido para Cozinha';
+            }
+        }
+
+        function processOrderSubmit() {
             const name = document.getElementById('custName').value.trim();
             const address = document.getElementById('custAddress').value.trim();
             const payment = document.getElementById('custPayment').value;
@@ -382,26 +415,51 @@
                 return;
             }
 
-            let total = cart.reduce((sum, item) => sum + item.price, 0);
-
-            let msg = `🍔 *NOVO PEDIDO - PAPA-LÉGUAS 2*\n\n`;
-            msg += `👤 *Cliente:* ${name}\n`;
-            msg += `📍 *Endereço:* ${address}\n\n`;
-            msg += `📋 *ITENS DO PEDIDO:*\n`;
-
-            cart.forEach(item => {
-                msg += `• ${item.title} (R$ ${item.price.toFixed(2).replace('.', ',')})\n`;
-            });
-
-            msg += `\n💰 *TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}\n`;
-            msg += `💳 *Forma de Pagamento:* ${payment}\n`;
-            if (obs) {
-                msg += `📝 *Observações:* ${obs}\n`;
+            if (payment === 'PIX Online') {
+                document.getElementById('formScreen').style.display = 'none';
+                document.getElementById('pixScreen').style.display = 'block';
+            } else {
+                saveOrderAndRedirect(name, address, payment, obs, 'Pendente na Entrega');
             }
+        }
 
-            const waPhone = "5541999999999"; 
-            const encodedMsg = encodeURIComponent(msg);
-            window.open(`https://wa.me/${waPhone}?text=${encodedMsg}`, '_blank');
+        function confirmPixPayment() {
+            const name = document.getElementById('custName').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const obs = document.getElementById('custObs').value.trim();
+
+            saveOrderAndRedirect(name, address, 'PIX Online', obs, 'Aprovado (PIX Online)');
+        }
+
+        function saveOrderAndRedirect(name, address, payment, obs, payStatus) {
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const orderId = Math.floor(100 + Math.random() * 900);
+
+            const newOrder = {
+                id: orderId,
+                customerName: name,
+                customerAddress: address,
+                paymentMethod: payment,
+                paymentStatus: payStatus,
+                obs: obs,
+                items: cart,
+                total: total,
+                status: 'pendente',
+                timestamp: new Date().toISOString()
+            };
+
+            const raw = localStorage.getItem('papaleguas_pedidos');
+            let orders = raw ? JSON.parse(raw) : [];
+            orders.push(newOrder);
+            localStorage.setItem('papaleguas_pedidos', JSON.stringify(orders));
+
+            alert(`✅ Sucesso! Seu pedido #${orderId} foi enviado diretamente para a cozinha do Papa-Léguas 2!`);
+            cart = [];
+            updateCartUI();
+            closeModal();
+
+            // Abrir painel do gestor ou rastreamento
+            window.location.href = 'admin_papaleguas.html';
         }
 
         function filterCategory(cat) {
