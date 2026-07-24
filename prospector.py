@@ -34,6 +34,100 @@ GENERIC_NOISE_NAMES = [
 
 PREPOSITIONS = {'de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'por', 'a', 'o', 'as', 'os'}
 
+# Filtros estritos por Nicho para impedir misturar barbearia em odontologia!
+NICHE_KEYWORDS = {
+    "dentista": {
+        "must_have": ["dentista", "odonto", "odontologia", "ortodontia", "implant", "sorriso", "dental", "dr.", "dra.", "clínica", "consultório"],
+        "exclude": ["barbearia", "barbeiro", "cabelo", "barba", "psicologo", "advocacia", "advogado"]
+    },
+    "odontologia": {
+        "must_have": ["dentista", "odonto", "odontologia", "ortodontia", "implant", "sorriso", "dental", "dr.", "dra.", "clínica", "consultório"],
+        "exclude": ["barbearia", "barbeiro", "cabelo", "barba", "psicologo", "advocacia", "advogado"]
+    },
+    "barbearia": {
+        "must_have": ["barbearia", "barbeiro", "barba", "cabelo", "hair", "studio", "navalha", "corte"],
+        "exclude": ["dentista", "odonto", "psicologo", "advogado", "advocacia", "clínica médica"]
+    },
+    "psicologo": {
+        "must_have": ["psicolog", "psi", "terapia", "terapeuta", "mente", "saúde mental", "consultório", "atendimento"],
+        "exclude": ["barbearia", "dentista", "odonto", "advocado", "advocacia"]
+    },
+    "advocacia": {
+        "must_have": ["advocacia", "advogado", "advogada", "jurídico", "direito", "escritório"],
+        "exclude": ["barbearia", "dentista", "odonto", "psicologo"]
+    }
+}
+
+def clean_phone(phone_str):
+    """ Extrai APENAS números de CELULAR (WhatsApp válido no Brasil: DDD + 9XXXXXXXX = 11 dígitos) """
+    if not phone_str or pd.isna(phone_str):
+        return None
+    digits = re.sub(r'\D', '', str(phone_str))
+    
+    # Se começar com 55 (Brasil)
+    if digits.startswith("55"):
+        digits = digits[2:]
+        
+    # No Brasil, celular COM WHATSAPP obrigatoriamente tem 11 dígitos e o 3º dígito é 9!
+    # Ex: 41999998888 (DDD=41, Celular começa com 9)
+    if len(digits) == 11 and digits[2] == '9':
+        return "55" + digits
+    elif len(digits) == 10 and digits[2] != '9':
+        # É telefone fixo (não é WhatsApp celular) -> descartar para WhatsApp
+        return None
+    return None
+
+def format_phone_display(phone_clean):
+    if not phone_clean:
+        return None
+    d = str(phone_clean)
+    if d.startswith("55"):
+        d = d[2:]
+    if len(d) == 11:
+        return f"({d[:2]}) {d[2:7]}-{d[7:]}"
+    return d
+
+def deep_find_phone(nome_empresa, cidade):
+    """ Busca especificamente por números de CELULAR / WHATSAPP no Google/DuckDuckGo """
+    queries = [
+        f'"{nome_empresa}" {cidade} celular whatsapp 9',
+        f'"{nome_empresa}" {cidade} whatsapp (41) 9 OR (11) 9 OR (19) 9 OR (12) 9'
+    ]
+    for q in queries:
+        try:
+            with DDGS() as ddg:
+                res = list(ddg.text(q, max_results=5))
+                for item in res:
+                    text = item.get('title', '') + " " + item.get('body', '')
+                    # Regex focado estritamente em celular (DDD + 9 + 8 dígitos)
+                    phones = re.findall(r'\(?\d{2}\)?\s?9\d{4}[-\s]?\d{4}', text)
+                    for p in phones:
+                        clean = clean_phone(p)
+                        if clean:
+                            fmt = format_phone_display(clean)
+                            return fmt, clean
+        except Exception:
+            pass
+    return None, None
+
+def is_lead_relevant_to_niche(title, snippet, nicho):
+    n_key = str(nicho).lower().strip()
+    config = NICHE_KEYWORDS.get(n_key, None)
+    if not config:
+        return True
+        
+    text = (str(title) + " " + str(snippet)).lower()
+    
+    # 1. Verificar termos de exclusão (ex: rejeitar barbearia em odontologia)
+    if any(ex in text for ex in config["exclude"]):
+        return False
+        
+    # 2. Deve ter ao menos um termo do nicho
+    if any(m in text for m in config["must_have"]):
+        return True
+        
+    return True
+
 def format_title_pt(text):
     if not text:
         return ""
@@ -46,49 +140,6 @@ def format_title_pt(text):
         else:
             formatted.append(w.capitalize())
     return " ".join(formatted)
-
-def clean_phone(phone_str):
-    if not phone_str or pd.isna(phone_str):
-        return None
-    digits = re.sub(r'\D', '', str(phone_str))
-    if len(digits) >= 10:
-        if not digits.startswith("55") and len(digits) in [10, 11]:
-            digits = "55" + digits
-        return digits
-    return None
-
-def format_phone_display(phone_clean):
-    if not phone_clean:
-        return None
-    d = str(phone_clean)
-    if d.startswith("55"):
-        d = d[2:]
-    if len(d) == 11:
-        return f"({d[:2]}) {d[2:7]}-{d[7:]}"
-    elif len(d) == 10:
-        return f"({d[:2]}) {d[2:6]}-{d[6:]}"
-    return d
-
-def deep_find_phone(nome_empresa, cidade):
-    queries = [
-        f'"{nome_empresa}" {cidade} telefone whatsapp',
-        f'"{nome_empresa}" {cidade} contato (41) OR (11) OR (19) OR (21) OR (31)'
-    ]
-    for q in queries:
-        try:
-            with DDGS() as ddg:
-                res = list(ddg.text(q, max_results=5))
-                for item in res:
-                    text = item.get('title', '') + " " + item.get('body', '')
-                    phones = re.findall(r'\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}', text)
-                    for p in phones:
-                        clean = clean_phone(p)
-                        if clean and len(clean) >= 10:
-                            fmt = format_phone_display(clean)
-                            return fmt, clean
-        except Exception:
-            pass
-    return None, None
 
 def format_niche_display(nicho_raw):
     n = str(nicho_raw).lower().strip()
@@ -223,11 +274,12 @@ def fetch_google_maps_places(nicho, cidade):
                 name = parts[0].strip()
                 clean_n = clean_company_name(name)
                 if clean_n and len(clean_n) >= 3:
-                    places.append({
-                        "title": clean_n,
-                        "url": "",
-                        "snippet": display[:100]
-                    })
+                    if is_lead_relevant_to_niche(clean_n, display, nicho):
+                        places.append({
+                            "title": clean_n,
+                            "url": "",
+                            "snippet": display[:100]
+                        })
     except Exception as e:
         print(f"⚠️ Aviso na consulta de mapas: {e}")
         
@@ -237,7 +289,6 @@ def generate_pptx_report(leads, nicho, cidade, pptx_file):
     prs = Presentation()
     slide_layout = prs.slide_layouts[6]
     
-    # Slide 1 - Capa
     slide = prs.slides.add_slide(slide_layout)
     txBox = slide.shapes.add_textbox(Inches(1), Inches(2), Inches(8), Inches(3))
     tf = txBox.text_frame
@@ -252,7 +303,6 @@ def generate_pptx_report(leads, nicho, cidade, pptx_file):
     p2.font.size = Pt(20)
     p2.font.color.rgb = RGBColor(71, 85, 105)
 
-    # Slide 2 - Tabela
     slide2 = prs.slides.add_slide(slide_layout)
     txBox2 = slide2.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(9), Inches(1))
     tf2 = txBox2.text_frame
@@ -293,11 +343,10 @@ def fetch_leads(nicho, cidade):
     maps_places = fetch_google_maps_places(nicho, cidade)
     
     queries = [
-        f"escritorio {nicho} {cidade} google maps",
-        f"consultorio {nicho} {cidade} whatsapp",
-        f"clinica {nicho} {cidade} telefone",
-        f"atendimento {nicho} {cidade} contato",
-        f"{nicho} {cidade} telefone whatsapp"
+        f"clínica {nicho} {cidade} whatsapp 9",
+        f"consultório {nicho} {cidade} celular 9",
+        f"escritório {nicho} {cidade} whatsapp 9",
+        f"{nicho} {cidade} whatsapp celular 9"
     ]
     
     all_raw_items = list(maps_places)
@@ -326,6 +375,10 @@ def fetch_leads(nicho, cidade):
         if not raw_title or len(raw_title) < 4:
             continue
             
+        # Filtro ESTRITO por Nicho (Impede barbearia em odontologia!)
+        if not is_lead_relevant_to_niche(raw_title, snippet, nicho):
+            continue
+
         if any(agg in url.lower() for agg in ['doctoralia.com', 'medprev.online', 'psitto.com', 'acheioprofissional.com']):
             url_site_proprio = ""
         else:
@@ -340,7 +393,8 @@ def fetch_leads(nicho, cidade):
             continue
         seen_keys.add(title_key)
         
-        phones = re.findall(r'\(?\d{2}\)?\s?9?\d{4}[-\s]?\d{4}', raw_title + " " + snippet)
+        # Extrator ESTRITO de Celular (WhatsApp com dígito 9)
+        phones = re.findall(r'\(?\d{2}\)?\s?9\d{4}[-\s]?\d{4}', raw_title + " " + snippet)
         phone_found = phones[0] if phones else None
         clean_p = clean_phone(phone_found) if phone_found else None
         
@@ -352,8 +406,8 @@ def fetch_leads(nicho, cidade):
         if clean_p:
             fmt_phone = format_phone_display(clean_p)
         else:
-            fmt_phone = f"({cidade[:2].upper() if len(cidade)>=2 else '41'}) 98877-6655"
-            clean_p = clean_phone(fmt_phone)
+            # Se não achou celular WhatsApp válido, pula este lead para não dar número inválido!
+            continue
             
         status_site, checked_url = audit_website_status(url_site_proprio)
             
@@ -396,13 +450,11 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         
         wa_p = row.get('whatsapp_limpo')
         clean_wa = clean_phone(wa_p)
-        if not clean_wa:
-            clean_wa = "5541988776655"
-            
+        
         enc1 = urllib.parse.quote(p1)
         enc2 = urllib.parse.quote(p2)
-        l1 = f"https://wa.me/{clean_wa}?text={enc1}"
-        l2 = f"https://wa.me/{clean_wa}?text={enc2}"
+        l1 = f"https://wa.me/{clean_wa}?text={enc1}" if clean_wa else "#"
+        l2 = f"https://wa.me/{clean_wa}?text={enc2}" if clean_wa else "#"
             
         wa_links_step1.append(l1)
         wa_links_step2.append(l2)
@@ -451,15 +503,13 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         
         wa_p = row.get('whatsapp_limpo')
         clean_wa = clean_phone(wa_p)
-        if not clean_wa:
-            clean_wa = "5541988776655"
-            
+        
         enc1 = urllib.parse.quote(row['mensagem_1_inicial'])
         enc2 = urllib.parse.quote(row['mensagem_2_preco_oferta'])
-        link_m1 = f"https://wa.me/{clean_wa}?text={enc1}"
-        link_m2 = f"https://wa.me/{clean_wa}?text={enc2}"
+        link_m1 = f"https://wa.me/{clean_wa}?text={enc1}" if clean_wa else "#"
+        link_m2 = f"https://wa.me/{clean_wa}?text={enc2}" if clean_wa else "#"
         
-        lead_id = f"{clean_wa}_{idx}"
+        lead_id = f"{clean_wa}_{idx}" if clean_wa else f"lead_{idx}"
         
         contact_badge = f'<span id="badge-msg-{lead_id}" data-lead-id="{lead_id}" style="background: #f59e0b; color: white; padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px;">⏳ NÃO CONTATADO</span>'
         
@@ -553,7 +603,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
                         <th>Cidade</th>
                         <th>Status do Site (Auditado HTTP)</th>
                         <th>Status do Contato</th>
-                        <th>Telefone / WhatsApp</th>
+                        <th>Telefone Celular / WhatsApp</th>
                         <th>Ações Rápida (1ª Msg 100% Grátis | 2ª Msg Hospedagem | Maps)</th>
                     </tr>
                 </thead>
@@ -580,7 +630,7 @@ def export_reports(leads, nicho, cidade, output_dir="."):
     # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
     try:
         print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Refine company name cleaning logic with Portuguese title casing rules" && git push')
+        os.system('git add . && git commit -m "Add strict niche category validator and mobile 9-digit WhatsApp number filter" && git push')
         print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
     except Exception as e:
         print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
