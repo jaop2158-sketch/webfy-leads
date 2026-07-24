@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Papaleguas Lanchonete - Cardápio Digital & Pedidos WhatsApp</title>
+    <title>Papa-Léguas 2 Lanchonete - Cardápio Digital & Pedidos WhatsApp</title>
     <style>
         :root {
-            --primary: #dc2626;
-            --primary-dark: #b91c1c;
-            --accent: #f59e0b;
+            --primary: #f97316;
+            --primary-dark: #ea580c;
+            --accent: #facc15;
             --bg: #0f172a;
             --card-bg: #1e293b;
             --text: #f8fafc;
@@ -24,24 +24,27 @@
             text-align: center;
             padding: 30px 20px 20px 20px;
             border-bottom: 3px solid var(--primary);
-            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.2);
         }
 
         .logo-circle {
-            width: 90px;
-            height: 90px;
-            background: white;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             margin: 0 auto 12px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             border: 4px solid var(--primary);
-            box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
-            font-size: 38px;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
+            overflow: hidden;
+            background: white;
         }
 
-        .header h1 { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header h1 { font-size: 28px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
         .header p { color: var(--accent); font-weight: bold; font-size: 14px; margin-top: 4px; }
         .badge-status { display: inline-block; background: #16a34a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 10px; }
 
@@ -73,7 +76,7 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 2px 10px rgba(249, 115, 22, 0.4);
         }
 
         .menu-section-title { font-size: 18px; font-weight: bold; color: var(--accent); margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--primary); padding-left: 10px; }
@@ -180,8 +183,10 @@
 <body>
 
     <div class="header">
-        <div class="logo-circle">🏃💨</div>
-        <h1>Papaleguas Lanchonete</h1>
+        <div class="logo-circle">
+            <img src="logo_papaleguas.jpg" alt="Papa-Léguas 2 Logo">
+        </div>
+        <h1>Papa-Léguas 2</h1>
         <p>Hambúrgueres Artesanais, X-Saladas & Porções Rápidas</p>
         <span class="badge-status">🟢 Aberto para Pedidos no WhatsApp</span>
     </div>
@@ -200,20 +205,20 @@
 
         <div class="menu-item" data-cat="burgers">
             <div class="item-info">
-                <div class="item-title">X-Papaleguas Especial</div>
+                <div class="item-title">X-Papa-Léguas Especial</div>
                 <div class="item-desc">Hambúrguer 180g, presunto, queijo duplo, bacon crocante, ovo, alface, tomate e maionese caseira.</div>
                 <div class="item-price">R$ 29,90</div>
             </div>
-            <button class="add-btn" onclick="addToCart('X-Papaleguas Especial', 29.90)">+ Adicionar</button>
+            <button class="add-btn" onclick="addToCart('X-Papa-Léguas Especial', 29.90)">+ Adicionar</button>
         </div>
 
         <div class="menu-item" data-cat="burgers">
             <div class="item-info">
-                <div class="item-title">X-Tudo Turbo</div>
+                <div class="item-title">X-Tudo Papa-Léguas 2</div>
                 <div class="item-desc">2x Hambúrgueres 120g, queijo cheddar, bacon em dobro, calabresa fatiada, ovo e milho.</div>
                 <div class="item-price">R$ 32,50</div>
             </div>
-            <button class="add-btn" onclick="addToCart('X-Tudo Turbo', 32.50)">+ Adicionar</button>
+            <button class="add-btn" onclick="addToCart('X-Tudo Papa-Léguas 2', 32.50)">+ Adicionar</button>
         </div>
 
         <div class="menu-item" data-cat="burgers">
@@ -281,7 +286,6 @@
             <div class="modal-title">📋 Resumo do Seu Pedido</div>
             
             <div class="cart-items-summary" id="modalItemsList">
-                <!-- Itens inseridos via JS -->
             </div>
 
             <div class="form-group">
@@ -380,7 +384,7 @@
 
             let total = cart.reduce((sum, item) => sum + item.price, 0);
 
-            let msg = `🍔 *NOVO PEDIDO - LANCHONETE PAPALEGUAS*\n\n`;
+            let msg = `🍔 *NOVO PEDIDO - PAPA-LÉGUAS 2*\n\n`;
             msg += `👤 *Cliente:* ${name}\n`;
             msg += `📍 *Endereço:* ${address}\n\n`;
             msg += `📋 *ITENS DO PEDIDO:*\n`;
@@ -395,7 +399,6 @@
                 msg += `📝 *Observações:* ${obs}\n`;
             }
 
-            // Número do WhatsApp da Lanchonete Papaleguas
             const waPhone = "5541999999999"; 
             const encodedMsg = encodeURIComponent(msg);
             window.open(`https://wa.me/${waPhone}?text=${encodedMsg}`, '_blank');
