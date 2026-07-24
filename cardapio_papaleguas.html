@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papaleguas Lanchonete - Cardápio Digital & Pedidos WhatsApp</title>
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --accent: #f59e0b;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
+        body { background-color: var(--bg); color: var(--text); padding-bottom: 90px; }
+
+        .header {
+            background: linear-gradient(135deg, #1e1b4b, #0f172a);
+            text-align: center;
+            padding: 30px 20px 20px 20px;
+            border-bottom: 3px solid var(--primary);
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
+        }
+
+        .logo-circle {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 12px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+            font-size: 38px;
+        }
+
+        .header h1 { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+        .header p { color: var(--accent); font-weight: bold; font-size: 14px; margin-top: 4px; }
+        .badge-status { display: inline-block; background: #16a34a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-top: 10px; }
+
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            margin-bottom: 15px;
+            scrollbar-width: none;
+        }
+        .category-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
+        }
+
+        .menu-section-title { font-size: 18px; font-weight: bold; color: var(--accent); margin: 20px 0 10px 0; text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--primary); padding-left: 10px; }
+
+        .menu-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .item-info { flex: 1; padding-right: 12px; }
+        .item-title { font-size: 16px; font-weight: bold; color: #fff; margin-bottom: 4px; }
+        .item-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px; }
+        .item-price { font-size: 16px; font-weight: 800; color: #4ade80; }
+
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .add-btn:active { transform: scale(0.95); }
+
+        /* Carrinho Flutuante */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1e1b4b;
+            border-top: 2px solid var(--primary);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .cart-bar-info { display: flex; flex-direction: column; }
+        .cart-bar-count { font-size: 12px; color: var(--text-muted); }
+        .cart-bar-total { font-size: 20px; font-weight: 800; color: #4ade80; }
+
+        .finish-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Modal do Pedido */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid #334155;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title { font-size: 20px; font-weight: bold; color: var(--accent); margin-bottom: 15px; text-align: center; }
+
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 4px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 14px; }
+
+        .cart-items-summary { background: #0f172a; border-radius: 8px; padding: 10px; margin-bottom: 15px; font-size: 13px; }
+        .cart-item-row { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid #1e293b; }
+
+        .modal-buttons { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-cancel { flex: 1; background: #475569; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-send { flex: 2; background: #25D366; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-circle">🏃💨</div>
+        <h1>Papaleguas Lanchonete</h1>
+        <p>Hambúrgueres Artesanais, X-Saladas & Porções Rápidas</p>
+        <span class="badge-status">🟢 Aberto para Pedidos no WhatsApp</span>
+    </div>
+
+    <div class="container">
+        <!-- Navegação por Categorias -->
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="filterCategory('todos')">🍔 Todos os Lanches</button>
+            <button class="tab-btn" onclick="filterCategory('burgers')">🔥 X-Burgers</button>
+            <button class="tab-btn" onclick="filterCategory('porcoes')">🍟 Porções</button>
+            <button class="tab-btn" onclick="filterCategory('bebidas')">🥤 Bebidas</button>
+        </div>
+
+        <!-- Lista de Lanches -->
+        <div class="menu-section-title">🔥 Destaques da Casa</div>
+
+        <div class="menu-item" data-cat="burgers">
+            <div class="item-info">
+                <div class="item-title">X-Papaleguas Especial</div>
+                <div class="item-desc">Hambúrguer 180g, presunto, queijo duplo, bacon crocante, ovo, alface, tomate e maionese caseira.</div>
+                <div class="item-price">R$ 29,90</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('X-Papaleguas Especial', 29.90)">+ Adicionar</button>
+        </div>
+
+        <div class="menu-item" data-cat="burgers">
+            <div class="item-info">
+                <div class="item-title">X-Tudo Turbo</div>
+                <div class="item-desc">2x Hambúrgueres 120g, queijo cheddar, bacon em dobro, calabresa fatiada, ovo e milho.</div>
+                <div class="item-price">R$ 32,50</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('X-Tudo Turbo', 32.50)">+ Adicionar</button>
+        </div>
+
+        <div class="menu-item" data-cat="burgers">
+            <div class="item-info">
+                <div class="item-title">X-Bacon Supremo</div>
+                <div class="item-desc">Hambúrguer artesanal 160g, tiras de bacon crocante, queijo muçarela derretido e molho especial.</div>
+                <div class="item-price">R$ 26,00</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('X-Bacon Supremo', 26.00)">+ Adicionar</button>
+        </div>
+
+        <div class="menu-section-title">🍟 Porções & Acompanhamentos</div>
+
+        <div class="menu-item" data-cat="porcoes">
+            <div class="item-info">
+                <div class="item-title">Batata Frita com Cheddar e Bacon (G)</div>
+                <div class="item-desc">500g de batata crocante coberta com queijo cheddar cremoso e bacon frito.</div>
+                <div class="item-price">R$ 28,00</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('Batata Frita Cheddar/Bacon (G)', 28.00)">+ Adicionar</button>
+        </div>
+
+        <div class="menu-item" data-cat="porcoes">
+            <div class="item-info">
+                <div class="item-title">Calabresa Acebolada na Chapa</div>
+                <div class="item-desc">Porção de calabresa fatiada com cebola caramelizada e farofa da casa.</div>
+                <div class="item-price">R$ 24,00</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('Calabresa Acebolada', 24.00)">+ Adicionar</button>
+        </div>
+
+        <div class="menu-section-title">🥤 Bebidas</div>
+
+        <div class="menu-item" data-cat="bebidas">
+            <div class="item-info">
+                <div class="item-title">Coca-Cola 2 Litros</div>
+                <div class="item-desc">Refrigerante bem gelado.</div>
+                <div class="item-price">R$ 12,00</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('Coca-Cola 2L', 12.00)">+ Adicionar</button>
+        </div>
+
+        <div class="menu-item" data-cat="bebidas">
+            <div class="item-info">
+                <div class="item-title">Suco Natural de Laranja (500ml)</div>
+                <div class="item-desc">Suco 100% natural feito na hora.</div>
+                <div class="item-price">R$ 9,00</div>
+            </div>
+            <button class="add-btn" onclick="addToCart('Suco de Laranja 500ml', 9.00)">+ Adicionar</button>
+        </div>
+    </div>
+
+    <!-- Carrinho Flutuante -->
+    <div class="cart-bar" id="cartBar" style="display: none;">
+        <div class="cart-bar-info">
+            <span class="cart-bar-count" id="cartCount">0 itens selecionados</span>
+            <span class="cart-bar-total" id="cartTotal">R$ 0,00</span>
+        </div>
+        <button class="finish-btn" onclick="openModal()">🛒 Ver Pedido</button>
+    </div>
+
+    <!-- Modal para Dados da Entrega -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-title">📋 Resumo do Seu Pedido</div>
+            
+            <div class="cart-items-summary" id="modalItemsList">
+                <!-- Itens inseridos via JS -->
+            </div>
+
+            <div class="form-group">
+                <label>Seu Nome Completo:</label>
+                <input type="text" id="custName" placeholder="Ex: Marcos Silva">
+            </div>
+
+            <div class="form-group">
+                <label>Endereço de Entrega (Rua, nº, Bairro):</label>
+                <input type="text" id="custAddress" placeholder="Ex: Rua das Flores, 120 - Centro">
+            </div>
+
+            <div class="form-group">
+                <label>Forma de Pagamento:</label>
+                <select id="custPayment">
+                    <option value="PIX">PIX (Chave na entrega)</option>
+                    <option value="Cartão de Crédito">Cartão de Crédito (Levar Maquininha)</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
+                    <option value="Dinheiro">Dinheiro (Precisa de troco)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Observações / Troco:</label>
+                <input type="text" id="custObs" placeholder="Ex: Sem cebola no lanche / Troco para R$ 50">
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">Voltar</button>
+                <button class="btn-send" onclick="sendWhatsAppOrder()">💬 Enviar no WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartBar = document.getElementById('cartBar');
+            if (cart.length > 0) {
+                cartBar.style.display = 'flex';
+            } else {
+                cartBar.style.display = 'none';
+            }
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            document.getElementById('cartCount').innerText = `${cart.length} item(s) selecionado(s)`;
+            document.getElementById('cartTotal').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function openModal() {
+            const modal = document.getElementById('orderModal');
+            const itemsList = document.getElementById('modalItemsList');
+            itemsList.innerHTML = '';
+
+            let total = 0;
+            cart.forEach((item, idx) => {
+                total += item.price;
+                itemsList.innerHTML += `
+                    <div class="cart-item-row">
+                        <span>• ${item.title}</span>
+                        <strong>R$ ${item.price.toFixed(2).replace('.', ',')}</strong>
+                    </div>
+                `;
+            });
+
+            itemsList.innerHTML += `
+                <div style="margin-top: 10px; padding-top: 8px; border-top: 2px solid #334155; font-weight: bold; color: #4ade80; display: flex; justify-content: space-between;">
+                    <span>TOTAL DO PEDIDO:</span>
+                    <span>R$ ${total.toFixed(2).replace('.', ',')}</span>
+                </div>
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        function sendWhatsAppOrder() {
+            const name = document.getElementById('custName').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const payment = document.getElementById('custPayment').value;
+            const obs = document.getElementById('custObs').value.trim();
+
+            if (!name || !address) {
+                alert('Por favor, preencha seu nome e endereço de entrega.');
+                return;
+            }
+
+            let total = cart.reduce((sum, item) => sum + item.price, 0);
+
+            let msg = `🍔 *NOVO PEDIDO - LANCHONETE PAPALEGUAS*\n\n`;
+            msg += `👤 *Cliente:* ${name}\n`;
+            msg += `📍 *Endereço:* ${address}\n\n`;
+            msg += `📋 *ITENS DO PEDIDO:*\n`;
+
+            cart.forEach(item => {
+                msg += `• ${item.title} (R$ ${item.price.toFixed(2).replace('.', ',')})\n`;
+            });
+
+            msg += `\n💰 *TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}\n`;
+            msg += `💳 *Forma de Pagamento:* ${payment}\n`;
+            if (obs) {
+                msg += `📝 *Observações:* ${obs}\n`;
+            }
+
+            // Número do WhatsApp da Lanchonete Papaleguas
+            const waPhone = "5541999999999"; 
+            const encodedMsg = encodeURIComponent(msg);
+            window.open(`https://wa.me/${waPhone}?text=${encodedMsg}`, '_blank');
+        }
+
+        function filterCategory(cat) {
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const items = document.querySelectorAll('.menu-item');
+            items.forEach(item => {
+                if (cat === 'todos' || item.getAttribute('data-cat') === cat) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
