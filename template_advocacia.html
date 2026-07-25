@@ -3,20 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escritório de Advocacia – Defesa Que Você Merece</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Silva & Associados – Advocacia de Elite</title>
+
+<!-- Fontes -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 /* ==========================================================================
    RESET & VARIAVEIS
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0c0c0e;
-  --card: #111115;
-  --border: #1a1a22;
+  --bg: #0a0a0c;
+  --card: #121216;
+  --border: #1f1f26;
   --gold: #b8962e;
   --gold2: #d4af5a;
-  --text: #e8e6e0;
+  --text: #f0ebe0;
   --muted: #888;
 }
 html.lenis, html.lenis body { height: auto; }
@@ -38,238 +41,361 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 24px 60px;
-  background: rgba(12,12,14,0.95);
+  background: rgba(10,10,12,0.9);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(184,150,46,0.15);
   transition: padding 0.4s;
 }
 nav.scrolled { padding: 16px 60px; }
-.nav-logo { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold2); letter-spacing: 1px; font-weight: 700; }
-.nav-links { display: flex; gap: 30px; list-style: none; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.3s; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--gold2); letter-spacing: 1px; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.3s; }
 .nav-links a:hover { color: var(--gold2); }
-.nav-cta {
-  border: 1px solid var(--gold);
-  color: var(--gold2); padding: 12px 28px; border-radius: 50px;
-  font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;
+.nav-btn {
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px;
+  border: 1px solid var(--gold); color: var(--gold2);
+  padding: 12px 28px; border-radius: 4px;
   text-decoration: none; transition: background 0.3s, color 0.3s;
 }
-.nav-cta:hover { background: var(--gold); color: var(--bg); }
+.nav-btn:hover { background: var(--gold); color: var(--bg); }
 
 /* ==========================================================================
-   HERO
+   HERO IMMERSIVE
    ========================================================================== */
 .hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 120px 60px 60px; gap: 60px;
+  height: 100vh;
   position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.hero-content { flex: 1; max-width: 600px; z-index: 2; }
-.hero-eyebrow { color: var(--gold); font-size: 12px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: inline-block; }
-.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(50px, 7vw, 90px); line-height: 1.05; margin-bottom: 30px; }
-.hero h1 span { display: block; overflow: hidden; }
+.hero-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; transform: scale(1.1); filter: brightness(0.7);
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, var(--bg) 0%, transparent 60%, rgba(10,10,12,0.5) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; max-width: 800px; padding: 0 24px;
+}
+.hero-tag {
+  display: inline-block; padding: 6px 16px; border-radius: 4px;
+  background: rgba(184,150,46,0.1); color: var(--gold);
+  font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 24px; border: 1px solid rgba(184,150,46,0.2);
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 8vw, 84px);
+  line-height: 1.1; font-weight: 400;
+  color: var(--text); margin-bottom: 24px;
+}
 .hero h1 em { color: var(--gold2); font-style: italic; }
-.hero p { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 44px; }
+.hero p {
+  font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; max-width: 600px; margin-inline: auto;
+}
 .btn-solid {
   background: linear-gradient(135deg, #b8962e, #d4af5a);
-  color: var(--bg); padding: 16px 36px; border-radius: 50px;
-  font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--bg); padding: 16px 36px; border-radius: 4px;
+  font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
   text-decoration: none; display: inline-block; transition: transform 0.3s, box-shadow 0.3s;
 }
-.btn-solid:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(184,150,46,0.3); }
-
-.hero-image {
-  flex: 1; position: relative; height: 80vh;
-  border-radius: 24px; overflow: hidden;
-  box-shadow: 0 40px 80px rgba(184,150,46,0.1);
-  z-index: 2;
-}
-.hero-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.hero-image::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(12,12,14,0.6) 0%, transparent 40%);
-}
+.btn-solid:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(184,150,46,0.2); }
 
 /* ==========================================================================
-   AREAS DE ATUACAO (PINNED SCROLL)
+   MARQUEE
    ========================================================================== */
-.areas-section { background: var(--card); padding: 150px 0; border-top: 1px solid var(--border); overflow: hidden; }
-.sec-header { text-align: center; margin-bottom: 80px; padding: 0 60px; }
-.sec-title { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 70px); font-weight: 400; }
+.marquee-section { background: var(--card); padding: 20px 0; border-bottom: 1px solid var(--border); overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+.marquee-content { display: inline-flex; animation: scroll-left 30s linear infinite; gap: 60px; }
+.marquee-item { font-family: 'Playfair Display', serif; color: var(--gold2); font-size: 22px; font-style: italic; display: flex; align-items: center; gap: 60px; }
+.marquee-item::after { content: '•'; font-style: normal; color: var(--muted); }
+@keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ==========================================================================
+   BENTO GRID (O ESCRITÓRIO)
+   ========================================================================== */
+.section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+.sec-header { text-align: center; margin-bottom: 60px; }
+.sec-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 400; color: var(--text); line-height: 1.1; }
 .sec-title em { color: var(--gold); font-style: italic; }
+.sec-desc { font-size: 15px; color: var(--muted); max-width: 600px; margin: 20px auto 0; line-height: 1.7; }
 
-.areas-container {
-  display: flex; gap: 40px; padding: 0 60vw 0 60px;
-  width: max-content;
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 320px);
+  gap: 24px;
 }
-.area-card {
-  width: 400px; height: 500px;
-  background: var(--bg); border: 1px solid var(--border); border-radius: 20px;
-  padding: 50px 40px; display: flex; flex-direction: column;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  transition: border-color 0.4s;
+.bento-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+  overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 32px;
+  transition: transform 0.3s, border-color 0.3s;
 }
-.area-card:hover { border-color: var(--gold); }
-.area-icon { width: 70px; height: 70px; border-radius: 16px; background: rgba(184,150,46,0.08); border: 1px solid rgba(184,150,46,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: auto; }
-.area-icon svg { width: 34px; height: 34px; stroke: var(--gold); }
-.area-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--text); margin-bottom: 16px; }
-.area-desc { color: var(--muted); font-size: 15px; line-height: 1.7; }
+.bento-box:hover { transform: translateY(-4px); border-color: rgba(184,150,46,0.4); }
+.bento-box.large { grid-column: span 2; grid-row: span 2; }
+.bento-box.tall { grid-row: span 2; }
+.bento-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: grayscale(50%); transition: filter 0.5s, transform 0.7s; }
+.bento-box:hover .bento-img { filter: grayscale(0%); transform: scale(1.05); }
+.bento-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,12,0.9) 0%, transparent 70%); z-index: 1; }
+.bento-content { position: relative; z-index: 2; color: var(--text); }
+.bento-box.no-img { background: var(--card); justify-content: center; align-items: center; text-align: center; }
+.bento-icon { width: 60px; height: 60px; border-radius: 8px; background: rgba(184,150,46,0.05); border: 1px solid rgba(184,150,46,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.bento-icon svg { width: 30px; height: 30px; stroke: var(--gold); }
+.bento-title { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 12px; }
+.bento-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
 /* ==========================================================================
-   DIFERENCIAIS & DEPOIMENTOS
+   SERVIÇOS (CARDS)
    ========================================================================== */
-.stats {
-  display: flex; justify-content: center; gap: 0; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+.srv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.srv-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+  padding: 40px; transition: transform 0.3s, border-color 0.3s;
+  display: flex; gap: 24px;
 }
-.stat { flex: 1; text-align: center; padding: 60px 24px; border-right: 1px solid var(--border); }
-.stat:last-child { border-right: none; }
-.stat-num { font-family: 'Playfair Display', serif; font-size: 60px; color: var(--gold); margin-bottom: 10px; }
-.stat-label { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 2px; }
-
-.testimonials { padding: 150px 60px; background: var(--card); }
-.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto; }
-.test-card { background: var(--bg); border: 1px solid var(--border); padding: 40px; border-radius: 20px; }
-.test-quote { font-family: 'Playfair Display', serif; font-size: 60px; color: rgba(184,150,46,0.2); line-height: 0.5; margin-bottom: 20px; }
-.test-text { font-size: 15px; color: var(--muted); line-height: 1.8; font-style: italic; margin-bottom: 30px; }
-.test-author { color: var(--gold2); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+.srv-card:hover { transform: translateY(-4px); border-color: rgba(184,150,46,0.4); }
+.srv-card-icon { width: 50px; height: 50px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: rgba(184,150,46,0.05); border-radius: 8px; border: 1px solid rgba(184,150,46,0.1); }
+.srv-card-icon svg { width: 24px; height: 24px; stroke: var(--gold); }
+.srv-card-content h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text); margin-bottom: 10px; }
+.srv-card-content p { font-size: 14px; color: var(--muted); line-height: 1.7; }
 
 /* ==========================================================================
-   FOOTER MEGA
+   GALERIA / PARALLAX CITAÇÃO
    ========================================================================== */
-.footer-wrap { position: relative; background: var(--bg); border-top: 1px solid var(--border); }
-footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justify-content: space-between; }
-.footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
-.footer-links { display: flex; gap: 100px; }
-.f-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
-.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-.f-col a { color: var(--text); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.parallax-banner {
+  height: 70vh; position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.parallax-bg { position: absolute; top: -20%; left: 0; width: 100%; height: 140%; object-fit: cover; z-index: 0; }
+.parallax-overlay { position: absolute; inset: 0; background: rgba(10,10,12,0.7); z-index: 1; }
+.parallax-content { position: relative; z-index: 2; text-align: center; color: white; max-width: 800px; padding: 0 24px; }
+.parallax-quote { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 300; font-style: italic; line-height: 1.2; margin-bottom: 30px; }
+.parallax-author { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold2); }
+
+/* ==========================================================================
+   DEPOIMENTOS
+   ========================================================================== */
+.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.test-card {
+  background: transparent; padding: 32px; border-radius: 8px; border: 1px solid var(--border);
+}
+.stars { color: var(--gold); margin-bottom: 16px; font-size: 14px; letter-spacing: 2px; }
+.test-text { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
+.test-author { font-weight: 600; color: var(--text); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* ==========================================================================
+   FOOTER (PADRÃO AGÊNCIA)
+   ========================================================================== */
+footer { background: var(--card); border-top: 1px solid var(--border); padding: 80px 40px 40px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
+.footer-brand { max-width: 300px; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--gold2); margin-bottom: 16px; }
+.footer-brand p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.f-col h4 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 20px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.f-col a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color 0.3s; }
 .f-col a:hover { color: var(--gold); }
-.footer-bottom { padding-top: 60px; text-align: center; overflow: hidden; }
-.footer-huge {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(70px, 15vw, 240px);
-  color: var(--card); /* Texto escuro mesclado ao fundo */
-  line-height: 0.8; margin: 0;
-  text-shadow: 0 0 1px rgba(255,255,255,0.05);
-  letter-spacing: -2px;
-}
+.footer-bottom { max-width: 1200px; margin: 40px auto 0; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 12px; }
 
 @media (max-width: 1024px) {
-  nav { padding: 20px; } .nav-links { display: none; }
-  .hero { flex-direction: column; padding: 120px 30px 60px; text-align: center; }
-  .hero-image { width: 100%; height: 50vh; }
-  .areas-container { padding: 0 30px; width: 100%; flex-direction: column; }
-  .area-card { width: 100%; height: auto; }
+  nav { padding: 16px 24px; } .nav-links { display: none; }
+  .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .bento-box.large, .bento-box.tall { grid-column: auto; grid-row: auto; min-height: 350px; }
+  .srv-grid { grid-template-columns: 1fr; }
+  .srv-card { flex-direction: column; }
   .test-grid { grid-template-columns: 1fr; }
-  .stats { flex-wrap: wrap; }
-  .stat { min-width: 50%; }
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav id="nav">
   <div class="nav-logo">SILVA & ASSOCIADOS</div>
   <ul class="nav-links">
-    <li><a href="#areas">Áreas de Atuação</a></li>
-    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#escritorio">O Escritório</a></li>
+    <li><a href="#atuacao">Áreas de Atuação</a></li>
+    <li><a href="#clientes">Clientes</a></li>
   </ul>
-  <a href="https://wa.me/5511999999999" class="nav-cta">Agendar Consulta</a>
+  <a href="https://wa.me/5511999999999" class="nav-btn">Consultoria Inicial</a>
 </nav>
 
+<!-- HERO -->
 <section class="hero" id="hero">
+  <img src="hero_advocacia_bg_1785016346566.jpg" alt="Escritório" class="hero-bg gs-hero-bg">
+  <div class="hero-overlay"></div>
+  
   <div class="hero-content">
-    <div class="hero-eyebrow"><span class="gs-eyebrow">Advocacia de Elite</span></div>
-    <h1 class="gs-title">A Defesa<br>Que Você<br><em>Merece.</em></h1>
-    <p class="gs-desc">Com anos de experiência e dedicação exclusiva, defendemos seus direitos com seriedade, ética e resultados incontestáveis. Proteja o que é seu.</p>
-    <a href="https://wa.me/5511999999999" class="btn-solid gs-desc">Consultoria Especializada</a>
-  </div>
-  <div class="hero-image gs-img">
-    <img src="img_hero_advocacia.jpg" alt="Escritório" class="hero-bg-anim">
+    <div class="hero-tag gs-fade">Advocacia de Elite</div>
+    <h1 class="gs-fade">A Defesa Que<br>Você <em>Merece.</em></h1>
+    <p class="gs-fade">Com anos de experiência e dedicação exclusiva, defendemos seus direitos com seriedade, ética e resultados incontestáveis na justiça brasileira.</p>
+    <a href="https://wa.me/5511999999999" class="btn-solid gs-fade">Agendar Consulta</a>
   </div>
 </section>
 
-<!-- STATS -->
-<div class="stats" id="resultados">
-  <div class="stat gs-fade-up"><div class="stat-num">15+</div><div class="stat-label">Anos de Experiência</div></div>
-  <div class="stat gs-fade-up" style="transition-delay:0.1s;"><div class="stat-num">500+</div><div class="stat-label">Casos Vencidos</div></div>
-  <div class="stat gs-fade-up" style="transition-delay:0.2s;"><div class="stat-num">98%</div><div class="stat-label">Taxa de Sucesso</div></div>
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-content">
+    <div class="marquee-item">Seriedade</div><div class="marquee-item">Ética Profissional</div>
+    <div class="marquee-item">Resultados</div><div class="marquee-item">Estratégia Jurídica</div>
+    <div class="marquee-item">Seriedade</div><div class="marquee-item">Ética Profissional</div>
+    <div class="marquee-item">Resultados</div><div class="marquee-item">Estratégia Jurídica</div>
+  </div>
 </div>
 
-<!-- AREAS (HORIZONTAL SCROLL PINNED) -->
-<section class="areas-section" id="areas">
+<!-- BENTO GRID (O ESCRITÓRIO) -->
+<section class="section" id="escritorio">
   <div class="sec-header gs-fade-up">
-    <h2 class="sec-title">Nossa <em>Expertise</em></h2>
+    <h2 class="sec-title">Nossa <em>Estrutura</em></h2>
+    <p class="sec-desc">Um escritório moderno focado em teses jurídicas inovadoras, proporcionando atendimento exclusivo e soluções eficazes para casos complexos.</p>
   </div>
-  <div class="areas-wrapper" style="overflow: hidden;">
-    <div class="areas-container gs-horizontal">
-      <div class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-4c0-2.2 1.8-4 4-4h10c2.2 0 4 1.8 4 4v4"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div class="area-title">Direito de Família</div>
-        <div class="area-desc">Divórcio, guarda, pensão alimentícia e inventário com atendimento humano, estratégico e absolutamente discreto.</div>
-      </div>
-      <div class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/><line x1="12" y1="12" x2="12" y2="17"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
-        <div class="area-title">Direito Trabalhista</div>
-        <div class="area-desc">Defesa implacável dos seus direitos corporativos e trabalhistas: verbas rescisórias, assédio, e equiparação salarial.</div>
-      </div>
-      <div class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <div class="area-title">Defesa Civil</div>
-        <div class="area-desc">Blindagem patrimonial e representação forte contra abusos contratuais de empresas, bancos e grandes seguradoras.</div>
-      </div>
-      <div class="area-card">
-        <div class="area-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div class="area-title">Direito Imobiliário</div>
-        <div class="area-desc">Auditoria, estruturação de contratos de compra e venda, e regularização de imóveis com total segurança jurídica.</div>
+  
+  <div class="bento-grid">
+    <!-- Box 1 (Grande) -->
+    <div class="bento-box large gs-fade-up">
+      <img src="hero_advocacia_bg_1785016346566.jpg" alt="Estrutura" class="bento-img">
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <h3 class="bento-title">Estratégia Personalizada</h3>
+        <p class="bento-desc">Cada caso é único. Nossa equipe dedicada analisa minuciosamente as provas e jurisprudências para criar a tese mais forte possível.</p>
       </div>
     </div>
+    
+    <!-- Box 2 (Text) -->
+    <div class="bento-box no-img gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="bento-content">
+        <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <h3 class="bento-title">Discição Absoluta</h3>
+        <p class="bento-desc">Tratamos de assuntos delicados familiares e corporativos sob rigoroso sigilo profissional.</p>
+      </div>
+    </div>
+
+    <!-- Box 3 (Tall) -->
+    <div class="bento-box gs-fade-up">
+      <div class="bento-content" style="text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+        <h3 class="bento-title" style="color:var(--gold); font-size:56px; margin:0;">500+</h3>
+        <p class="bento-desc" style="margin-top: 10px;">Casos solucionados com sucesso em instâncias superiores.</p>
+      </div>
+    </div>
+
+    <!-- Box 4 -->
+    <div class="bento-box no-img gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="bento-content">
+        <h3 class="bento-title" style="color:var(--gold2); font-size:42px; margin:0;">15 Anos</h3>
+        <p class="bento-desc" style="margin-top: 10px;">De experiência no mercado jurídico de São Paulo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÁREAS DE ATUAÇÃO (CARDS LATERAIS) -->
+<section class="section" style="padding-top: 0;" id="atuacao">
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title">O Que <em>Fazemos</em></h2>
+  </div>
+  
+  <div class="srv-grid">
+    <div class="srv-card gs-fade-up">
+      <div class="srv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-4c0-2.2 1.8-4 4-4h10c2.2 0 4 1.8 4 4v4"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div class="srv-card-content">
+        <h3>Direito de Família</h3>
+        <p>Divórcio, guarda, pensão alimentícia e inventário com atendimento humano, estratégico e absolutamente discreto para preservar seu patrimônio.</p>
+      </div>
+    </div>
+    <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="srv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/><line x1="12" y1="12" x2="12" y2="17"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+      <div class="srv-card-content">
+        <h3>Direito Trabalhista</h3>
+        <p>Defesa implacável dos seus direitos corporativos: verbas rescisórias, assédio moral e equiparação salarial para executivos e profissionais.</p>
+      </div>
+    </div>
+    <div class="srv-card gs-fade-up">
+      <div class="srv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="srv-card-content">
+        <h3>Defesa Civil</h3>
+        <p>Blindagem patrimonial e representação forte contra abusos contratuais de empresas, bancos e grandes seguradoras na esfera cível.</p>
+      </div>
+    </div>
+    <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="srv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+      <div class="srv-card-content">
+        <h3>Direito Imobiliário</h3>
+        <p>Auditoria, estruturação de contratos de compra e venda, e regularização de imóveis com total segurança jurídica para investidores.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARALLAX BANNER -->
+<section class="parallax-banner">
+  <img src="hero_advocacia_bg_1785016346566.jpg" alt="Tribunal" class="parallax-bg gs-parallax-bg" style="filter: brightness(0.4);">
+  <div class="parallax-overlay"></div>
+  <div class="parallax-content gs-fade-up">
+    <div class="parallax-quote">"A JUSTIÇA NÃO SOCORRE OS QUE DORMEM. <em>AJA HOJE.</em>"</div>
+    <div class="parallax-author">Dr. Silva</div>
   </div>
 </section>
 
 <!-- DEPOIMENTOS -->
-<section class="testimonials">
+<section class="section" id="clientes">
   <div class="sec-header gs-fade-up">
-    <h2 class="sec-title">A Palavra de Nossos <em>Clientes</em></h2>
+    <h2 class="sec-title">Nossos <em>Clientes</em></h2>
   </div>
   <div class="test-grid">
     <div class="test-card gs-fade-up">
-      <div class="test-quote">"</div>
-      <div class="test-text">"Resolvi meu processo em tempo recorde. O nível de profissionalismo e a estratégia adotada pela equipe superaram todas as minhas expectativas."</div>
-      <div class="test-author">Marcos V. — CEO</div>
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Resolvi meu processo em tempo recorde. O nível de profissionalismo e a estratégia adotada pela equipe superaram todas as minhas expectativas."</p>
+      <p class="test-author">Marcos V. — CEO</p>
     </div>
-    <div class="test-card gs-fade-up" style="transition-delay: 0.1s;">
-      <div class="test-quote">"</div>
-      <div class="test-text">"Passei por um divórcio muito difícil e complexo, mas o Dr. Silva me orientou em cada etapa patrimonial. Saio extremamente satisfeito com o resultado justo."</div>
-      <div class="test-author">Roberto M. — Empresário</div>
+    <div class="test-card gs-fade-up" style="transition-delay:0.1s;">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Passei por um divórcio muito difícil e complexo, mas o Dr. Silva me orientou em cada etapa patrimonial. Saio extremamente satisfeito com o resultado justo."</p>
+      <p class="test-author">Roberto M. — Empresário</p>
     </div>
-    <div class="test-card gs-fade-up" style="transition-delay: 0.2s;">
-      <div class="test-quote">"</div>
-      <div class="test-text">"Recuperei meu patrimônio bloqueado pelo banco com a ajuda implacável deles. Recomendo para causas de alto risco. Escritório absolutamente excepcional."</div>
-      <div class="test-author">Juliana C. — Diretora</div>
+    <div class="test-card gs-fade-up" style="transition-delay:0.2s;">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Recuperei meu patrimônio bloqueado pelo banco com a ajuda implacável deles. Recomendo para causas de alto risco. Escritório absolutamente excepcional."</p>
+      <p class="test-author">Juliana C. — Diretora</p>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<div class="footer-wrap">
-  <footer id="footer">
-    <div class="footer-top gs-fade-up">
-      <div class="nav-logo">SILVA & ASSOCIADOS</div>
-      <div class="footer-links">
-        <div class="f-col">
-          <h4>Contato</h4>
-          <ul><li><a href="#">(11) 99999-9999</a></li><li><a href="#">Faria Lima, SP</a></li></ul>
-        </div>
-      </div>
+<!-- FOOTER STANDARD -->
+<footer id="footer">
+  <div class="footer-grid gs-fade-up">
+    <div class="footer-brand">
+      <div class="footer-logo">Silva & Associados</div>
+      <p>Boutique jurídica especializada na resolução de alta complexidade com foco total no cliente.</p>
     </div>
-    <div class="footer-bottom">
-      <h2 class="footer-huge gs-fade-up">JUSTIÇA.</h2>
+    <div class="f-col">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#escritorio">O Escritório</a></li>
+        <li><a href="#atuacao">Especialidades</a></li>
+        <li><a href="#clientes">Avaliações</a></li>
+      </ul>
     </div>
-  </footer>
-</div>
+    <div class="f-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="#">(11) 99999-9999</a></li>
+        <li><a href="#">contato@silva.adv.br</a></li>
+        <li><a href="#">Faria Lima, SP</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom gs-fade-up">
+    <span>© 2026 Silva & Associados. Todos os direitos reservados.</span>
+    <span>Desenvolvido por <strong>Webfy</strong></span>
+  </div>
+</footer>
 
+<!-- SCRIPTS -->
 <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -278,11 +404,13 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
 document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
+  // Smooth Scroll
   const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0, 0);
 
+  // Navbar
   ScrollTrigger.create({
     start: 'top -50',
     onUpdate: (self) => {
@@ -291,42 +419,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const tl = gsap.timeline();
-  tl.from('.gs-img', { opacity: 0, x: 50, duration: 1.5, ease: 'power3.out' })
-    .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1')
-    .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
-    .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
+  // Hero
+  gsap.fromTo('.gs-hero-bg', { scale: 1.15 }, { scale: 1.05, duration: 4, ease: "power2.out" });
+  gsap.from('.gs-fade', { opacity: 0, y: 30, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.2 });
 
-  gsap.to('.hero-bg-anim', {
-    scale: 1.05,
-    duration: 10,
-    yoyo: true,
-    repeat: -1,
-    ease: 'sine.inOut'
-  });
-
+  // Fade Up
   gsap.utils.toArray('.gs-fade-up').forEach(el => {
     gsap.from(el, {
-      opacity: 0, y: 50, duration: 1, ease: 'power3.out',
+      opacity: 0, y: 30, duration: 0.8, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 85%' }
     });
   });
 
-  // HORIZONTAL SCROLL (PINNED)
-  if(window.innerWidth > 1024) {
-    const container = document.querySelector('.gs-horizontal');
-    const walk = container.scrollWidth - window.innerWidth;
-    gsap.to(container, {
-      x: -walk,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".areas-section",
-        pin: true,
-        scrub: 1,
-        end: () => "+=" + walk
-      }
-    });
-  }
+  // Parallax Banner
+  gsap.to('.gs-parallax-bg', {
+    yPercent: 20,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".parallax-banner",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
+    }
+  });
 });
 </script>
 </body>

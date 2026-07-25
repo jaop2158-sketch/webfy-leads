@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Barbearia Premium – O Seu Estilo, Nossa Arte</title>
+<title>Barber Premium – A Arte do Corte</title>
+
+<!-- Fontes -->
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 /* ==========================================================================
    RESET & VARIAVEIS
@@ -12,12 +15,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg: #0d0d0d;
+  --card: #141414;
+  --border: #222;
   --gold: #c9a84c;
   --gold2: #f0c96b;
   --text: #f0ede8;
   --muted: #888880;
-  --card: #141414;
-  --border: #222;
 }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -38,233 +41,347 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 24px 60px;
-  background: rgba(13,13,13,0.9);
-  backdrop-filter: blur(12px);
+  background: rgba(13,13,13,0.85);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(201,168,76,0.15);
   transition: padding 0.4s;
 }
 nav.scrolled { padding: 16px 60px; }
 .nav-logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 3px; color: var(--gold); }
 .nav-links { display: flex; gap: 30px; list-style: none; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+.nav-links a { text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
 .nav-links a:hover { color: var(--gold); }
-.nav-cta {
-  background: var(--gold);
-  color: #0d0d0d; padding: 12px 28px; border-radius: 50px;
-  font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+.nav-btn {
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+  background: linear-gradient(135deg, #c9a84c, #f0c96b); color: #0d0d0d;
+  padding: 12px 28px; border-radius: 50px;
   text-decoration: none; transition: transform 0.3s, box-shadow 0.3s;
 }
-.nav-cta:hover { transform: scale(1.05); box-shadow: 0 8px 28px rgba(201,168,76,0.3); }
+.nav-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
 
 /* ==========================================================================
-   HERO
+   HERO IMMERSIVE
    ========================================================================== */
 .hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 120px 60px 60px; gap: 60px;
+  height: 100vh;
   position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.hero::before {
-  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-  background: radial-gradient(circle at center, rgba(201,168,76,0.1) 0%, transparent 60%);
-  z-index: 0; pointer-events: none;
+.hero-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; transform: scale(1.1);
 }
-.hero-content { flex: 1; max-width: 600px; z-index: 2; }
-.hero-eyebrow { color: var(--gold); font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: inline-block; }
-.hero h1 { font-family: 'Anton', sans-serif; font-size: clamp(60px, 8vw, 110px); letter-spacing: 2px; line-height: 1; margin-bottom: 30px; text-transform: uppercase; }
-.hero h1 span { display: block; overflow: hidden; }
-.hero h1 .gold { color: var(--gold); }
-.hero p { color: var(--muted); font-size: 17px; line-height: 1.8; margin-bottom: 44px; }
-.btn-solid {
-  background: linear-gradient(135deg, #c9a84c, #f0c96b);
-  color: #0d0d0d; padding: 16px 36px; border-radius: 50px;
-  font-size: 14px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-  text-decoration: none; display: inline-block; transition: transform 0.3s;
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, var(--bg) 0%, transparent 60%, rgba(13,13,13,0.7) 100%);
 }
-.btn-solid:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(201,168,76,0.35); }
-
-.hero-image {
-  flex: 1; position: relative; height: 75vh;
-  border-radius: 24px; overflow: hidden;
-  box-shadow: 0 40px 80px rgba(201,168,76,0.15);
-  z-index: 2;
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; max-width: 800px; padding: 0 24px;
 }
-.hero-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-
-/* ==========================================================================
-   TRANSFORMACOES (SCROLL-DRIVEN SLIDER PURO)
-   ========================================================================== */
-.transformacoes {
-  background: var(--bg); padding: 150px 60px; color: var(--text);
-  display: flex; gap: 80px; align-items: center; justify-content: center;
-  border-top: 1px solid var(--border);
+.hero-tag {
+  display: inline-block; padding: 6px 16px; border-radius: 50px;
+  background: rgba(201,168,76,0.1); color: var(--gold);
+  font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 24px; border: 1px solid rgba(201,168,76,0.3);
 }
-.tr-left { flex: 1; max-width: 500px; }
-.tr-right { flex: 1; display: flex; justify-content: center; position: relative; }
-.tr-title { font-family: 'Anton', sans-serif; font-size: clamp(50px, 6vw, 80px); letter-spacing: 2px; line-height: 1; margin-bottom: 30px; text-transform: uppercase; }
-.tr-title em { color: var(--gold); font-style: normal; }
-.tr-desc { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; }
-
-/* Slider Wipe GSAP */
-.ba-wrap {
-  position: relative; width: 100%; max-width: 420px; aspect-ratio: 4/5;
-  border-radius: 24px; overflow: hidden;
-  box-shadow: 0 40px 80px rgba(201,168,76,0.15);
+.hero h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(50px, 8vw, 110px);
+  line-height: 1.05; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text); margin-bottom: 24px;
 }
-.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%); } 
-.ba-img.after { z-index: 1; filter: grayscale(0%) contrast(1.1); }
-.ba-img.before { z-index: 2; clip-path: inset(0 50% 0 0); filter: grayscale(100%); }
-
-.ba-tag {
-  position: absolute; z-index: 12; bottom: 30px;
-  padding: 8px 16px; border-radius: 50px;
-  font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-  background: rgba(13,13,13,0.9); color: white; backdrop-filter: blur(5px);
-  border: 1px solid rgba(255,255,255,0.1);
+.hero h1 span { color: var(--gold); display: block; }
+.hero p {
+  font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; max-width: 500px; margin-inline: auto;
 }
-.ba-tag.left { left: 30px; }
-.ba-tag.right { right: 30px; background: var(--gold); color: #0d0d0d; border: none; }
 
 /* ==========================================================================
-   SERVIÇOS
+   MARQUEE
    ========================================================================== */
-.services { padding: 150px 60px; background: var(--card); border-top: 1px solid var(--border); }
-.sec-header { text-align: center; margin-bottom: 80px; }
-.sec-title { font-family: 'Anton', sans-serif; font-size: clamp(50px, 6vw, 80px); letter-spacing: 2px; text-transform: uppercase; }
-.sec-desc { color: var(--muted); max-width: 600px; margin: 20px auto 0; line-height: 1.6; }
+.marquee-section { background: var(--gold); padding: 16px 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+.marquee-content { display: inline-flex; animation: scroll-left 25s linear infinite; gap: 40px; }
+.marquee-item { font-family: 'Anton', sans-serif; color: #0d0d0d; font-size: 24px; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 40px; }
+.marquee-item::after { content: '★'; color: rgba(0,0,0,0.3); letter-spacing: 0; }
+@keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-.srv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
-.service-card {
-  background: var(--bg); border: 1px solid var(--border); border-radius: 24px; padding: 40px 30px;
+/* ==========================================================================
+   BENTO GRID (A EXPERIÊNCIA)
+   ========================================================================== */
+.section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+.sec-header { text-align: center; margin-bottom: 60px; }
+.sec-title { font-family: 'Anton', sans-serif; font-size: clamp(40px, 6vw, 64px); color: var(--text); letter-spacing: 2px; line-height: 1; text-transform: uppercase; }
+.sec-title span { color: var(--gold); }
+.sec-desc { font-size: 15px; color: var(--muted); max-width: 500px; margin: 16px auto 0; line-height: 1.7; }
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 320px);
+  gap: 20px;
+}
+.bento-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 32px;
   transition: transform 0.3s, border-color 0.3s;
 }
-.service-card:hover { transform: translateY(-10px); border-color: var(--gold); }
-.service-icon { width: 60px; height: 60px; border-radius: 14px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 24px; }
-.service-icon svg { width: 30px; height: 30px; stroke: var(--gold); }
-.service-name { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-.service-desc { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.bento-box:hover { transform: translateY(-4px); border-color: rgba(201,168,76,0.5); }
+.bento-box.large { grid-column: span 2; grid-row: span 2; }
+.bento-box.tall { grid-row: span 2; }
+.bento-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: transform 0.7s; }
+.bento-box:hover .bento-img { transform: scale(1.05); }
+.bento-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.9) 0%, transparent 60%); z-index: 1; }
+.bento-content { position: relative; z-index: 2; color: var(--text); }
+.bento-content.dark { color: var(--text); }
+.bento-box.no-img { background: var(--bg); justify-content: center; align-items: center; text-align: center; }
+.bento-icon { width: 60px; height: 60px; border-radius: 12px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.bento-icon svg { width: 30px; height: 30px; stroke: var(--gold); stroke-width: 2; }
+.bento-title { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+.bento-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
 /* ==========================================================================
-   FOOTER MEGA
+   SERVIÇOS (CARDS)
    ========================================================================== */
-.footer-wrap { position: relative; background: var(--bg); border-top: 1px solid var(--border); }
-footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justify-content: space-between; }
-.footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
-.footer-links { display: flex; gap: 100px; }
-.f-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
-.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-.f-col a { color: var(--text); text-decoration: none; font-size: 15px; transition: color 0.3s; }
-.f-col a:hover { color: var(--gold); }
-.footer-bottom { padding-top: 60px; text-align: center; overflow: hidden; }
-.footer-huge {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(80px, 16vw, 250px);
-  color: var(--card); /* Texto escuro mesclado ao fundo */
-  line-height: 0.8; margin: 0;
-  text-shadow: 0 0 1px rgba(255,255,255,0.1);
-  letter-spacing: 4px;
+.srv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.srv-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 40px; transition: transform 0.3s, border-color 0.3s;
 }
+.srv-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+.srv-icon { width: 48px; height: 48px; margin-bottom: 24px; }
+.srv-icon svg { width: 100%; height: 100%; stroke: var(--gold); stroke-width: 1.5; }
+.srv-card h3 { font-family: 'Anton', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+.srv-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+.srv-price { font-size: 24px; font-weight: 800; color: var(--gold2); }
+
+/* ==========================================================================
+   GALERIA / PARALLAX
+   ========================================================================== */
+.parallax-banner {
+  height: 60vh; position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.parallax-bg { position: absolute; top: -20%; left: 0; width: 100%; height: 140%; object-fit: cover; z-index: 0; }
+.parallax-overlay { position: absolute; inset: 0; background: rgba(13,13,13,0.6); z-index: 1; }
+.parallax-content { position: relative; z-index: 2; text-align: center; color: white; max-width: 800px; padding: 0 24px; }
+.parallax-quote { font-family: 'Anton', sans-serif; font-size: clamp(40px, 6vw, 80px); letter-spacing: 2px; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; }
+.parallax-quote span { color: var(--gold); }
+.parallax-author { font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+
+/* ==========================================================================
+   DEPOIMENTOS
+   ========================================================================== */
+.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.test-card {
+  background: var(--bg); padding: 32px; border-radius: 16px; border: 1px solid var(--border);
+}
+.stars { color: var(--gold); margin-bottom: 16px; font-size: 16px; letter-spacing: 2px; }
+.test-text { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
+.test-author { font-weight: 800; color: var(--text); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ==========================================================================
+   FOOTER STANDARD
+   ========================================================================== */
+footer { background: var(--card); border-top: 1px solid var(--border); padding: 80px 40px 40px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
+.footer-brand { max-width: 300px; }
+.footer-logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--gold); margin-bottom: 16px; }
+.footer-brand p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.f-col h4 { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 20px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.f-col a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.f-col a:hover { color: var(--gold); }
+.footer-bottom { max-width: 1200px; margin: 40px auto 0; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
 
 @media (max-width: 1024px) {
-  nav { padding: 20px; } .nav-links { display: none; }
-  .hero { flex-direction: column; padding: 120px 30px 60px; text-align: center; }
-  .hero-image { width: 100%; height: 50vh; }
-  .srv-grid { grid-template-columns: repeat(2, 1fr); }
-  .transformacoes { flex-direction: column; padding: 80px 30px; text-align: center; }
-}
-@media (max-width: 600px) {
+  nav { padding: 16px 24px; } .nav-links { display: none; }
+  .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .bento-box.large, .bento-box.tall { grid-column: auto; grid-row: auto; min-height: 350px; }
   .srv-grid { grid-template-columns: 1fr; }
+  .test-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
 }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav id="nav">
   <div class="nav-logo">BARBER.</div>
   <ul class="nav-links">
+    <li><a href="#experiencia">A Experiência</a></li>
     <li><a href="#servicos">Serviços</a></li>
-    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
   </ul>
-  <a href="https://wa.me/5511999999999" class="nav-cta">Agendar Agora</a>
+  <a href="https://wa.me/5511999999999" class="nav-btn">Agendar Horário</a>
 </nav>
 
+<!-- HERO -->
 <section class="hero" id="hero">
+  <img src="img_hero_barbearia.jpg" alt="Barbearia" class="hero-bg gs-hero-bg">
+  <div class="hero-overlay"></div>
+  
   <div class="hero-content">
-    <div class="hero-eyebrow"><span class="gs-eyebrow">A Verdadeira Arte</span></div>
-    <h1 class="gs-title">O Seu<br><span class="gold">Estilo.</span></h1>
-    <p class="gs-desc">Cortes precisos, atendimento premium e um ambiente feito para quem valoriza a excelência. Agende agora e sinta a diferença.</p>
-    <a href="https://wa.me/5511999999999" class="btn-solid gs-desc">Agendar Horário</a>
-  </div>
-  <div class="hero-image gs-img">
-    <img src="img_hero_barbearia.jpg" alt="Barbearia" class="hero-bg-anim">
+    <div class="hero-tag gs-fade">Tradição & Estilo</div>
+    <h1 class="gs-fade">A Verdadeira <span>Arte.</span></h1>
+    <p class="gs-fade">Cortes precisos, visagismo e toalha quente. Um ambiente feito exclusivamente para o cavalheiro moderno que exige excelência.</p>
+    <a href="https://wa.me/5511999999999" class="nav-btn gs-fade" style="font-size: 14px; padding: 16px 36px; border-radius: 50px;">Reservar Cadeira</a>
   </div>
 </section>
 
-<!-- ANTES E DEPOIS WIPE -->
-<section class="transformacoes" id="resultados">
-  <div class="tr-left gs-fade-up">
-    <h2 class="tr-title">Novo<br><em>Visual</em></h2>
-    <p class="tr-desc">A primeira impressão importa. Role a tela e veja a transformação absurda que um corte com visagismo e uma barba alinhada podem fazer no seu estilo.</p>
-    <a href="https://wa.me/5511999999999" class="btn-solid">Quero essa transformação</a>
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-content">
+    <div class="marquee-item">Estilo Premium</div><div class="marquee-item">Visagismo Aplicado</div>
+    <div class="marquee-item">Tradição Clássica</div><div class="marquee-item">Toalha Quente</div>
+    <div class="marquee-item">Estilo Premium</div><div class="marquee-item">Visagismo Aplicado</div>
+    <div class="marquee-item">Tradição Clássica</div><div class="marquee-item">Toalha Quente</div>
   </div>
-  <div class="tr-right">
-    <div class="ba-wrap gs-ba-wrap">
-      <img src="barber_depois.jpg" class="ba-img after" alt="">
-      <img src="barber_antes.jpg" class="ba-img before" id="ba-before" alt="">
-      <div class="ba-tag left" id="tag-antes">ANTES</div>
-      <div class="ba-tag right" id="tag-depois">DEPOIS</div>
+</div>
+
+<!-- BENTO GRID (A EXPERIÊNCIA) -->
+<section class="section" id="experiencia">
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title">NOSSA <span>ASSINATURA</span></h2>
+    <p class="sec-desc">Muito além de um simples corte. Entregamos um ritual de autocuidado com maestria e perfeição em cada detalhe.</p>
+  </div>
+  
+  <div class="bento-grid">
+    <!-- Box 1 (Grande) -->
+    <div class="bento-box large gs-fade-up">
+      <img src="barber_depois.jpg" alt="Corte Fino" class="bento-img">
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <h3 class="bento-title">Técnicos Especialistas</h3>
+        <p class="bento-desc">Nossos barbeiros dominam do clássico ao moderno, utilizando técnicas avançadas de visagismo.</p>
+      </div>
+    </div>
+    
+    <!-- Box 2 (Text) -->
+    <div class="bento-box no-img gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="bento-content dark">
+        <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg></div>
+        <h3 class="bento-title">Barba Clássica</h3>
+        <p class="bento-desc">Navalha afiada, espuma cremosa e toalha quente relaxante. O verdadeiro ritual.</p>
+      </div>
+    </div>
+
+    <!-- Box 3 (Tall) -->
+    <div class="bento-box gs-fade-up">
+      <img src="barber_antes.jpg" alt="Antes" class="bento-img">
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <h3 class="bento-title">Ambiente Único</h3>
+        <p class="bento-desc">Sinta-se em casa. Cerveja gelada, café expresso e muito networking.</p>
+      </div>
+    </div>
+
+    <!-- Box 4 -->
+    <div class="bento-box gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="bento-content dark" style="text-align: center;">
+        <h3 class="bento-title" style="color:var(--gold); font-size:64px; margin:0;">5.0</h3>
+        <p class="bento-desc">Avaliação máxima de clientes 100% satisfeitos com a mudança visual.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- SERVIÇOS -->
-<section class="services" id="servicos">
+<section class="section" style="padding-top: 0;" id="servicos">
   <div class="sec-header gs-fade-up">
-    <h2 class="sec-title">NOSSA ASSINATURA</h2>
+    <h2 class="sec-title">NOSSO <span>MENU</span></h2>
   </div>
+  
   <div class="srv-grid">
-    <div class="service-card gs-fade-up">
-      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></div>
-      <div class="service-name">Corte Premium</div>
-      <div class="service-desc">Do degrade ao classico. Técnicos especializados com visagismo.</div>
+    <div class="srv-card gs-fade-up">
+      <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></div>
+      <h3>Corte Premium</h3>
+      <p>Consultoria de visagismo, corte na tesoura ou máquina, lavagem com massagem craniana e finalização perfeita.</p>
+      <div class="srv-price">R$ 70</div>
     </div>
-    <div class="service-card gs-fade-up" style="transition-delay: 0.1s;">
-      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/><line x1="19" y1="12" x2="5" y2="12"/></svg></div>
-      <div class="service-name">Barba Completa</div>
-      <div class="service-desc">Navalha, toalha quente e finalização. A verdadeira experiência tradicional.</div>
+    <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/><line x1="19" y1="12" x2="5" y2="12"/></svg></div>
+      <h3>Barba Tradicional</h3>
+      <p>Ritual completo com toalha quente, ozônio, modelagem milimétrica na navalha e balm hidratante.</p>
+      <div class="srv-price">R$ 55</div>
     </div>
-    <div class="service-card gs-fade-up" style="transition-delay: 0.2s;">
-      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg></div>
-      <div class="service-name">Sobrancelha</div>
-      <div class="service-desc">Alinhamento perfeito que levanta o olhar e define o rosto.</div>
+    <div class="srv-card gs-fade-up" style="transition-delay: 0.2s;">
+      <div class="srv-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg></div>
+      <h3>Combo (Cabelo + Barba)</h3>
+      <p>A transformação completa. Alinhamento total do seu estilo facial com o nosso pacote mais pedido.</p>
+      <div class="srv-price">R$ 110</div>
     </div>
-    <div class="service-card gs-fade-up" style="transition-delay: 0.3s;">
-      <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v4"/><path d="M8 16h8"/><path d="M6 20h12"/></svg></div>
-      <div class="service-name">Pigmentação</div>
-      <div class="service-desc">Correção de falhas e escurecimento natural de cabelo e barba.</div>
+  </div>
+</section>
+
+<!-- PARALLAX BANNER -->
+<section class="parallax-banner">
+  <img src="barber_depois.jpg" alt="Elegância" class="parallax-bg gs-parallax-bg">
+  <div class="parallax-overlay"></div>
+  <div class="parallax-content gs-fade-up">
+    <div class="parallax-quote">"SUA APARÊNCIA DITA <span>COMO O MUNDO TE RECEBE.</span>"</div>
+    <div class="parallax-author">The Barber Code</div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="section" id="depoimentos">
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title">CLIENTES DE <span>ELITE</span></h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card gs-fade-up">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Melhor fade da cidade. O ambiente é muito top, tocam uma música boa e a cerveja é sempre gelada."</p>
+      <p class="test-author">GUSTAVO M.</p>
+    </div>
+    <div class="test-card gs-fade-up" style="transition-delay:0.1s;">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Os caras sabem exatamente o que fazem. Só de olhar pro formato do meu rosto já sugeriram o corte ideal."</p>
+      <p class="test-author">FELIPE A.</p>
+    </div>
+    <div class="test-card gs-fade-up" style="transition-delay:0.2s;">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"O ritual da barba com toalha quente é sensacional. Saio de lá me sentindo um novo homem toda vez."</p>
+      <p class="test-author">RICARDO T.</p>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
-<div class="footer-wrap">
-  <footer id="footer">
-    <div class="footer-top gs-fade-up">
-      <div class="nav-logo">BARBER.</div>
-      <div class="footer-links">
-        <div class="f-col">
-          <h4>Contato</h4>
-          <ul><li><a href="#">(11) 99999-9999</a></li><li><a href="#">Rua Vintage, SP</a></li></ul>
-        </div>
-      </div>
+<footer id="footer">
+  <div class="footer-grid gs-fade-up">
+    <div class="footer-brand">
+      <div class="footer-logo">BARBER<span>.</span></div>
+      <p>Elevando o padrão da barbearia clássica. Onde técnicas antigas encontram a estética moderna.</p>
     </div>
-    <div class="footer-bottom">
-      <h2 class="footer-huge gs-fade-up">ESTILO.</h2>
+    <div class="f-col">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#experiencia">A Experiência</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+      </ul>
     </div>
-  </footer>
-</div>
+    <div class="f-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="#">(11) 99999-9999</a></li>
+        <li><a href="#">Rua Vintage, SP</a></li>
+        <li><a href="#">Agende pelo WhatsApp</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom gs-fade-up">
+    <span>© 2026 Barber Premium. Todos os direitos reservados.</span>
+    <span>Desenvolvido por <strong>Webfy</strong></span>
+  </div>
+</footer>
 
+<!-- SCRIPTS -->
 <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -273,11 +390,13 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
 document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
+  // Smooth Scroll
   const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0, 0);
 
+  // Navbar
   ScrollTrigger.create({
     start: 'top -50',
     onUpdate: (self) => {
@@ -286,43 +405,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const tl = gsap.timeline();
-  tl.from('.gs-img', { opacity: 0, x: 50, duration: 1.5, ease: 'power3.out' })
-    .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1')
-    .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
-    .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
+  // Hero
+  gsap.fromTo('.gs-hero-bg', { scale: 1.15 }, { scale: 1.05, duration: 4, ease: "power2.out" });
+  gsap.from('.gs-fade', { opacity: 0, y: 30, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.2 });
 
-  // Hero image Parallax/Scale breathing
-  gsap.to('.hero-bg-anim', {
-    scale: 1.05,
-    duration: 10,
-    yoyo: true,
-    repeat: -1,
-    ease: 'sine.inOut'
-  });
-
+  // Fade Up
   gsap.utils.toArray('.gs-fade-up').forEach(el => {
     gsap.from(el, {
-      opacity: 0, y: 50, duration: 1, ease: 'power3.out',
+      opacity: 0, y: 30, duration: 0.8, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 85%' }
     });
   });
 
-  // WIPE BEFORE/AFTER
-  const tlBa = gsap.timeline({
+  // Parallax Banner
+  gsap.to('.gs-parallax-bg', {
+    yPercent: 20,
+    ease: "none",
     scrollTrigger: {
-      trigger: '#resultados',
-      start: 'top 70%', 
-      end: 'bottom 40%', 
-      scrub: 1, 
+      trigger: ".parallax-banner",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
     }
   });
-  tlBa.fromTo('#ba-before', 
-    { clipPath: 'inset(0 0% 0 0)' }, 
-    { clipPath: 'inset(0 100% 0 0)', ease: 'none' }, 0 
-  );
-  tlBa.to('#tag-antes', { opacity: 0, ease: 'none' }, 0);
-  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#c9a84c', color: '#0d0d0d', ease: 'none' }, 0);
 });
 </script>
 </body>

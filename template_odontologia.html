@@ -15,7 +15,8 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --white: #ffffff;
-  --light-blue: #f0f9ff;
+  --bg: #f8fafc;
+  --card: #ffffff;
   --blue: #0284c7; 
   --blue-dark: #0369a1;
   --text: #0f172a;
@@ -30,7 +31,7 @@ html.lenis, html.lenis body { height: auto; }
 
 body { 
   font-family: 'Inter', sans-serif; 
-  background: var(--white); color: var(--text); 
+  background: var(--bg); color: var(--text); 
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -41,187 +42,171 @@ body {
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 24px 60px;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
+  padding: 20px 40px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
   transition: padding 0.4s;
 }
-nav.scrolled { padding: 16px 60px; }
-.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--blue-dark); }
-.nav-links { display: flex; gap: 30px; list-style: none; }
-.nav-links a { text-decoration: none; color: var(--text-light); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+nav.scrolled { padding: 12px 40px; }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--blue-dark); letter-spacing: 0.5px; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--text-light); font-size: 13px; font-weight: 500; transition: color 0.3s; }
 .nav-links a:hover { color: var(--blue); }
 .nav-btn {
-  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 2px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
   background: var(--blue); color: white;
-  padding: 14px 28px; border-radius: 50px;
+  padding: 10px 24px; border-radius: 8px;
   text-decoration: none; transition: background 0.3s, transform 0.3s;
 }
-.nav-btn:hover { background: var(--blue-dark); transform: scale(1.05); }
+.nav-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
 
 /* ==========================================================================
-   HERO (SCROLL TRIGGER ANIMATION)
+   HERO IMMERSIVE
    ========================================================================== */
 .hero {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: space-between;
-  background: var(--light-blue);
-  padding: 120px 60px 60px;
-  gap: 60px;
+  height: 100vh;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0; transform: scale(1.1);
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, rgba(248, 250, 252, 1) 0%, rgba(255,255,255,0.4) 60%, rgba(255,255,255,0.1) 100%);
 }
 .hero-content {
-  flex: 1; max-width: 600px;
+  position: relative; z-index: 2;
+  text-align: center; max-width: 800px; padding: 0 24px;
+  margin-top: 100px; /* offset navbar */
 }
-.hero-eyebrow {
-  font-size: 13px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--blue); margin-bottom: 24px; display: inline-block;
+.hero-tag {
+  display: inline-block; padding: 6px 16px; border-radius: 50px;
+  background: rgba(2, 132, 199, 0.1); color: var(--blue);
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 24px; border: 1px solid rgba(2, 132, 199, 0.2);
 }
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(50px, 6vw, 80px);
+  font-size: clamp(40px, 6vw, 72px);
   font-weight: 400; line-height: 1.1;
-  color: var(--text); margin-bottom: 30px;
+  color: var(--text); margin-bottom: 24px;
 }
-.hero h1 span { display: block; overflow: hidden; }
 .hero h1 em { font-style: italic; color: var(--blue); }
 .hero p {
-  font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px;
+  font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px; max-width: 600px; margin-inline: auto;
 }
-.hero-image {
-  flex: 1; position: relative; height: 75vh;
-  border-radius: 24px; overflow: hidden;
-  box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15);
-}
-.seq-container { position: relative; width: 100%; height: 100%; }
-.seq-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-.seq-1 { opacity: 1; }
-
-.hero-image img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
-}
-.hero-img-antes { z-index: 1; }
-/* Imagem Depois sobrepoe e começa escondida. O scroll ira revelar ela */
-.hero-img-depois { z-index: 2; clip-path: inset(0 0 100% 0); } /* Comeca escondida de baixo para cima */
 
 /* ==========================================================================
-   TRATAMENTOS
+   MARQUEE (Faixa Rotativa)
    ========================================================================== */
-.services {
-  background: var(--white); padding: 120px 60px;
-}
-.sec-header { text-align: center; margin-bottom: 80px; }
-.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); font-weight: 400; color: var(--text); }
+.marquee-section { background: var(--blue); padding: 20px 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.marquee-content { display: inline-flex; animation: scroll-left 25s linear infinite; gap: 40px; }
+.marquee-item { font-family: 'Cormorant Garamond', serif; color: white; font-size: 20px; font-style: italic; display: flex; align-items: center; gap: 40px; }
+.marquee-item::after { content: '•'; font-style: normal; color: rgba(255,255,255,0.3); }
+@keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ==========================================================================
+   BENTO GRID (SOBRE A CLINICA)
+   ========================================================================== */
+.section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+.sec-header { text-align: center; margin-bottom: 60px; }
+.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 400; color: var(--text); line-height: 1.1; }
 .sec-title em { color: var(--blue); font-style: italic; }
-.sec-desc { font-size: 16px; color: var(--text-light); max-width: 600px; margin: 20px auto 0; line-height: 1.6; }
+.sec-desc { font-size: 15px; color: var(--text-light); max-width: 600px; margin: 20px auto 0; line-height: 1.7; }
 
-.srv-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto;
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 300px);
+  gap: 24px;
 }
+.bento-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 32px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.bento-box:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+.bento-box.large { grid-column: span 2; grid-row: span 2; }
+.bento-box.tall { grid-row: span 2; }
+.bento-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: transform 0.7s ease; }
+.bento-box:hover .bento-img { transform: scale(1.05); }
+.bento-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%); z-index: 1; }
+.bento-content { position: relative; z-index: 2; color: white; }
+.bento-content.dark { color: var(--text); }
+.bento-box.no-img { background: var(--bg); justify-content: center; align-items: center; text-align: center; border: none; box-shadow: none; }
+.bento-icon { width: 60px; height: 60px; border-radius: 16px; background: rgba(2, 132, 199, 0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.bento-icon svg { width: 30px; height: 30px; stroke: var(--blue); }
+.bento-title { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 500; margin-bottom: 8px; }
+.bento-desc { font-size: 14px; line-height: 1.6; opacity: 0.9; }
+.bento-content.dark .bento-desc { color: var(--text-light); }
+
+/* ==========================================================================
+   SERVIÇOS (CARDS LIMPOS)
+   ========================================================================== */
+.srv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .srv-card {
-  background: var(--light-blue); border-radius: 20px; overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: transform 0.3s;
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px;
+  padding: 40px 32px; transition: transform 0.3s, box-shadow 0.3s;
 }
-.srv-card:hover { transform: translateY(-10px); }
-.srv-card-img { height: 280px; width: 100%; overflow: hidden; }
-.srv-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-.srv-card:hover .srv-card-img img { transform: scale(1.05); }
-.srv-card-content { padding: 40px; }
-.srv-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 500; margin-bottom: 16px; color: var(--text); }
-.srv-card p { font-size: 15px; color: var(--text-light); line-height: 1.7; }
+.srv-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(2, 132, 199, 0.05); }
+.srv-card-icon { margin-bottom: 24px; }
+.srv-card-icon svg { width: 36px; height: 36px; stroke: var(--blue); stroke-width: 1.5; }
+.srv-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 500; margin-bottom: 12px; color: var(--text); }
+.srv-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; }
 
 /* ==========================================================================
-   TRANSFORMACOES (SCROLL-DRIVEN SLIDER PURO)
+   GALERIA / PARALLAX CITAÇÃO
    ========================================================================== */
-.transformacoes {
-  background: var(--light-blue); padding: 150px 60px; color: var(--text);
-  display: flex; gap: 80px; align-items: center; justify-content: center;
+.parallax-banner {
+  height: 70vh; position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
 }
-.tr-left { flex: 1; max-width: 500px; }
-.tr-right { flex: 1; display: flex; justify-content: center; position: relative; }
-.tr-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); line-height: 1.1; margin-bottom: 30px; font-weight: 400; }
-.tr-title em { color: var(--blue); font-style: italic; }
-.tr-desc { font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px; }
-.btn-solid {
-  background: var(--blue); color: white; padding: 16px 36px; border-radius: 50px;
-  font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  text-decoration: none; display: inline-block; transition: background 0.3s, transform 0.3s;
-}
-.btn-solid:hover { background: var(--blue-dark); transform: translateY(-3px); }
-
-/* Componente Slider (Tamanho reduzido) */
-.ba-wrap {
-  position: relative; width: 100%; max-width: 420px; aspect-ratio: 4/5;
-  border-radius: 24px; overflow: hidden;
-  box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15);
-}
-.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.ba-img.after { z-index: 1; }
-/* Wipe sem linha nem bolinha */
-.ba-img.before { z-index: 2; clip-path: inset(0 50% 0 0); }
-
-.ba-tag {
-  position: absolute; z-index: 12; bottom: 30px;
-  padding: 8px 16px; border-radius: 50px;
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  background: rgba(255,255,255,0.9); color: var(--blue-dark); backdrop-filter: blur(5px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.ba-tag.left { left: 30px; }
-.ba-tag.right { right: 30px; background: var(--blue); color: white; }
+.parallax-bg { position: absolute; top: -20%; left: 0; width: 100%; height: 140%; object-fit: cover; z-index: 0; }
+.parallax-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+.parallax-content { position: relative; z-index: 2; text-align: center; color: white; max-width: 800px; padding: 0 24px; }
+.parallax-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 300; font-style: italic; line-height: 1.2; margin-bottom: 30px; }
+.parallax-author { font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.8); }
 
 /* ==========================================================================
-   DEPOIMENTOS & FAQ & FOOTER
+   DEPOIMENTOS (CLEAN)
    ========================================================================== */
-.testimonials {
-  background: var(--white); padding: 120px 60px; text-align: center;
-}
-.test-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 60px auto 0;
-}
+.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .test-card {
-  background: var(--light-blue); padding: 40px; border-radius: 20px;
-  text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+  background: var(--bg); padding: 40px; border-radius: 20px;
+  text-align: left; border: 1px solid var(--border);
 }
-.stars { color: #f59e0b; margin-bottom: 20px; font-size: 20px; }
-.test-text { font-size: 15px; color: var(--text-light); line-height: 1.7; font-style: italic; margin-bottom: 24px; }
-.test-author { font-weight: 700; color: var(--text); font-size: 14px; }
-
-.faq { background: var(--white); padding: 120px 60px; max-width: 900px; margin: 0 auto; border-top: 1px solid var(--border); }
-.faq-item { border-bottom: 1px solid var(--border); padding: 30px 0; }
-.faq-question { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--blue-dark); margin-bottom: 10px; }
-.faq-answer { font-size: 15px; color: var(--text-light); line-height: 1.7; }
-
-.footer-wrap { position: relative; background: var(--text); color: white; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justify-content: space-between; }
-.footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; }
-.footer-links { display: flex; gap: 100px; }
-.f-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
-.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-.f-col a { color: white; text-decoration: none; font-size: 15px; transition: color 0.3s; }
-.f-col a:hover { color: var(--blue); }
-.footer-bottom { padding-top: 60px; text-align: center; }
-.footer-huge {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(50px, 12vw, 180px);
-  font-weight: 300; color: white; line-height: 0.8; margin: 0;
-}
-.footer-copy { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 40px; }
+.stars { color: #f59e0b; margin-bottom: 20px; font-size: 16px; letter-spacing: 2px; }
+.test-text { font-size: 14px; color: var(--text-light); line-height: 1.8; margin-bottom: 24px; }
+.test-author { font-weight: 600; color: var(--text); font-size: 14px; }
 
 /* ==========================================================================
-   RESPONSIVE
+   FOOTER (PADRÃO AGÊNCIA)
    ========================================================================== */
+footer { background: var(--white); border-top: 1px solid var(--border); padding: 80px 40px 40px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
+.footer-brand { max-width: 300px; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--blue-dark); margin-bottom: 16px; }
+.footer-brand p { color: var(--text-light); font-size: 14px; line-height: 1.6; }
+.f-col h4 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 20px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.f-col a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.f-col a:hover { color: var(--blue); }
+.footer-bottom { max-width: 1200px; margin: 40px auto 0; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
+
 @media (max-width: 1024px) {
-  nav { padding: 20px; } .nav-links { display: none; }
-  .hero { flex-direction: column; padding: 120px 30px 60px; text-align: center; }
-  .hero-image { width: 100%; height: 50vh; }
+  nav { padding: 16px 24px; } .nav-links { display: none; }
+  .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .bento-box.large, .bento-box.tall { grid-column: auto; grid-row: auto; min-height: 350px; }
   .srv-grid { grid-template-columns: 1fr; }
-  .transformacoes { flex-direction: column; padding: 80px 30px; text-align: center; }
   .test-grid { grid-template-columns: 1fr; }
-  .footer-top { flex-direction: column; gap: 60px; }
-  .footer-links { flex-direction: column; gap: 40px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
 }
 </style>
 </head>
@@ -231,153 +216,171 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
 <nav id="nav">
   <div class="nav-logo">Ana Fernandes.</div>
   <ul class="nav-links">
+    <li><a href="#clinica">A Clínica</a></li>
     <li><a href="#tratamentos">Tratamentos</a></li>
-    <li><a href="#resultados">Resultados</a></li>
     <li><a href="#depoimentos">Depoimentos</a></li>
   </ul>
-  <a href="https://wa.me/5511999999999" class="nav-btn">Agendar</a>
+  <a href="https://wa.me/5511999999999" class="nav-btn">Agendar Avaliação</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero" id="hero">
+  <img src="odonto_hero_smile.jpg" alt="Sorriso Perfeito" class="hero-bg gs-hero-bg">
+  <div class="hero-overlay"></div>
+  
   <div class="hero-content">
-    <div class="hero-eyebrow"><span class="gs-eyebrow">Alta Estetica Dental</span></div>
-    <h1 class="gs-title">A Arte de<br><em>Transformar</em><br>Sorrisos.</h1>
-    <p class="gs-desc">Tecnologia avancada, conforto absoluto e um olhar artistico dedicado a criar a melhor versao do seu sorriso. Descubra a odontologia premium.</p>
-    <a href="https://wa.me/5511999999999" class="btn-solid gs-desc">Agendar Avaliacao</a>
+    <div class="hero-tag gs-fade">Odontologia de Excelência</div>
+    <h1 class="gs-fade">A Arte de<br><em>Transformar</em> Sorrisos.</h1>
+    <p class="gs-fade">Tecnologia avançada, conforto absoluto e um olhar artístico dedicado a criar a melhor versão do seu sorriso. Descubra a odontologia premium.</p>
+    <a href="https://wa.me/5511999999999" class="nav-btn gs-fade" style="font-size: 14px; padding: 14px 32px;">Agendar Consulta</a>
   </div>
-  <!-- Efeito Video (Animacao Sequencial 3D) -->
-  <div class="hero-image gs-img seq-container">
-    <img src="seq_1.jpg" class="seq-img seq-1" alt="Ato 1">
-    <img src="seq_2.jpg" class="seq-img seq-2" alt="Ato 2">
-    <img src="seq_3.jpg" class="seq-img seq-3" alt="Ato 3">
-    <img src="seq_4.jpg" class="seq-img seq-4" alt="Ato 4">
-    <img src="seq_5.jpg" class="seq-img seq-5" alt="Ato 5">
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-content">
+    <div class="marquee-item">Alta Tecnologia</div><div class="marquee-item">Precisão Estética</div>
+    <div class="marquee-item">Conforto Absoluto</div><div class="marquee-item">Atendimento Humanizado</div>
+    <div class="marquee-item">Resultados Duradouros</div><div class="marquee-item">Alta Tecnologia</div>
+    <div class="marquee-item">Precisão Estética</div><div class="marquee-item">Conforto Absoluto</div>
+  </div>
+</div>
+
+<!-- BENTO GRID (A CLÍNICA) -->
+<section class="section" id="clinica">
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title">Uma Experiência <em>Única</em></h2>
+    <p class="sec-desc">Nossa infraestrutura foi pensada em cada detalhe para oferecer não apenas os melhores tratamentos, mas uma experiência de conforto incomparável.</p>
+  </div>
+  
+  <div class="bento-grid">
+    <!-- Box 1 (Grande) -->
+    <div class="bento-box large gs-fade-up">
+      <img src="odonto_clinic_interior.jpg" alt="Interior da Clínica" class="bento-img">
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <h3 class="bento-title">Infraestrutura Premium</h3>
+        <p class="bento-desc">Ambientes climatizados, design moderno e equipamentos de última geração importados da Alemanha e Suíça.</p>
+      </div>
+    </div>
+    
+    <!-- Box 2 (Text only) -->
+    <div class="bento-box no-img gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="bento-content dark">
+        <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 00-7.65 0l-.77.78-.77-.78a5.4 5.4 0 00-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg></div>
+        <h3 class="bento-title">Odontologia Humanizada</h3>
+        <p class="bento-desc">Tratamentos sem dor, com foco total no bem-estar e controle de ansiedade do paciente.</p>
+      </div>
+    </div>
+
+    <!-- Box 3 (Tall) -->
+    <div class="bento-box gs-fade-up">
+      <img src="odonto_treatment_photo.jpg" alt="Tratamento" class="bento-img">
+      <div class="bento-overlay"></div>
+      <div class="bento-content">
+        <h3 class="bento-title">Planejamento Digital</h3>
+        <p class="bento-desc">Previsibilidade total do seu novo sorriso antes mesmo de iniciar o tratamento.</p>
+      </div>
+    </div>
+
+    <!-- Box 4 -->
+    <div class="bento-box gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="bento-content dark" style="text-align: center;">
+        <h3 class="bento-title" style="color:var(--blue); font-size:48px; margin:0;">15+</h3>
+        <p class="bento-desc">Anos transformando sorrisos e devolvendo a autoestima.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- TRATAMENTOS -->
-<section class="services" id="tratamentos">
+<section class="section" style="padding-top: 0;" id="tratamentos">
   <div class="sec-header gs-fade-up">
-    <h2 class="sec-title">Nossas<br><em>Especialidades</em></h2>
-    <p class="sec-desc">Tratamentos planejados digitalmente para garantir precisao, estetica natural e seguranca.</p>
+    <h2 class="sec-title">Nossas <em>Especialidades</em></h2>
   </div>
   
   <div class="srv-grid">
     <div class="srv-card gs-fade-up">
-      <div class="srv-card-img"><img src="hero_depois.jpg" alt="Lentes de Contato"></div>
-      <div class="srv-card-content">
-        <h3>Lentes de Contato</h3>
-        <p>Laminas ultrafinas de porcelana premium que corrigem imperfeicoes, formato e cor com resultado permanente e hiper-realista.</p>
-      </div>
+      <div class="srv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div>
+      <h3>Lentes de Contato</h3>
+      <p>Lâminas ultrafinas de porcelana que corrigem imperfeições, formato e cor com resultado hiper-realista permanente.</p>
     </div>
     <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
-      <div class="srv-card-img"><img src="treatment_photo.jpg" alt="Clareamento a Laser"></div>
-      <div class="srv-card-content">
-        <h3>Clareamento Laser</h3>
-        <p>Dentes significativamente mais brancos em uma unica sessao, utilizando protocolo sem sensibilidade para seu total conforto.</p>
-      </div>
+      <div class="srv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+      <h3>Clareamento a Laser</h3>
+      <p>Protocolo moderno que garante dentes mais brancos sem causar sensibilidade dolorosa durante ou após a sessão.</p>
     </div>
-    <div class="srv-card gs-fade-up">
-      <div class="srv-card-img"><img src="img_depois_odonto.jpg" alt="Implantes"></div>
-      <div class="srv-card-content">
-        <h3>Implantes Premium</h3>
-        <p>Recupere a seguranca ao sorrir e mastigar. Utilizamos componentes importados de altissima qualidade com resultados imperceptiveis.</p>
-      </div>
-    </div>
-    <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
-      <div class="srv-card-img"><img src="img_antes_odonto.jpg" alt="Alinhadores"></div>
-      <div class="srv-card-content">
-        <h3>Ortodontia Invisivel</h3>
-        <p>Alinhe seus dentes de forma discreta e confortavel com alinhadores transparentes removiveis de alta tecnologia.</p>
-      </div>
+    <div class="srv-card gs-fade-up" style="transition-delay: 0.2s;">
+      <div class="srv-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <h3>Implantes Premium</h3>
+      <p>Componentes importados com técnica minimamente invasiva para repor dentes perdidos com segurança absoluta.</p>
     </div>
   </div>
 </section>
 
-<!-- ANTES E DEPOIS (SCROLL DRIVEN PURO, SEM DRAG, TAMANHO REDUZIDO) -->
-<section class="transformacoes" id="resultados">
-  <div class="tr-left gs-fade-up">
-    <h2 class="tr-title">O Poder de um<br><em>Novo Sorriso</em></h2>
-    <p class="tr-desc">Resultados reais que mudam vidas. A estetica dental vai muito alem da beleza; ela devolve a confianca e a autoestima.<br><br><b>Role a tela</b> para revelar a transformacao de forma organica.</p>
-    <a href="https://wa.me/5511999999999" class="btn-solid">Quero Transformar meu Sorriso</a>
-  </div>
-  <div class="tr-right">
-    <!-- Removido botão/linha. Wrapper reduzido (max-width 420px via CSS) -->
-    <div class="ba-wrap gs-ba-wrap">
-      <img src="img_depois_odonto.jpg" class="ba-img after" alt="">
-      <img src="img_antes_odonto.jpg" class="ba-img before" id="ba-before" alt="">
-      
-      <div class="ba-tag left" id="tag-antes">ANTES</div>
-      <div class="ba-tag right" id="tag-depois">DEPOIS</div>
-    </div>
+<!-- PARALLAX BANNER -->
+<section class="parallax-banner">
+  <img src="smile_whitening.jpg" alt="Sorriso Branco" class="parallax-bg gs-parallax-bg">
+  <div class="parallax-overlay"></div>
+  <div class="parallax-content gs-fade-up">
+    <div class="parallax-quote">"O sorriso é o cartão de visita da sua alma. Cuide dele como a sua maior joia."</div>
+    <div class="parallax-author">Dra. Ana Fernandes</div>
   </div>
 </section>
 
 <!-- DEPOIMENTOS -->
-<section class="testimonials" id="depoimentos">
+<section class="section" id="depoimentos">
   <div class="sec-header gs-fade-up">
-    <h2 class="sec-title">O que dizem<br>nossos <em>Pacientes</em></h2>
+    <h2 class="sec-title">Histórias de <em>Transformação</em></h2>
   </div>
   <div class="test-grid">
     <div class="test-card gs-fade-up">
       <div class="stars">★★★★★</div>
-      <p class="test-text">"Sempre tive muito medo de dentista, mas a Dra. Ana me passou tanta seguranca que fiz minhas lentes de contato e amei o resultado. O ambiente e fantastico!"</p>
-      <p class="test-author">- Mariana Costa</p>
+      <p class="test-text">"Sempre tive pavor de dentista, mas a Dra. Ana mudou isso. Ambiente calmo, procedimento indolor e as minhas lentes ficaram super naturais!"</p>
+      <p class="test-author">MARIANA COSTA</p>
     </div>
     <div class="test-card gs-fade-up" style="transition-delay:0.1s;">
       <div class="stars">★★★★★</div>
-      <p class="test-text">"Profissionalismo impecavel. O clareamento a laser foi realmente indolor e o resultado superou minhas expectativas logo na primeira sessao."</p>
-      <p class="test-author">- Ricardo Alves</p>
+      <p class="test-text">"Profissionalismo impecável. O clareamento a laser foi rápido e realmente sem sensibilidade. Estrutura de primeiro mundo."</p>
+      <p class="test-author">RICARDO ALVES</p>
     </div>
     <div class="test-card gs-fade-up" style="transition-delay:0.2s;">
       <div class="stars">★★★★★</div>
-      <p class="test-text">"Estrutura incrivel e atendimento de primeira. Transformaram meu sorriso e minha autoestima. Melhor clinica de Sao Paulo, sem duvidas."</p>
-      <p class="test-author">- Fernanda Lima</p>
+      <p class="test-text">"As facetas transformaram não só o meu sorriso, mas a minha autoconfiança no trabalho. O planejamento 3D faz toda a diferença."</p>
+      <p class="test-author">FERNANDA LIMA</p>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="faq gs-fade-up">
-  <div class="sec-header">
-    <h2 class="sec-title">Duvidas <em>Frequentes</em></h2>
-  </div>
-  <div class="faq-item">
-    <h3 class="faq-question">As lentes de contato desgastam muito o dente?</h3>
-    <p class="faq-answer">Nao. A tecnologia atual permite preparos minimamente invasivos. Em muitos casos, sequer e necessario realizar desgastes na estrutura natural do dente, preservando sua saude.</p>
-  </div>
-  <div class="faq-item">
-    <h3 class="faq-question">O clareamento dental causa sensibilidade?</h3>
-    <p class="faq-answer">Nosso protocolo a laser e projetado justamente para evitar a sensibilidade. Utilizamos geis de altissima qualidade aliados a lasers dessensibilizantes, garantindo total conforto.</p>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<div class="footer-wrap">
-  <footer id="footer">
-    <div class="footer-top gs-fade-up">
-      <div class="nav-logo" style="color:white;">Ana Fernandes.</div>
-      <div class="footer-links">
-        <div class="f-col">
-          <h4>Clinica</h4>
-          <ul><li><a href="#tratamentos">Tratamentos</a></li><li><a href="#resultados">Resultados</a></li></ul>
-        </div>
-        <div class="f-col">
-          <h4>Contato</h4>
-          <ul><li><a href="#">(11) 99999-9999</a></li><li><a href="#">contato@draana.com.br</a></li><li><a href="#">Av. Paulista, SP</a></li></ul>
-        </div>
-      </div>
+<!-- FOOTER STANDARD -->
+<footer id="footer">
+  <div class="footer-grid gs-fade-up">
+    <div class="footer-brand">
+      <div class="footer-logo">Ana Fernandes.</div>
+      <p>Clínica odontológica especializada em estética e reabilitação oral, unindo tecnologia de ponta e atendimento humanizado.</p>
     </div>
-    <div class="footer-bottom">
-      <h2 class="footer-huge gs-fade-up">SORRIA.</h2>
-      <div class="footer-copy">
-        <span>© 2026 Dra. Ana Fernandes</span>
-        <span>Feito por Webfy</span>
-      </div>
+    <div class="f-col">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#clinica">A Clínica</a></li>
+        <li><a href="#tratamentos">Especialidades</a></li>
+        <li><a href="#depoimentos">Depoimentos</a></li>
+      </ul>
     </div>
-  </footer>
-</div>
+    <div class="f-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="#">(11) 99999-9999</a></li>
+        <li><a href="#">contato@draana.com.br</a></li>
+        <li><a href="#">Av. Paulista, SP</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom gs-fade-up">
+    <span>© 2026 Dra. Ana Fernandes. Todos os direitos reservados.</span>
+    <span>Desenvolvido por <strong>Webfy</strong></span>
+  </div>
+</footer>
 
 <!-- SCRIPTS -->
 <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
@@ -403,51 +406,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 2. Animacao Hero (Load)
-  const tl = gsap.timeline();
-  tl.from('.gs-img', { opacity: 0, x: 50, duration: 1.5, ease: 'power3.out' })
-    .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1')
-    .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
-    .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
+  // Hero Load Animation
+  gsap.fromTo('.gs-hero-bg', { scale: 1.15 }, { scale: 1.05, duration: 4, ease: "power2.out" });
+  gsap.from('.gs-fade', { opacity: 0, y: 30, duration: 1, stagger: 0.15, ease: 'power3.out', delay: 0.2 });
 
-  // ANIMACAO SEQUENCIAL (EFEITO VIDEO STOP MOTION)
-  const tlSeq = gsap.timeline({ repeat: -1 });
-  // Controla o crossfade das imagens simulando frames chave de um video
-  tlSeq.to('.seq-2', { opacity: 1, duration: 0.5 }, "+=1.5")
-       .to('.seq-3', { opacity: 1, duration: 0.5, scale: 1.05 }, "+=1.5")
-       .to('.seq-4', { opacity: 1, duration: 0.5 }, "+=1.2")
-       .to('.seq-5', { opacity: 1, duration: 1, scale: 1.08 }, "+=1.5")
-       .to('.seq-5, .seq-4, .seq-3, .seq-2', { opacity: 0, duration: 1 }, "+=3");
-
-  // Fade Up Elements Generic
+  // Fade Up Elements Generic (Subtle)
   gsap.utils.toArray('.gs-fade-up').forEach(el => {
     gsap.from(el, {
-      opacity: 0, y: 50, duration: 1, ease: 'power3.out',
+      opacity: 0, y: 30, duration: 0.8, ease: 'power2.out',
       scrollTrigger: { trigger: el, start: 'top 85%' }
     });
   });
 
-  // 3. Componente Antes/Depois (WIPE SIMPLES SEM DRAG, SEM LINHA)
-  const baWrap = document.querySelector('.gs-ba-wrap');
-  
-  const tlBa = gsap.timeline({
+  // Parallax Image Banner
+  gsap.to('.gs-parallax-bg', {
+    yPercent: 20,
+    ease: "none",
     scrollTrigger: {
-      trigger: '#resultados',
-      start: 'top 70%', 
-      end: 'bottom 40%', 
-      scrub: 1, 
+      trigger: ".parallax-banner",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
     }
   });
-
-  // O wipe ocorre mudando o clip-path puramente via GSAP
-  tlBa.fromTo('#ba-before', 
-    { clipPath: 'inset(0 0% 0 0)' }, // Comeca sem wipe (mostra o 'Antes' 100%)
-    { clipPath: 'inset(0 100% 0 0)', ease: 'none' }, 0 // Termina wipeado totalmente (revela o 'Depois')
-  );
-
-  // Fade nas tags
-  tlBa.to('#tag-antes', { opacity: 0, ease: 'none' }, 0);
-  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#0369a1', color: 'white', ease: 'none' }, 0);
 });
 </script>
 </body>
