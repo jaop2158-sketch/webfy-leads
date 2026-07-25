@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformacoes Reais | Webfy Templates</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #080808; --surface: #111; --border: #1e1e1e;
+  --gold: #c9a84c; --gold2: #f0c96b; --text: #f0ede8; --muted: #666;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 40px; background: rgba(8,8,8,0.94); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--gold); }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-back { background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.2); color: var(--gold); padding: 8px 18px; border-radius: 8px; font-size: 12px; font-weight: 600; text-decoration: none; }
+
+.page-hero {
+  min-height: 55vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 120px 24px 60px; position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,168,76,.07) 0%, transparent 70%);
+}
+.page-hero > * { position: relative; z-index: 1; }
+.tag-row { display: flex; align-items: center; gap: 12px; justify-content: center; margin-bottom: 24px; }
+.tag-line { width: 36px; height: 1px; background: var(--gold); }
+.tag-text { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); }
+.page-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 6vw, 80px); font-weight: 300; line-height: 1.1; margin-bottom: 20px;
+}
+.page-hero h1 em { font-style: italic; color: var(--gold); }
+.page-hero p { font-size: 15px; color: var(--muted); max-width: 480px; line-height: 1.8; }
+
+.section { padding: 90px 0; }
+.section-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+.sec-head { text-align: center; margin-bottom: 64px; }
+.sec-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(201,168,76,.07); border: 1px solid rgba(201,168,76,.2);
+  padding: 8px 20px; border-radius: 50px; margin-bottom: 20px;
+}
+.sec-badge span { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.sec-head h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: var(--text);
+}
+.sec-head h2 em { font-style: italic; color: var(--gold); }
+.sec-head p { font-size: 14px; color: var(--muted); margin-top: 12px; line-height: 1.8; }
+
+.ba-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+@media (max-width: 768px) { .ba-grid { grid-template-columns: 1fr; } }
+
+.ba-card {
+  border-radius: 20px; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--border);
+  opacity: 0; transform: translateY(50px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.ba-card.in { opacity: 1; transform: none; }
+
+.ba-header { padding: 20px 22px 14px; }
+.ba-label { font-size: 11px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.ba-title { font-size: 17px; font-weight: 700; color: var(--text); }
+
+.ba-wrap {
+  position: relative; width: 100%;
+  aspect-ratio: 1 / 1; overflow: hidden; cursor: col-resize; user-select: none;
+}
+.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.ba-img.after  { z-index: 1; }
+.ba-img.before { z-index: 2; clip-path: inset(0 50% 0 0); }
+
+.ba-line {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 2px; background: white; z-index: 10; transform: translateX(-50%);
+}
+.ba-knob {
+  position: absolute; top: 50%; left: 50%; z-index: 11;
+  transform: translate(-50%, -50%);
+  width: 46px; height: 46px; border-radius: 50%;
+  background: white; box-shadow: 0 4px 20px rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+}
+.ba-knob svg { width: 20px; height: 20px; stroke: #333; }
+
+.ba-pill {
+  position: absolute; z-index: 12; bottom: 14px;
+  padding: 5px 12px; border-radius: 6px;
+  font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+}
+.ba-pill.left  { left: 14px; background: rgba(0,0,0,.7); color: #888; }
+.ba-pill.right { right: 14px; background: var(--gold); color: #0a0a0a; }
+
+.ba-footer { padding: 14px 22px 20px; display: flex; align-items: center; justify-content: space-evenly; }
+.ba-stat { text-align: center; }
+.ba-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--gold); }
+.ba-stat-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.ba-sep { width: 1px; height: 30px; background: var(--border); }
+
+/* CAROUSEL */
+.carousel-section { padding: 80px 0; background: var(--surface); border-top: 1px solid var(--border); }
+.carousel-wrap { overflow: hidden; margin-top: 48px; }
+.carousel-track {
+  display: flex; gap: 18px;
+  animation: roll 30s linear infinite;
+  width: max-content;
+}
+.carousel-track:hover { animation-play-state: paused; }
+@keyframes roll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.c-item { width: 280px; flex-shrink: 0; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); position: relative; }
+.c-item img { width: 100%; height: 200px; object-fit: cover; display: block; }
+.c-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 36px 14px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,.9), transparent);
+  font-size: 13px; font-weight: 600;
+}
+.c-sub { font-size: 11px; color: var(--gold); margin-top: 2px; }
+
+/* CALLOUT */
+.callout {
+  text-align: center; padding: 90px 32px;
+  background: linear-gradient(135deg, rgba(201,168,76,.05), rgba(201,168,76,.02));
+  border-top: 1px solid var(--border);
+}
+.callout h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 48px); font-weight: 300; margin-bottom: 16px;
+}
+.callout h2 em { font-style: italic; color: var(--gold); }
+.callout p { color: var(--muted); font-size: 15px; line-height: 1.8; max-width: 460px; margin: 0 auto 36px; }
+.btn-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #0a0a0a; padding: 14px 30px; border-radius: 8px;
+  font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  text-decoration: none; transition: transform .2s, box-shadow .2s;
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(201,168,76,.35); }
+.btn-ghost {
+  border: 1px solid rgba(201,168,76,.4); color: var(--gold);
+  padding: 14px 30px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.in { opacity: 1; transform: none; }
+.d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Webfy Transformacoes</div>
+  <div class="nav-links">
+    <a href="#odonto">Odontologia</a>
+    <a href="#barber">Barbearia</a>
+  </div>
+  <a href="templates.html" class="nav-back">← Voltar</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="tag-row">
+    <div class="tag-line"></div>
+    <div class="tag-text">Resultados Reais</div>
+    <div class="tag-line"></div>
+  </div>
+  <h1>Antes &amp; Depois<br><em>Que Convencem.</em></h1>
+  <p>Arraste o divisor para comparar os resultados. Use este material para mostrar ao cliente o poder da transformacao.</p>
+</div>
+
+<!-- ODONTOLOGIA -->
+<section class="section" id="odonto">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <div class="sec-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8" width="16" height="16"><path d="M12 2C9 2 7 4 7 7c0 2.5 1 4.5 2.5 5.5L8 22h8l-1.5-9.5C16 11.5 17 9.5 17 7c0-3-2-5-5-5z"/></svg>
+        <span>Odontologia Premium</span>
+      </div>
+      <h2>Sorrisos que <em>Transformam</em></h2>
+      <p>Arraste o divisor para ver a diferenca. Resultados reais de pacientes reais.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-card" data-delay="0">
+        <div class="ba-header"><div class="ba-label">1 Sessao de Laser</div><div class="ba-title">Clareamento Dental</div></div>
+        <div class="ba-wrap" data-id="1">
+          <img src="img_depois_odonto.jpg" class="ba-img after" alt="Depois">
+          <img src="img_antes_odonto.jpg" class="ba-img before" alt="Antes" data-before="1">
+          <div class="ba-line" data-line="1"></div>
+          <div class="ba-knob" data-knob="1"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg></div>
+          <div class="ba-pill left">ANTES</div><div class="ba-pill right">DEPOIS</div>
+        </div>
+        <div class="ba-footer">
+          <div class="ba-stat"><div class="ba-stat-num">8x</div><div class="ba-stat-lbl">Tons mais claro</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">1h</div><div class="ba-stat-lbl">Duracao</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">0dor</div><div class="ba-stat-lbl">Indolor</div></div>
+        </div>
+      </div>
+      <div class="ba-card" data-delay="150">
+        <div class="ba-header"><div class="ba-label">3 Semanas</div><div class="ba-title">Lentes de Contato Dental</div></div>
+        <div class="ba-wrap" data-id="2">
+          <img src="img_depois_odonto.jpg" class="ba-img after" alt="Depois">
+          <img src="img_antes_odonto.jpg" class="ba-img before" alt="Antes" data-before="2">
+          <div class="ba-line" data-line="2"></div>
+          <div class="ba-knob" data-knob="2"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg></div>
+          <div class="ba-pill left">ANTES</div><div class="ba-pill right">DEPOIS</div>
+        </div>
+        <div class="ba-footer">
+          <div class="ba-stat"><div class="ba-stat-num">98%</div><div class="ba-stat-lbl">Satisfacao</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">10+</div><div class="ba-stat-lbl">Anos duracao</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">Zero</div><div class="ba-stat-lbl">Desgaste</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BARBEARIA -->
+<section class="section" id="barber" style="background:var(--surface);border-top:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <div class="sec-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c9a84c" stroke-width="1.8" width="16" height="16"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/></svg>
+        <span>Barber King</span>
+      </div>
+      <h2>Cortes que <em>Impressionam</em></h2>
+      <p>Do cabelo desgrenhado ao estilo perfeito em uma unica visita. Arraste para ver.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-card" data-delay="0">
+        <div class="ba-header"><div class="ba-label">1 Visita · 45 min</div><div class="ba-title">Corte Degrade + Barba Completa</div></div>
+        <div class="ba-wrap" data-id="3">
+          <img src="img_depois_barber.jpg" class="ba-img after" alt="Depois">
+          <img src="img_antes_barber.jpg" class="ba-img before" alt="Antes" data-before="3">
+          <div class="ba-line" data-line="3"></div>
+          <div class="ba-knob" data-knob="3"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg></div>
+          <div class="ba-pill left">ANTES</div><div class="ba-pill right">DEPOIS</div>
+        </div>
+        <div class="ba-footer">
+          <div class="ba-stat"><div class="ba-stat-num">45min</div><div class="ba-stat-lbl">Duracao</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">5★</div><div class="ba-stat-lbl">Avaliacao</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">R$60</div><div class="ba-stat-lbl">A partir de</div></div>
+        </div>
+      </div>
+      <div class="ba-card" data-delay="150">
+        <div class="ba-header"><div class="ba-label">30 min · Navalha Fria</div><div class="ba-title">Design de Barba Completo</div></div>
+        <div class="ba-wrap" data-id="4">
+          <img src="img_depois_barber.jpg" class="ba-img after" alt="Depois">
+          <img src="img_antes_barber.jpg" class="ba-img before" alt="Antes" data-before="4">
+          <div class="ba-line" data-line="4"></div>
+          <div class="ba-knob" data-knob="4"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg></div>
+          <div class="ba-pill left">ANTES</div><div class="ba-pill right">DEPOIS</div>
+        </div>
+        <div class="ba-footer">
+          <div class="ba-stat"><div class="ba-stat-num">30min</div><div class="ba-stat-lbl">Duracao</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">100%</div><div class="ba-stat-lbl">Precisao</div></div>
+          <div class="ba-sep"></div>
+          <div class="ba-stat"><div class="ba-stat-num">R$35</div><div class="ba-stat-lbl">A partir de</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAROUSEL INFINITO -->
+<section class="carousel-section">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <div class="sec-badge"><span>Galeria de Resultados</span></div>
+      <h2>Cada detalhe <em>importa.</em></h2>
+    </div>
+  </div>
+  <div class="carousel-wrap">
+    <div class="carousel-track">
+      <div class="c-item"><img src="img_depois_odonto.jpg" alt=""><div class="c-label">Sorriso Perfeito<div class="c-sub">Odontologia Premium</div></div></div>
+      <div class="c-item"><img src="img_depois_barber.jpg" alt=""><div class="c-label">Corte Impecavel<div class="c-sub">Barber King</div></div></div>
+      <div class="c-item"><img src="img_antes_odonto.jpg" alt=""><div class="c-label">Antes do Tratamento<div class="c-sub">Odontologia</div></div></div>
+      <div class="c-item"><img src="img_antes_barber.jpg" alt=""><div class="c-label">Antes do Corte<div class="c-sub">Barbearia</div></div></div>
+      <div class="c-item"><img src="img_odonto_hero.jpg" alt=""><div class="c-label">Atendimento Exclusivo<div class="c-sub">Odontologia</div></div></div>
+      <div class="c-item"><img src="img_hero_barbearia.jpg" alt=""><div class="c-label">Ambiente Premium<div class="c-sub">Barber King</div></div></div>
+      <!-- Duplicatas para loop infinito -->
+      <div class="c-item"><img src="img_depois_odonto.jpg" alt=""><div class="c-label">Sorriso Perfeito<div class="c-sub">Odontologia Premium</div></div></div>
+      <div class="c-item"><img src="img_depois_barber.jpg" alt=""><div class="c-label">Corte Impecavel<div class="c-sub">Barber King</div></div></div>
+      <div class="c-item"><img src="img_antes_odonto.jpg" alt=""><div class="c-label">Antes do Tratamento<div class="c-sub">Odontologia</div></div></div>
+      <div class="c-item"><img src="img_antes_barber.jpg" alt=""><div class="c-label">Antes do Corte<div class="c-sub">Barbearia</div></div></div>
+      <div class="c-item"><img src="img_odonto_hero.jpg" alt=""><div class="c-label">Atendimento Exclusivo<div class="c-sub">Odontologia</div></div></div>
+      <div class="c-item"><img src="img_hero_barbearia.jpg" alt=""><div class="c-label">Ambiente Premium<div class="c-sub">Barber King</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="callout">
+  <h2 class="reveal">Mostre ao cliente.<br><em>Feche o contrato.</em></h2>
+  <p class="reveal d1">Use este comparativo durante a reuniao. Resultados visuais convencem muito mais que palavras.</p>
+  <div class="btn-row reveal d2">
+    <a href="template_odontologia.html" class="btn-gold">Template Odontologia</a>
+    <a href="template_barbearia.html" class="btn-ghost">Template Barbearia</a>
+  </div>
+</section>
+
+<script>
+// ════════════════════════════════════════
+// SLIDER ANTES/DEPOIS
+// ════════════════════════════════════════
+function makeSlider(id) {
+  const wrap   = document.querySelector(`.ba-wrap[data-id="${id}"]`);
+  const before = wrap.querySelector(`[data-before="${id}"]`);
+  const line   = wrap.querySelector(`[data-line="${id}"]`);
+  const knob   = wrap.querySelector(`[data-knob="${id}"]`);
+  let dragging = false;
+
+  function moveTo(clientX) {
+    const r = wrap.getBoundingClientRect();
+    let p = Math.max(2, Math.min(98, ((clientX - r.left) / r.width) * 100));
+    before.style.clipPath = `inset(0 ${100-p}% 0 0)`;
+    line.style.left  = p + '%';
+    knob.style.left  = p + '%';
+  }
+
+  // AUTO animacao ao entrar na tela
+  const card = wrap.closest('.ba-card');
+  const delay = +card.dataset.delay || 0;
+
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    setTimeout(() => {
+      card.classList.add('in');
+      // anima de 80% -> 20% -> 50%
+      let start = null;
+      const dur = 2800;
+      const anim = (t) => {
+        if (!start) start = t;
+        const elapsed = t - start;
+        const prog = Math.min(elapsed / dur, 1);
+        // easing sinusoidal de ida e volta
+        const pct = 50 + 35 * Math.sin(prog * Math.PI * 1.5 - Math.PI / 2) * (1 - prog * 0.4);
+        moveTo(wrap.getBoundingClientRect().left + (pct / 100) * wrap.getBoundingClientRect().width);
+        if (prog < 1) requestAnimationFrame(anim);
+        else moveTo(wrap.getBoundingClientRect().left + wrap.getBoundingClientRect().width * 0.5);
+      };
+      requestAnimationFrame(anim);
+    }, delay + 300);
+  }, { threshold: 0.25 }).observe(card);
+
+  // Mouse
+  wrap.addEventListener('mousedown', e => { dragging = true; moveTo(e.clientX); e.preventDefault(); });
+  window.addEventListener('mousemove', e => { if (dragging) moveTo(e.clientX); });
+  window.addEventListener('mouseup', () => { dragging = false; });
+  // Touch
+  wrap.addEventListener('touchstart', e => { dragging = true; moveTo(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchmove', e => { if (dragging) moveTo(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchend', () => { dragging = false; });
+}
+
+[1, 2, 3, 4].forEach(makeSlider);
+
+// ════════════════════════════════════════
+// SCROLL REVEAL
+// ════════════════════════════════════════
+new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.1 }).observe(document.body); // dummy
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
