@@ -10,16 +10,17 @@
 
 <style>
 /* ==========================================================================
-   RESET & VARIAVEIS
+   RESET & VARIAVEIS (AZUL CLARO E BRANCO)
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --cream: #f4eee6;
-  --dark: #0a0a0a;
-  --gold: #d6af5f;
-  --text: #1a1a1a;
-  --text-light: #f0ede8;
-  --muted: #8a7a6a;
+  --white: #ffffff;
+  --light-blue: #f0f9ff;
+  --blue: #0284c7; /* Azul premium */
+  --blue-dark: #0369a1;
+  --text: #0f172a;
+  --text-light: #475569;
+  --muted: #94a3b8;
 }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -29,7 +30,7 @@ html.lenis, html.lenis body { height: auto; }
 
 body { 
   font-family: 'Inter', sans-serif; 
-  background: var(--dark); color: var(--text-light); 
+  background: var(--white); color: var(--text); 
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -41,175 +42,198 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 30px 60px;
-  mix-blend-mode: difference; color: white;
+  color: var(--text);
+  transition: background 0.4s, padding 0.4s;
 }
-.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; }
+nav.scrolled {
+  background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+  padding: 20px 60px; border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--blue-dark); }
 .nav-btn {
   font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 2px;
-  border: 1px solid rgba(255,255,255,0.3); padding: 12px 24px; border-radius: 50px;
-  text-decoration: none; color: white; transition: background 0.3s, color 0.3s;
+  background: var(--blue); color: white;
+  padding: 14px 28px; border-radius: 50px;
+  text-decoration: none; transition: background 0.3s, transform 0.3s;
 }
-.nav-btn:hover { background: white; color: black; }
+.nav-btn:hover { background: var(--blue-dark); transform: scale(1.05); }
 
 /* ==========================================================================
-   HERO (FULLSCREEN VIDEO)
+   HERO (FULLSCREEN VIDEO + LIGHT AESTHETIC)
    ========================================================================== */
 .hero {
   position: relative; height: 100vh; width: 100vw; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  background: var(--dark);
+  background: var(--light-blue);
 }
 .hero-video-wrap {
-  position: absolute; inset: 0; width: 100%; height: 100%;
+  position: absolute; inset: -5%; width: 110%; height: 110%;
   transform-origin: center;
 }
-.hero-video-wrap video {
-  width: 100%; height: 100%; object-fit: cover; opacity: 0.7;
+.hero-video-wrap video, .hero-video-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
 }
 .hero-overlay {
   position: absolute; inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, rgba(10,10,10,0.6) 100%);
+  /* Degradê branco translúcido para leitura perfeita sem escurecer a foto/vídeo */
+  background: linear-gradient(to right, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);
 }
 .hero-content {
-  position: relative; z-index: 10; text-align: center;
-  width: 100%;
+  position: relative; z-index: 10; text-align: left;
+  width: 100%; max-width: 1400px; padding: 0 60px;
 }
 .hero-eyebrow {
-  font-size: 12px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 20px;
+  font-size: 13px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 24px;
   display: inline-block; overflow: hidden;
 }
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(60px, 12vw, 180px); /* Fonte gigante estilo editorial */
-  font-weight: 300; line-height: 0.9;
-  color: white; margin: 0;
+  font-size: clamp(60px, 10vw, 140px);
+  font-weight: 300; line-height: 0.95;
+  color: var(--text); margin: 0;
 }
 .hero h1 span { display: block; overflow: hidden; }
-.hero h1 em { font-style: italic; color: var(--gold); }
+.hero h1 em { font-style: italic; color: var(--blue); }
 
 /* ==========================================================================
    STATEMENT (KINETIC TYPOGRAPHY)
    ========================================================================== */
 .statement {
-  background: var(--cream); color: var(--text);
+  background: var(--white); color: var(--text);
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
   padding: 100px 40px; position: relative; z-index: 20;
 }
-.statement-inner { max-width: 1200px; text-align: center; }
+.statement-inner { max-width: 1100px; text-align: center; }
 .st-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(40px, 6vw, 80px); line-height: 1.1;
-  font-weight: 400;
+  font-size: clamp(40px, 6vw, 76px); line-height: 1.15;
+  font-weight: 400; color: var(--text);
 }
+.st-text em { color: var(--blue); font-style: italic; }
 .st-text span.word { display: inline-block; overflow: hidden; vertical-align: bottom; }
 .st-text span.word > span { display: inline-block; transform: translateY(110%); }
 
 /* ==========================================================================
-   TRATAMENTOS (LISTA EDITORIAL COM HOVER REVEAL)
+   TRATAMENTOS (HOVER REVEAL - LIGHT MODE)
    ========================================================================== */
 .services {
-  background: var(--dark); padding: 150px 60px;
+  background: var(--light-blue); padding: 150px 60px;
 }
 .sec-header { margin-bottom: 100px; display: flex; justify-content: space-between; align-items: flex-end; }
-.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); font-weight: 300; }
-.sec-title em { color: var(--gold); }
-.sec-desc { max-width: 400px; font-size: 14px; color: var(--muted); line-height: 1.6; }
+.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); font-weight: 300; color: var(--text); }
+.sec-title em { color: var(--blue); }
+.sec-desc { max-width: 400px; font-size: 16px; color: var(--text-light); line-height: 1.6; }
 
-.srv-list { border-top: 1px solid rgba(255,255,255,0.1); }
+.srv-list { border-top: 1px solid rgba(0,0,0,0.1); }
 .srv-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 60px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 50px 0; border-bottom: 1px solid rgba(0,0,0,0.1);
   cursor: pointer; position: relative;
   transition: padding-left 0.4s ease;
 }
 .srv-item:hover { padding-left: 40px; }
 .srv-item h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(40px, 7vw, 100px); font-weight: 300; color: white;
+  font-size: clamp(40px, 6vw, 80px); font-weight: 400; color: var(--text);
   transition: color 0.4s ease; margin: 0; line-height: 1;
 }
-.srv-item:hover h3 { color: var(--gold); }
+.srv-item:hover h3 { color: var(--blue); }
 .srv-details { display: flex; gap: 80px; align-items: center; opacity: 0; transform: translateX(20px); transition: all 0.4s ease; }
 .srv-item:hover .srv-details { opacity: 1; transform: translateX(0); }
-.srv-details p { font-size: 13px; color: var(--muted); max-width: 250px; line-height: 1.6; }
+.srv-details p { font-size: 14px; color: var(--text-light); max-width: 280px; line-height: 1.6; }
 .srv-details img { width: 180px; height: 120px; object-fit: cover; border-radius: 100px; }
 
 /* Imagem flutuante que segue o cursor */
 .cursor-img-wrap {
   position: fixed; top: 0; left: 0; pointer-events: none;
-  width: 320px; height: 400px; z-index: 90;
+  width: 340px; height: 420px; z-index: 90;
   opacity: 0; transform: scale(0.8); transition: opacity 0.3s, transform 0.3s;
 }
 .cursor-img-wrap.active { opacity: 1; transform: scale(1); }
-.cursor-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; }
+.cursor-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
 
 /* ==========================================================================
-   TRANSFORMACOES
+   TRANSFORMACOES (SCROLL-DRIVEN SLIDER)
    ========================================================================== */
 .transformacoes {
-  background: var(--cream); padding: 150px 60px; color: var(--text);
+  background: var(--white); padding: 150px 60px; color: var(--text);
   display: flex; gap: 80px; align-items: center; justify-content: space-between;
 }
 .tr-left { flex: 1; }
 .tr-right { flex: 1.2; position: relative; }
-.tr-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(50px, 6vw, 80px); line-height: 1; margin-bottom: 30px; font-weight: 300; }
-.tr-title em { color: var(--gold); font-style: italic; }
-.tr-desc { font-size: 15px; color: var(--muted); max-width: 400px; line-height: 1.8; margin-bottom: 50px; }
+.tr-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(50px, 6vw, 80px); line-height: 1.1; margin-bottom: 30px; font-weight: 300; }
+.tr-title em { color: var(--blue); font-style: italic; }
+.tr-desc { font-size: 16px; color: var(--text-light); max-width: 400px; line-height: 1.8; margin-bottom: 50px; }
 .btn-solid {
-  background: var(--dark); color: white; padding: 18px 40px; border-radius: 50px;
-  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  text-decoration: none; display: inline-block; transition: background 0.3s;
+  background: var(--blue); color: white; padding: 18px 40px; border-radius: 50px;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; display: inline-block; transition: background 0.3s, transform 0.3s;
 }
-.btn-solid:hover { background: var(--gold); }
+.btn-solid:hover { background: var(--blue-dark); transform: translateY(-3px); }
 
 /* Componente Slider */
 .ba-wrap {
   position: relative; width: 100%; aspect-ratio: 4/5;
   border-radius: 20px; overflow: hidden;
-  box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+  box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15); /* Sombra azulada */
 }
 .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ba-img.after { z-index: 1; }
 .ba-img.before { z-index: 2; clip-path: inset(0 50% 0 0); }
-.ba-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: white; z-index: 10; transform: translateX(-50%); }
+.ba-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: white; z-index: 10; transform: translateX(-50%); box-shadow: 0 0 10px rgba(0,0,0,0.2); }
 .ba-knob {
   position: absolute; top: 50%; left: 50%; z-index: 11; transform: translate(-50%, -50%);
-  width: 60px; height: 60px; border-radius: 50%; background: white;
+  width: 64px; height: 64px; border-radius: 50%; background: white;
   display: flex; align-items: center; justify-content: center; cursor: ew-resize;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
-.ba-knob svg { width: 24px; height: 24px; stroke: var(--dark); stroke-width: 1.5; }
+.ba-knob svg { width: 28px; height: 28px; stroke: var(--blue); stroke-width: 2; }
+.ba-tag {
+  position: absolute; z-index: 12; bottom: 30px;
+  padding: 8px 16px; border-radius: 50px;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  background: rgba(255,255,255,0.9); color: var(--blue-dark); backdrop-filter: blur(5px);
+}
+.ba-tag.left { left: 30px; }
+.ba-tag.right { right: 30px; background: var(--blue); color: white; }
+
+/* Dica de scroll */
+.scroll-hint { margin-top: 20px; font-size: 12px; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+.scroll-hint svg { width: 16px; height: 16px; animation: bounce 2s infinite; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
 /* ==========================================================================
-   FOOTER (MASSIVE TYPOGRAPHY REVEAL)
+   FOOTER
    ========================================================================== */
-.footer-wrap { position: relative; background: var(--dark); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+.footer-wrap { position: relative; background: var(--text); color: white; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 footer {
   padding: 150px 60px 40px; display: flex; flex-direction: column; justify-content: space-between;
   min-height: 80vh;
 }
 .footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; }
-.footer-links { display: flex; gap: 80px; }
+.footer-links { display: flex; gap: 100px; }
 .f-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
 .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-.f-col a { color: white; text-decoration: none; font-size: 14px; transition: color 0.3s; }
-.f-col a:hover { color: var(--gold); }
+.f-col a { color: white; text-decoration: none; font-size: 15px; transition: color 0.3s; }
+.f-col a:hover { color: var(--blue); }
 .footer-bottom { padding-top: 80px; text-align: center; }
 .footer-huge {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(80px, 18vw, 320px);
+  font-size: clamp(60px, 15vw, 250px);
   font-weight: 300; color: white; line-height: 0.8; margin: 0;
-  text-transform: uppercase; letter-spacing: -2px;
+  letter-spacing: -2px;
 }
-.footer-copy { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 40px; }
+.footer-copy { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 40px; }
 
 /* ==========================================================================
    RESPONSIVE
    ========================================================================== */
 @media (max-width: 1024px) {
-  nav { padding: 30px; }
+  nav { padding: 20px 40px; }
+  .hero-content { padding: 0 40px; text-align: center; }
+  .hero-overlay { background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 100%); }
   .srv-item { flex-direction: column; align-items: flex-start; gap: 30px; }
   .srv-details { transform: none; opacity: 1; }
   .transformacoes { flex-direction: column; }
@@ -217,18 +241,19 @@ footer {
 }
 @media (max-width: 640px) {
   nav { padding: 20px; }
-  .hero h1 { font-size: 64px; }
+  .hero h1 { font-size: 60px; }
   .statement, .services, .transformacoes, footer { padding: 80px 20px; }
-  .st-text { font-size: 40px; }
-  .srv-item h3 { font-size: 48px; }
+  .st-text { font-size: 36px; }
+  .srv-item h3 { font-size: 40px; }
   .srv-details { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .footer-links { flex-direction: column; gap: 40px; }
 }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="nav">
   <div class="nav-logo">Ana Fernandes.</div>
   <a href="https://wa.me/5511999999999" class="nav-btn">Agendar</a>
 </nav>
@@ -236,12 +261,12 @@ footer {
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-video-wrap">
-    <!-- Video Premium (Mixkit) -->
-    <video src="https://assets.mixkit.co/videos/preview/mixkit-dentist-examining-a-patients-teeth-with-a-mirror-41470-large.mp4" autoplay loop muted playsinline></video>
+    <!-- Video Premium (Coverr) com Poster de Fallback -->
+    <video src="https://cdn.coverr.co/videos/coverr-woman-smiling-at-the-dentist-5246/1080p.mp4" poster="odonto_hero_smile_1785016150873.jpg" autoplay loop muted playsinline></video>
   </div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow"><span class="gs-eyebrow">Clinica de Alta Estetica</span></div>
+    <div class="hero-eyebrow"><span class="gs-eyebrow">Odontologia de Alta Performance</span></div>
     <h1>
       <span class="gs-title-line">A ARTE DO</span>
       <span class="gs-title-line"><em>SORRISO</em></span>
@@ -253,7 +278,7 @@ footer {
 <section class="statement">
   <div class="statement-inner">
     <h2 class="st-text">
-      "Redefinimos a estetica dental unindo precisao milimetrica e um olhar puramente artistico para criar sorrisos irreplicaveis."
+      "Redefinimos a estetica dental unindo <em>precisao milimetrica</em> e um olhar puramente artistico para criar sorrisos irreplicaveis."
     </h2>
   </div>
 </section>
@@ -273,18 +298,18 @@ footer {
         <img src="img_depois_odonto.jpg" alt="">
       </div>
     </div>
-    <div class="srv-item gs-srv" data-img="img_odonto_treatment.jpg">
+    <div class="srv-item gs-srv" data-img="odonto_treatment_photo_1785016178956.jpg">
       <h3>Clareamento Laser</h3>
       <div class="srv-details">
         <p>Protocolo exclusivo que clareia ate 8 tons em uma unica sessao, sem sensibilidade.</p>
-        <img src="img_odonto_treatment.jpg" alt="">
+        <img src="odonto_treatment_photo_1785016178956.jpg" alt="">
       </div>
     </div>
-    <div class="srv-item gs-srv" data-img="img_odonto_clinic.jpg">
+    <div class="srv-item gs-srv" data-img="odonto_clinic_interior_1785016163974.jpg">
       <h3>Implantes Premium</h3>
       <div class="srv-details">
         <p>Tecnologia suica em titanio e zirconia para um resultado permanente e imperceptivel.</p>
-        <img src="img_odonto_clinic.jpg" alt="">
+        <img src="odonto_clinic_interior_1785016163974.jpg" alt="">
       </div>
     </div>
     <div class="srv-item gs-srv" data-img="img_antes_odonto.jpg">
@@ -296,25 +321,29 @@ footer {
     </div>
   </div>
   
-  <!-- Cursor customizado flutuante -->
   <div class="cursor-img-wrap"><img src="" alt="" id="cursor-img"></div>
 </section>
 
-<!-- ANTES E DEPOIS -->
-<section class="transformacoes">
+<!-- ANTES E DEPOIS (SCROLL DRIVEN) -->
+<section class="transformacoes" id="transf-section">
   <div class="tr-left gs-fade">
     <h2 class="tr-title">Resultados<br><em>Reais</em></h2>
-    <p class="tr-desc">Arraste para comparar. Nossas transformacoes sao documentadas com qualidade de estudio fotográfico. O que voce ve e exatamente o nivel de precisao que entregamos.</p>
-    <a href="https://wa.me/5511999999999" class="btn-solid">Avaliacao Gratuita</a>
+    <p class="tr-desc">Desca a pagina para revelar a transformacao. Nossas documentacoes possuem qualidade de estudio fotográfico.</p>
+    <div class="scroll-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      Role para ver a magica
+    </div>
   </div>
-  <div class="tr-right gs-fade-up">
-    <div class="ba-wrap">
+  <div class="tr-right">
+    <div class="ba-wrap gs-ba-wrap">
       <img src="img_depois_odonto.jpg" class="ba-img after" alt="">
       <img src="img_antes_odonto.jpg" class="ba-img before" id="ba-before" alt="">
       <div class="ba-line" id="ba-line"></div>
       <div class="ba-knob" id="ba-knob">
         <svg viewBox="0 0 24 24" fill="none"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg>
       </div>
+      <div class="ba-tag left" id="tag-antes">ANTES</div>
+      <div class="ba-tag right" id="tag-depois">DEPOIS</div>
     </div>
   </div>
 </section>
@@ -323,7 +352,7 @@ footer {
 <div class="footer-wrap">
   <footer id="footer">
     <div class="footer-top gs-fade">
-      <div class="nav-logo">Ana Fernandes.</div>
+      <div class="nav-logo" style="color:white;">Ana Fernandes.</div>
       <div class="footer-links">
         <div class="f-col">
           <h4>Clinica</h4>
@@ -360,38 +389,43 @@ document.addEventListener("DOMContentLoaded", () => {
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0, 0);
 
+  // Navbar color on scroll
+  ScrollTrigger.create({
+    start: 'top -50',
+    onUpdate: (self) => {
+      if(self.scroll() > 50) document.getElementById('nav').classList.add('scrolled');
+      else document.getElementById('nav').classList.remove('scrolled');
+    }
+  });
+
   // 2. Wrap Words utility para o Statement
   const stText = document.querySelector('.st-text');
   if(stText) {
-    const words = stText.innerText.split(' ');
-    stText.innerHTML = '';
-    words.forEach(w => {
-      const span = document.createElement('span'); span.className = 'word';
-      const inner = document.createElement('span'); inner.innerText = w + '\u00A0';
-      span.appendChild(inner); stText.appendChild(span);
-    });
+    // Preserve as tags <em>
+    const html = stText.innerHTML;
+    // Divisão manual simples para não quebrar HTML tags (uma regex básica para separar)
+    // Para simplificar e evitar quebrar o em, vamos envolver todo o innerHTML em GSAP split logic manual ou apenas animar linhas.
+    // Como GSAP vanilla não tem SplitText free, vamos animar a opacidade/y do bloco inteiro
   }
+  gsap.from('.st-text', {
+    y: 60, opacity: 0, duration: 1.5, ease: 'power3.out',
+    scrollTrigger: { trigger: '.statement', start: 'top 75%' }
+  });
 
   // 3. Animacao Hero (Load)
   const tl = gsap.timeline();
-  tl.from('.hero-video-wrap', { scale: 1.2, duration: 2.5, ease: 'expo.out' })
+  tl.from('.hero-video-wrap', { scale: 1.15, duration: 2.5, ease: 'expo.out' })
     .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1.5')
     .from('.gs-title-line', { y: 150, opacity: 0, duration: 1.5, stagger: 0.2, ease: 'expo.out' }, '-=1.5');
 
   // Hero Parallax no Scroll
   gsap.to('.hero-video-wrap', {
-    yPercent: 30, scale: 1.05, ease: 'none',
+    yPercent: 30, ease: 'none',
     scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
   });
   gsap.to('.hero-content', {
-    yPercent: 50, opacity: 0, ease: 'none',
+    yPercent: 40, opacity: 0, ease: 'none',
     scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
-
-  // 4. Kinetic Typography (Statement Reveal)
-  gsap.to('.st-text .word span', {
-    y: 0, stagger: 0.05, duration: 1.5, ease: 'expo.out',
-    scrollTrigger: { trigger: '.statement', start: 'top 70%' }
   });
 
   // 5. Lista de Servicos (Reveal)
@@ -400,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
     scrollTrigger: { trigger: '.srv-list', start: 'top 75%' }
   });
 
-  // Hover Reveal Image na lista de servicos (Apenas Desktop)
+  // Hover Reveal Image na lista de servicos
   if(window.innerWidth > 1024) {
     const cursorImgWrap = document.querySelector('.cursor-img-wrap');
     const cursorImg = document.getElementById('cursor-img');
@@ -425,26 +459,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 6. Componente Antes/Depois (Mesma logica)
-  const baWrap = document.querySelector('.ba-wrap');
-  const baBefore = document.getElementById('ba-before');
-  const baLine = document.getElementById('ba-line');
-  const baKnob = document.getElementById('ba-knob');
-  let isDragging = false;
-  function setBa(x) {
-    const r = baWrap.getBoundingClientRect();
-    let p = Math.max(2, Math.min(98, ((x - r.left)/r.width)*100));
-    baBefore.style.clipPath = `inset(0 ${100-p}% 0 0)`; baLine.style.left = `${p}%`; baKnob.style.left = `${p}%`;
-  }
-  baWrap.addEventListener('mousedown', e => { isDragging = true; setBa(e.clientX); e.preventDefault(); });
-  window.addEventListener('mousemove', e => { if(isDragging) setBa(e.clientX); });
-  window.addEventListener('mouseup', () => isDragging = false);
-  baWrap.addEventListener('touchstart', e => { isDragging = true; setBa(e.touches[0].clientX); }, {passive:true});
-  window.addEventListener('touchmove', e => { if(isDragging) setBa(e.touches[0].clientX); }, {passive:true});
-  window.addEventListener('touchend', () => isDragging = false);
+  // 6. Componente Antes/Depois (SCROLL-DRIVEN MAGIC)
+  const baWrap = document.querySelector('.gs-ba-wrap');
+  gsap.from(baWrap, { opacity: 0, y: 100, duration: 1.2, scrollTrigger: { trigger: '#transf-section', start: 'top 75%' }});
 
-  gsap.from('.gs-fade', { opacity: 0, y: 30, stagger: 0.2, duration: 1, scrollTrigger: { trigger: '.transformacoes', start: 'top 70%' } });
-  gsap.from('.gs-fade-up', { opacity: 0, y: 100, duration: 1.5, ease: 'expo.out', scrollTrigger: { trigger: '.tr-right', start: 'top 80%' } });
+  // A animação de arraste através do scroll!
+  const tlBa = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#transf-section',
+      start: 'center center',
+      end: '+=800', // Altura do scroll para revelar tudo
+      scrub: 1, // Suave
+      pin: true // Trava a tela enquanto ocorre o "reveal" do sorriso
+    }
+  });
+
+  // O estado inicial no CSS tem clip-path 50%. Vamos iniciar em 85% e ir ate 15%
+  tlBa.fromTo('#ba-before', 
+    { clipPath: 'inset(0 15% 0 0)' }, 
+    { clipPath: 'inset(0 85% 0 0)', ease: 'none' }, 0
+  );
+  tlBa.fromTo('#ba-line', 
+    { left: '85%' }, 
+    { left: '15%', ease: 'none' }, 0
+  );
+  tlBa.fromTo('#ba-knob', 
+    { left: '85%' }, 
+    { left: '15%', ease: 'none' }, 0
+  );
+  // Fade out na tag "Antes" e fade in na tag "Depois" para chocar mais
+  tlBa.to('#tag-antes', { opacity: 0.2, ease: 'none' }, 0);
+  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#0369a1', ease: 'none' }, 0);
 
   // 7. Footer Reveal e Tipografia Gigante
   gsap.from('#footer', {
