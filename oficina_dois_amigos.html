@@ -14,6 +14,7 @@
         :root {
             --primary: #dc2626;
             --primary-hover: #b91c1c;
+            --primary-glow: rgba(220, 38, 38, 0.35);
             --secondary: #0f172a;
             --accent: #facc15;
             --bg-light: #f8fafc;
@@ -71,6 +72,7 @@
             border-radius: 12px;
             object-fit: cover;
             border: 2px solid var(--primary);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
         .brand-text h1 { font-size: 22px; font-weight: 800; color: var(--secondary); line-height: 1.1; }
@@ -78,7 +80,7 @@
 
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             list-style: none;
         }
         .nav-links a {
@@ -108,16 +110,18 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s;
         }
+        .btn-header-wa:hover { transform: translateY(-2px); }
 
-        /* Hero Grande com Imagem de Mecânica e Opacidade Escura Alta */
+        /* Hero Grande com Imagem Sóbria de Mecânica */
         .hero-section {
             position: relative;
-            background: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.92)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.94)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 90px 20px;
+            padding: 85px 20px;
             text-align: center;
         }
 
@@ -168,7 +172,9 @@
             font-size: 17px;
             text-decoration: none;
             box-shadow: 0 4px 25px rgba(220, 38, 38, 0.5);
+            transition: transform 0.2s;
         }
+        .btn-hero-primary:hover { transform: translateY(-2px); }
 
         .btn-hero-secondary {
             background: rgba(255,255,255,0.15);
@@ -194,6 +200,42 @@
         .section-header h3 { font-size: 34px; font-weight: 800; color: var(--secondary); }
         .section-header p { font-size: 16px; color: var(--text-muted); }
 
+        /* Grid de Diferenciais Monti Pneus */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .feature-card:hover { transform: translateY(-4px); }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #fee2e2;
+            color: var(--primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 15px auto;
+        }
+
+        .feature-card h3 { font-size: 17px; font-weight: 800; color: var(--secondary); margin-bottom: 6px; }
+        .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+        /* Specs Cards */
         .specs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -245,7 +287,52 @@
         }
         .btn-spec-wa:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Bloco Informativo Extra Entre Especialidades e CTA */
+        /* Widget Interativo de Simulação de Orçamento */
+        .quote-calculator {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .quote-calculator h4 { font-size: 24px; font-weight: 800; color: var(--accent); margin-bottom: 8px; text-align: center; }
+        .quote-calculator p { font-size: 14px; color: #94a3b8; text-align: center; margin-bottom: 25px; }
+
+        .calc-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group label { display: block; font-size: 12px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px; }
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+        .form-group select option { background: #0f172a; color: white; }
+
+        .btn-calc-submit {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
         .info-text-block {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -307,6 +394,32 @@
             display: inline-block;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+
+        /* Seção de Avaliações Google */
+        .reviews-section {
+            background: #f1f5f9;
+            padding: 50px 25px;
+            border-radius: 24px;
+            margin-bottom: 50px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .review-item {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .stars { color: #f59e0b; margin-bottom: 8px; font-size: 15px; }
+        .review-text { font-size: 13.5px; color: #334155; font-style: italic; margin-bottom: 14px; line-height: 1.6; }
+        .review-author { font-size: 12.5px; font-weight: 800; color: var(--secondary); }
 
         .location-section {
             background: white;
@@ -394,6 +507,7 @@
                 <li><a class="nav-item active" onclick="showTab('tab-inicio')">Início</a></li>
                 <li><a class="nav-item" onclick="showTab('tab-especialidades')">Especialidades</a></li>
                 <li><a class="nav-item" onclick="showTab('tab-sobre')">Sobre Nós</a></li>
+                <li><a class="nav-item" onclick="showTab('tab-avaliacoes')">Avaliações</a></li>
                 <li><a class="nav-item" onclick="showTab('tab-contato')">Contato</a></li>
             </ul>
 
@@ -403,7 +517,7 @@
         </div>
     </header>
 
-    <!-- Hero Grande com Imagem Sobria de Mecânica e Opacidade Alta -->
+    <!-- Hero Grande com Imagem Sóbria de Mecânica e Opacidade Alta -->
     <section class="hero-section">
         <div class="hero-badge">
             <span>⭐ Oficina Avaliada com 4.9 Estrelas no Google Maps</span>
@@ -425,6 +539,30 @@
         <!-- ABA 1: INÍCIO (VISÃO GERAL COMPLETA) -->
         <div id="tab-inicio" class="page-tab active">
             
+            <!-- Diferenciais Monti Pneus -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Agilidade no Serviço</h3>
+                    <p>Equipe preparada para entregar seu veículo/moto rapidamente sem enrolação.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Peças com Garantia</h3>
+                    <p>Trabalhamos apenas com componentes e marcas de qualidade comprovada.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Pagamento Facilitado</h3>
+                    <p>Desconto especial no PIX ou parcelamento em até 12x no cartão de crédito.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Nota 4.9 no Google</h3>
+                    <p>Mais de 100 avaliações 5 estrelas de clientes satisfeitos em São Paulo e região.</p>
+                </div>
+            </div>
+
             <div class="section-header">
                 <h3>Nossas Especialidades em Destaque</h3>
                 <p>Conheça os serviços mecânicos mais procurados na Oficina Dois Amigos</p>
@@ -471,7 +609,41 @@
                 </div>
             </div>
 
-            <!-- Texto Informativo Extra Solicitado -->
+            <!-- Calculadora Interativa de Revisão -->
+            <div class="quote-calculator">
+                <h4>🚘 Simulação Rápida de Orçamento</h4>
+                <p>Selecione seu veículo e o serviço para enviar direto pro WhatsApp da oficina:</p>
+
+                <div class="calc-form">
+                    <div class="form-group">
+                        <label>Tipo de Veículo:</label>
+                        <select id="calc-tipo">
+                            <option value="Carro Passeio / Sedan">Carro Passeio / Sedan</option>
+                            <option value="SUV / Picape">SUV / Picape</option>
+                            <option value="Moto / Ciclomotor">Moto / Ciclomotor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Serviço Desejado:</label>
+                        <select id="calc-servico">
+                            <option value="Revisão Geral Preventiva">Revisão Geral Preventiva</option>
+                            <option value="Troca de Óleo e Filtros">Troca de Óleo e Filtros</option>
+                            <option value="Troca de Pneus e Balanceamento">Troca de Pneus e Balanceamento</option>
+                            <option value="Manutenção de Freios e Suspensão">Manutenção de Freios e Suspensão</option>
+                            <option value="Diagnóstico de Injeção / Elétrica">Diagnóstico de Injeção / Elétrica</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button onclick="enviarSimulacao()" class="btn-calc-submit">
+                            💬 Enviar Orçamento no WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Texto Informativo Extra -->
             <div class="info-text-block">
                 <h4>🛠️ Qualidade Garantida & Transparência em Cada Serviço</h4>
                 <p>Na <strong>Oficina Dois Amigos</strong> em São Paulo, entendemos que o seu veículo é indispensável no seu dia a dia. Por isso, trabalhamos com diagnóstico rápido via escâner eletrônico, orçamento prévio sem surpresas e peças originais com garantia no serviço. Agende hoje mesmo seu horário no WhatsApp!</p>
@@ -554,7 +726,37 @@
             </div>
         </div>
 
-        <!-- ABA 4: CONTATO & LOCALIZAÇÃO -->
+        <!-- ABA 4: AVALIAÇÕES GOOGLE -->
+        <div id="tab-avaliacoes" class="page-tab">
+            <div class="reviews-section">
+                <div class="section-header" style="margin-bottom: 20px;">
+                    <h3>Avaliações de Clientes em São Paulo</h3>
+                    <p>Veja o que os clientes dizem sobre a Oficina Dois Amigos no Google Maps</p>
+                </div>
+
+                <div class="reviews-grid">
+                    <div class="review-item">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <div class="review-text">"Excelente atendimento! Levei meu veículo para fazer a revisão e o serviço ficou impecável. Preço justo e transparência total."</div>
+                        <div class="review-author">Carlos Eduardo — Cliente Google Maps (São Paulo)</div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <div class="review-text">"Oficina rápida e de confiança em São Paulo! Resolveram o problema do freio e da suspensão no mesmo dia."</div>
+                        <div class="review-author">Roberto Silva — Cliente Google Maps (São Paulo)</div>
+                    </div>
+
+                    <div class="review-item">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <div class="review-text">"Mecânicos super honestos e educados. Explicaram exatamente o que precisava ser feito sem inventar peças."</div>
+                        <div class="review-author">Marcelo Ramos — Cliente Google Maps (São Paulo)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 5: CONTATO & LOCALIZAÇÃO -->
         <div id="tab-contato" class="page-tab">
             <div class="location-section">
                 <div class="section-header" style="margin-bottom: 25px;">
@@ -595,6 +797,7 @@
                 <p><a onclick="showTab('tab-inicio')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Início</a></p>
                 <p><a onclick="showTab('tab-especialidades')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Nossas Especialidades</a></p>
                 <p><a onclick="showTab('tab-sobre')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Sobre Nós (Tradição & Modernidade)</a></p>
+                <p><a onclick="showTab('tab-avaliacoes')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Avaliações Google</a></p>
                 <p><a onclick="showTab('tab-contato')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Contato & Localização</a></p>
             </div>
             <div class="footer-col">
@@ -629,9 +832,18 @@
             if (tabId === 'tab-inicio') document.querySelectorAll('.nav-item')[0].classList.add('active');
             if (tabId === 'tab-especialidades') document.querySelectorAll('.nav-item')[1].classList.add('active');
             if (tabId === 'tab-sobre') document.querySelectorAll('.nav-item')[2].classList.add('active');
-            if (tabId === 'tab-contato') document.querySelectorAll('.nav-item')[3].classList.add('active');
+            if (tabId === 'tab-avaliacoes') document.querySelectorAll('.nav-item')[3].classList.add('active');
+            if (tabId === 'tab-contato') document.querySelectorAll('.nav-item')[4].classList.add('active');
 
-            window.scrollTo({ top: 400, behavior: 'smooth' });
+            window.scrollTo({ top: 380, behavior: 'smooth' });
+        }
+
+        function enviarSimulacao() {
+            const tipo = document.getElementById('calc-tipo').value;
+            const servico = document.getElementById('calc-servico').value;
+            const texto = `Olá, Oficina Dois Amigos! Fiz uma simulação no site para o meu veículo (${tipo}) e gostaria de orçamento para: ${servico}.`;
+            const url = `https://wa.me/5511968066402?text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
         }
     </script>
 
