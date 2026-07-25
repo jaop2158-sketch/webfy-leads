@@ -25,7 +25,7 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; scroll-behavior: smooth; }
 
-        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-bottom: 90px; }
 
         /* Top Bar */
         .top-banner {
@@ -39,7 +39,7 @@
         }
         .top-banner a { color: var(--accent); text-decoration: none; font-weight: 700; }
 
-        /* Header Navigation Estilo Monti Pneus */
+        /* Header Navigation Interativo Estilo Monti Pneus */
         header {
             background: #ffffff;
             border-bottom: 1px solid #e2e8f0;
@@ -62,6 +62,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            cursor: pointer;
         }
 
         .brand-area img {
@@ -85,9 +86,15 @@
             color: var(--text-dark);
             font-weight: 700;
             font-size: 14px;
-            transition: color 0.2s;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .nav-links a:hover { color: var(--primary); }
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--primary);
+            background: #fef2f2;
+        }
 
         .btn-header-wa {
             background: #25D366;
@@ -103,14 +110,14 @@
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
         }
 
-        /* Hero Grande Estilo Monti Pneus com Imagem */
+        /* Hero Grande Estilo Monti Pneus */
         .hero-section {
             position: relative;
-            background: linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.92)), url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(rgba(15, 23, 42, 0.84), rgba(15, 23, 42, 0.94)), url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 90px 20px;
+            padding: 80px 20px;
             text-align: center;
         }
 
@@ -130,7 +137,7 @@
         }
 
         .hero-section h2 {
-            font-size: 44px;
+            font-size: 42px;
             font-weight: 800;
             max-width: 900px;
             margin: 0 auto 15px auto;
@@ -139,7 +146,7 @@
         }
 
         .hero-section p {
-            font-size: 19px;
+            font-size: 18px;
             color: #cbd5e1;
             max-width: 700px;
             margin: 0 auto 35px auto;
@@ -173,21 +180,27 @@
             text-decoration: none;
             border: 1px solid rgba(255,255,255,0.3);
             backdrop-filter: blur(10px);
+            cursor: pointer;
         }
 
-        /* Container de Seções */
-        .content-container { max-width: 1150px; margin: 0 auto; padding: 60px 20px; }
+        /* Container de Páginas Alternáveis */
+        .content-container { max-width: 1150px; margin: 0 auto; padding: 50px 20px; }
 
-        .section-header { text-align: center; margin-bottom: 45px; }
+        .page-tab { display: none; }
+        .page-tab.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-header { text-align: center; margin-bottom: 40px; }
         .section-header h3 { font-size: 34px; font-weight: 800; color: var(--secondary); }
         .section-header p { font-size: 16px; color: var(--text-muted); }
 
-        /* Nossas Especialidades (Cards Monti Pneus) */
+        /* Nossas Especialidades (Cards Monti Pneus Interativos) */
         .specs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
-            margin-bottom: 70px;
+            margin-bottom: 50px;
         }
 
         .spec-card {
@@ -201,7 +214,7 @@
         .spec-card:hover { transform: translateY(-5px); }
 
         .spec-img {
-            height: 200px;
+            height: 210px;
             background-size: cover;
             background-position: center;
         }
@@ -221,6 +234,7 @@
             font-weight: 800;
             text-decoration: none;
             transition: all 0.2s;
+            cursor: pointer;
         }
         .btn-spec-wa:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
@@ -229,8 +243,8 @@
             background: white;
             border-radius: 24px;
             border: 1px solid #e2e8f0;
-            padding: 50px;
-            margin-bottom: 70px;
+            padding: 45px;
+            margin-bottom: 50px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
@@ -257,7 +271,7 @@
             border-radius: 24px;
             padding: 50px 30px;
             text-align: center;
-            margin-bottom: 70px;
+            margin-bottom: 50px;
             box-shadow: 0 15px 35px rgba(220, 38, 38, 0.3);
         }
 
@@ -276,13 +290,13 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* Seção de Pergunta e Localização */
+        /* Seção de Contato e Localização */
         .location-section {
             background: white;
             border-radius: 24px;
             border: 1px solid #e2e8f0;
             padding: 40px;
-            margin-bottom: 70px;
+            margin-bottom: 50px;
         }
 
         .location-grid {
@@ -349,10 +363,10 @@
         <span>📞 WhatsApp: <a href="https://wa.me/5511968066402">(11) 96806-6402</a></span>
     </div>
 
-    <!-- Header Navigation -->
+    <!-- Header Navigation Interativo -->
     <header>
         <div class="nav-container">
-            <div class="brand-area">
+            <div class="brand-area" onclick="showTab('tab-inicio')">
                 <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo">
                 <div class="brand-text">
                     <h1>Oficina Dois Amigos</h1>
@@ -361,10 +375,10 @@
             </div>
 
             <ul class="nav-links">
-                <li><a href="#home">Início</a></li>
-                <li><a href="#especialidades">Especialidades</a></li>
-                <li><a href="#sobre">Sobre Nós</a></li>
-                <li><a href="#contato">Contato</a></li>
+                <li><a class="nav-item active" onclick="showTab('tab-inicio')">Início</a></li>
+                <li><a class="nav-item" onclick="showTab('tab-especialidades')">Especialidades</a></li>
+                <li><a class="nav-item" onclick="showTab('tab-sobre')">Sobre Nós</a></li>
+                <li><a class="nav-item" onclick="showTab('tab-contato')">Contato</a></li>
             </ul>
 
             <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20gostaria%20de%20agendar%20um%20servi%C3%A7o!" target="_blank" class="btn-header-wa">
@@ -374,7 +388,7 @@
     </header>
 
     <!-- Hero Grande com Imagem Estilo Monti Pneus -->
-    <section class="hero-section" id="home">
+    <section class="hero-section">
         <div class="hero-badge">
             <span>⭐ Oficina Avaliada com 4.9 Estrelas no Google Maps</span>
         </div>
@@ -385,92 +399,137 @@
             <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="btn-hero-primary">
                 💬 Solicitar Orçamento no WhatsApp: (11) 96806-6402
             </a>
-            <a href="#especialidades" class="btn-hero-secondary">Nossas Especialidades</a>
+            <button onclick="showTab('tab-especialidades')" class="btn-hero-secondary">Nossas Especialidades ➔</button>
         </div>
     </section>
 
-    <!-- Conteúdo Principal -->
+    <!-- Conteúdo das Páginas Alternáveis (Tabs Interativas) -->
     <div class="content-container">
 
-        <!-- Nossas Especialidades -->
-        <div class="section-header" id="especialidades">
-            <h3>Nossas Especialidades</h3>
-            <p>Conheça os serviços mais procurados da Oficina Dois Amigos para o seu veículo rodar seguro</p>
+        <!-- ABA 1: INÍCIO (VISÃO GERAL COMPLETA) -->
+        <div id="tab-inicio" class="page-tab active">
+            
+            <div class="section-header">
+                <h3>Nossas Especialidades em Destaque</h3>
+                <p>Conheça os serviços mais procurados na Oficina Dois Amigos</p>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-body">
+                        <h4>Pneus e Balanceamento</h4>
+                        <p>Montagem, alinhamento, balanceamento de alta precisão e troca de pneus das melhores marcas para garantir máxima estabilidade.</p>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Pneus%20e%20Balanceamento" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+                    </div>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-body">
+                        <h4>Suspensão e Freios</h4>
+                        <p>Substituição de pastilhas, discos, amortecedores, molas e buchas com testes computadorizados de segurança total.</p>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+                    </div>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-body">
+                        <h4>Mecânica Geral</h4>
+                        <p>Revisão preventiva de motor, troca de óleo, filtros, correias e diagnóstico eletrônico de injeção para carros e motos.</p>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-banner">
+                <h3>Seu carro precisa de cuidados?</h3>
+                <p>Agende sua revisão preventiva agora mesmo e evite dores de cabeça na estrada!</p>
+                <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20meu%20ve%C3%ADculo%20precisa%20de%20revis%C3%A3o!%20Como%20fa%C3%A7o%20para%20agendar?" target="_blank" class="btn-cta-white">
+                    💬 Agendar Revisão no WhatsApp: (11) 96806-6402
+                </a>
+            </div>
+
         </div>
 
-        <div class="specs-grid">
-            <div class="spec-card">
-                <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=600&q=80');"></div>
-                <div class="spec-body">
-                    <h4>Pneus e Balanceamento</h4>
-                    <p>Montagem, alinhamento, balanceamento de alta precisão e troca de pneus das melhores marcas para garantir máxima estabilidade.</p>
-                    <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Pneus%20e%20Balanceamento" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
-                </div>
+        <!-- ABA 2: ESPECIALIDADES COMPLETAS -->
+        <div id="tab-especialidades" class="page-tab">
+            <div class="section-header">
+                <h3>Todas as Nossas Especialidades</h3>
+                <p>Equipamentos de última geração e mecânicos certificados em Itajubá</p>
             </div>
 
-            <div class="spec-card">
-                <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80');"></div>
-                <div class="spec-body">
-                    <h4>Suspensão e Freios</h4>
-                    <p>Substituição de pastilhas, discos, amortecedores, molas e buchas com testes computadorizados de segurança total.</p>
-                    <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-body">
+                        <h4>Pneus e Balanceamento</h4>
+                        <p>Alinhamento 3D computadorizado, balanceamento de rodas e montagem de pneus para carros e motos com garantia de fábrica.</p>
+                        <a href="https://wa.me/5511968066402?text=Solicitar%20Pneus%20e%20Balanceamento" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="spec-card">
-                <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80');"></div>
-                <div class="spec-body">
-                    <h4>Mecânica Geral</h4>
-                    <p>Revisão preventiva de motor, troca de óleo, filtros, correias e diagnóstico eletrônico de injeção para carros e motos.</p>
-                    <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+                <div class="spec-card">
+                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-body">
+                        <h4>Suspensão e Freios</h4>
+                        <p>Manutenção preventiva e corretiva em amortecedores, molas, pastilhas, discos e sangria de fluido de freio.</p>
+                        <a href="https://wa.me/5511968066402?text=Solicitar%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
+                    </div>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-body">
+                        <h4>Mecânica Geral & Motores</h4>
+                        <p>Diagnóstico de injeção eletrônica via scanner, retífica, regulagem de válvulas e substituição de correia dentada.</p>
+                        <a href="https://wa.me/5511968066402?text=Solicitar%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Seção Sobre Nós: Tradição e Modernidade -->
-        <div class="about-section" id="sobre">
-            <div class="about-text">
-                <h3>Sobre Nós: Tradição & Modernidade</h3>
-                <p>A <strong>Oficina Dois Amigos</strong> nasceu da paixão pela mecânica e pelo compromisso com a honestidade. Combinamos anos de tradição em atendimento personalizado com o que há de mais moderno em equipamentos de diagnóstico automotivo.</p>
-                <p>Atendemos motoristas e motoqueiros de <strong>Itajubá e toda a região</strong>, garantindo peças de procedência e serviço ágil para você não perder tempo.</p>
-                <div class="about-highlight">
-                    ⭐ Nota 4.9 no Google Maps: Compromisso total com a satisfação dos nossos clientes!
+        <!-- ABA 3: SOBRE NÓS (TRADIÇÃO E MODERNIDADE) -->
+        <div id="tab-sobre" class="page-tab">
+            <div class="about-section">
+                <div class="about-text">
+                    <h3>Sobre Nós: Tradição & Modernidade</h3>
+                    <p>A <strong>Oficina Dois Amigos</strong> nasceu da união de dois especialistas apaixonados por mecânica, fundando um espaço onde transparência e honestidade vêm em primeiro lugar.</p>
+                    <p>Combinamos a **tradição** no atendimento atencioso com a **modernidade** de scanners e ferramentas computadorizadas para diagnosticar com exatidão qualquer problema no seu veículo.</p>
+                    <p>Orgulhosamente atendemos motoristas de <strong>Itajubá e de toda a região do Sul de Minas</strong>.</p>
+                    <div class="about-highlight">
+                        ⭐ Nota 4.9 no Google Maps: Compromisso total com a satisfação dos nossos clientes!
+                    </div>
                 </div>
-            </div>
-            <div>
-                <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos" style="width: 100%; max-width: 380px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 2px solid var(--primary); display: block; margin: 0 auto;">
+                <div>
+                    <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos" style="width: 100%; max-width: 380px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 2px solid var(--primary); display: block; margin: 0 auto;">
+                </div>
             </div>
         </div>
 
-        <!-- CTA Banner: Seu Carro Precisa de Cuidados -->
-        <div class="cta-banner">
-            <h3>Seu carro precisa de cuidados?</h3>
-            <p>Agende sua revisão preventiva agora mesmo e evite dores de cabeça na estrada!</p>
-            <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20meu%20ve%C3%ADculo%20precisa%20de%20revis%C3%A3o!%20Como%20fa%C3%A7o%20para%20agendar?" target="_blank" class="btn-cta-white">
-                💬 Agendar Revisão no WhatsApp: (11) 96806-6402
-            </a>
-        </div>
-
-        <!-- Localização & Onde Atendemos -->
-        <div class="location-section" id="contato">
-            <div class="section-header" style="margin-bottom: 25px;">
-                <h3>Onde Atendemos & Localização</h3>
-                <p>Atendimento presencial de qualidade em Itajubá - MG</p>
-            </div>
-
-            <div class="location-grid">
-                <div class="loc-box">
-                    <h4>📍 Região de Atendimento</h4>
-                    <p>• Atendemos <strong>Itajubá e toda a região do Sul de Minas</strong>.</p>
-                    <p>• Socorro rápido e agendamentos diretos pelo WhatsApp.</p>
-                    <p>• Suporte para carros de passeio, utilitários e motos.</p>
+        <!-- ABA 4: CONTATO & LOCALIZAÇÃO -->
+        <div id="tab-contato" class="page-tab">
+            <div class="location-section">
+                <div class="section-header" style="margin-bottom: 25px;">
+                    <h3>Contato & Onde Atendemos</h3>
+                    <p>Atendimento presencial e agendamentos diretos em Itajubá - MG</p>
                 </div>
 
-                <div class="loc-box">
-                    <h4>⏱️ Horário de Funcionamento</h4>
-                    <p>• <strong>Segunda a Sexta:</strong> 08:00 às 18:00</p>
-                    <p>• <strong>Sábado:</strong> 08:00 às 12:00</p>
-                    <p>• <strong>Domingo & Feriados:</strong> Fechado</p>
+                <div class="location-grid">
+                    <div class="loc-box">
+                        <h4>📍 Área de Atendimento</h4>
+                        <p>• Atendemos <strong>Itajubá e toda a região</strong>.</p>
+                        <p>• Agendamentos e orçamentos sem compromisso no WhatsApp.</p>
+                        <p>• 📞 Telefone / WhatsApp: <strong>(11) 96806-6402</strong></p>
+                    </div>
+
+                    <div class="loc-box">
+                        <h4>⏱️ Horário de Funcionamento</h4>
+                        <p>• <strong>Segunda a Sexta:</strong> 08:00 às 18:00</p>
+                        <p>• <strong>Sábado:</strong> 08:00 às 12:00</p>
+                        <p>• <strong>Domingo & Feriados:</strong> Fechado</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -487,10 +546,10 @@
             </div>
             <div class="footer-col">
                 <h5>Páginas</h5>
-                <p><a href="#home" style="color: #94a3b8; text-decoration: none;">• Início</a></p>
-                <p><a href="#especialidades" style="color: #94a3b8; text-decoration: none;">• Nossas Especialidades</a></p>
-                <p><a href="#sobre" style="color: #94a3b8; text-decoration: none;">• Sobre Nós (Tradição & Modernidade)</a></p>
-                <p><a href="#contato" style="color: #94a3b8; text-decoration: none;">• Contato & Localização</a></p>
+                <p><a onclick="showTab('tab-inicio')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Início</a></p>
+                <p><a onclick="showTab('tab-especialidades')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Nossas Especialidades</a></p>
+                <p><a onclick="showTab('tab-sobre')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Sobre Nós (Tradição & Modernidade)</a></p>
+                <p><a onclick="showTab('tab-contato')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Contato & Localização</a></p>
             </div>
             <div class="footer-col">
                 <h5>Contato Direto</h5>
@@ -509,6 +568,26 @@
     <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="fixed-wa-float">
         💬 Falar com a Oficina: (11) 96806-6402
     </a>
+
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.page-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'tab-inicio') document.querySelectorAll('.nav-item')[0].classList.add('active');
+            if (tabId === 'tab-especialidades') document.querySelectorAll('.nav-item')[1].classList.add('active');
+            if (tabId === 'tab-sobre') document.querySelectorAll('.nav-item')[2].classList.add('active');
+            if (tabId === 'tab-contato') document.querySelectorAll('.nav-item')[3].classList.add('active');
+
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+    </script>
 
 </body>
 </html>
