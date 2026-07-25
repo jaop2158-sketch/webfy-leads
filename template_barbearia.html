@@ -117,7 +117,8 @@ nav {
   transition: border-color 0.2s, transform 0.2s;
 }
 .service-card:hover { border-color: var(--gold); transform: translateY(-3px); }
-.service-icon { font-size: 32px; margin-bottom: 14px; }
+.service-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.25); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.service-icon svg { width: 26px; height: 26px; stroke: var(--gold); }
 .service-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
 .service-desc { color: var(--muted); font-size: 13px; line-height: 1.6; }
 
@@ -199,22 +200,40 @@ footer strong { color: var(--gold); }
   <div class="section-title">NOSSOS SERVICOS</div>
   <div class="services-grid">
     <div class="service-card">
-      <div class="service-icon">✂️</div>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/>
+        </svg>
+      </div>
       <div class="service-name">Corte Masculino</div>
       <div class="service-desc">Do degrade ao classico. Tecnicos especializados em todos os tipos de cabelo.</div>
     </div>
     <div class="service-card">
-      <div class="service-icon">🪒</div>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 3l14 9-14 9V3z"/><line x1="19" y1="12" x2="5" y2="12"/>
+        </svg>
+      </div>
       <div class="service-name">Barba Completa</div>
       <div class="service-desc">Navalha quente, toalha quente e acabamento perfeito. Experiencia de barbearia tradicional.</div>
     </div>
     <div class="service-card">
-      <div class="service-icon">💆</div>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
       <div class="service-name">Tratamento Capilar</div>
       <div class="service-desc">Hidratacao, relaxamento e cuidados especializados para o seu cabelo.</div>
     </div>
     <div class="service-card">
-      <div class="service-icon">🧴</div>
+      <div class="service-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/><path d="M12 12v4"/><path d="M8 16h8"/><path d="M6 20h12"/>
+        </svg>
+      </div>
       <div class="service-name">Sobrancelha & Design</div>
       <div class="service-desc">Sobrancelha alinhada faz toda a diferenca no visual. Faca o teste!</div>
     </div>
