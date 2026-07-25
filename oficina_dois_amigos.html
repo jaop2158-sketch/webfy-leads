@@ -1,319 +1,510 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oficina Dois Amigos | Mecânica & Peças de Motos em Itajubá</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oficina Dois Amigos | Oficina Mecânica & Peças em Itajubá</title>
+    <meta name="description" content="Oficina Dois Amigos em Itajubá. Oficina mecânica completa: revisão, pneus, freios, suspensão e peças. Agende pelo WhatsApp (11) 96806-6402!" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #dc2626;
-            --primary-glow: rgba(220, 38, 38, 0.4);
-            --accent: #facc15;
-            --bg: #0b0f19;
-            --card-bg: rgba(22, 30, 49, 0.85);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
+            --primary-hover: #b91c1c;
+            --secondary: #0f172a;
+            --accent: #f59e0b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
             --emerald: #10b981;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            padding-bottom: 90px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(220, 38, 38, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 90% 80%, rgba(250, 204, 21, 0.06) 0%, transparent 45%);
-            background-attachment: fixed;
-        }
+        body { background-color: var(--bg-light); color: var(--text-dark); antialiased; line-height: 1.6; }
 
-        .top-bar {
-            background: #111827;
-            padding: 8px 16px;
-            font-size: 12px;
-            color: var(--text-muted);
+        /* Barra Superior Estilo Monti Pneus */
+        .top-banner {
+            background-color: var(--secondary);
+            color: #f1f5f9;
+            padding: 10px 20px;
+            font-size: 13px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--card-border);
         }
-        .top-bar strong { color: var(--accent); }
+        .top-banner a { color: var(--accent); text-decoration: none; font-weight: 700; }
 
-        .hero {
-            position: relative;
-            background: linear-gradient(180deg, rgba(30, 27, 75, 0.8) 0%, rgba(11, 15, 25, 0.95) 100%);
-            text-align: center;
-            padding: 35px 20px 30px 20px;
-            border-bottom: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
-        }
-
-        .logo-frame {
-            width: 135px;
-            height: 135px;
-            border-radius: 20px;
-            margin: 0 auto 16px auto;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 35px var(--primary-glow);
-            overflow: hidden;
-            background: #000;
-        }
-
-        .logo-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.5px;
-        }
-
-        .hero p {
-            color: var(--accent);
-            font-weight: 700;
-            font-size: 15px;
-            margin-top: 4px;
-        }
-
-        .rating-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(250, 204, 21, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(250, 204, 21, 0.3);
-            padding: 6px 18px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 800;
-            margin-top: 14px;
-        }
-
-        .container { max-width: 650px; margin: 0 auto; padding: 25px 15px; }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .feat-box {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 14px;
-            text-align: center;
-        }
-        .feat-icon { font-size: 24px; margin-bottom: 6px; }
-        .feat-title { font-size: 13px; font-weight: 800; color: white; }
-        .feat-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--accent);
-            margin: 25px 0 15px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-title::after {
-            content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);
-        }
-
-        .service-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 14px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            backdrop-filter: blur(12px);
-        }
-
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
-            background: rgba(220, 38, 38, 0.15);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            flex-shrink: 0;
-        }
-
-        .service-details { flex: 1; }
-        .service-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-        .service-desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
-
-        .btn-wa-main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            text-decoration: none;
-            padding: 16px 24px;
-            border-radius: 14px;
-            font-weight: 800;
-            font-size: 16px;
-            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
-            margin: 25px 0;
-            text-align: center;
-        }
-
-        .review-card {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px dashed var(--card-border);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 12px;
-        }
-        .review-author { font-size: 13px; font-weight: 700; color: var(--accent); }
-        .review-text { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-style: italic; }
-
-        .fixed-wa-bar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: rgba(11, 15, 25, 0.95);
-            border-top: 1px solid var(--card-border);
-            padding: 14px 20px;
-            backdrop-filter: blur(16px);
+        /* Header Principal */
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 15px 25px;
+            position: sticky;
+            top: 0;
             z-index: 100;
-            display: flex;
-            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        .fixed-wa-btn {
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-logo-area img {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .brand-title-text h1 { font-size: 22px; font-weight: 800; color: var(--secondary); line-height: 1.1; }
+        .brand-title-text p { font-size: 12px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .btn-header-wa {
             background: #25D366;
             color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
             text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 15px;
+            font-weight: 700;
+            font-size: 14px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            transition: transform 0.2s;
+        }
+        .btn-header-wa:hover { transform: translateY(-2px); }
+
+        /* Hero Section Estilo Monti Pneus */
+        .hero-section {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero-section h2 {
+            font-size: 40px;
+            font-weight: 800;
+            max-width: 850px;
+            margin: 0 auto 15px auto;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            color: #94a3b8;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-hero-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Container Principal */
+        .content-container { max-width: 1150px; margin: 0 auto; padding: 50px 20px; }
+
+        /* Grid de Diferenciais Monti Pneus */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .feature-card:hover { transform: translateY(-4px); }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #fee2e2;
+            color: var(--primary);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 15px auto;
+        }
+
+        .feature-card h3 { font-size: 17px; font-weight: 800; color: var(--secondary); margin-bottom: 6px; }
+        .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+        /* Seção de Serviços */
+        .section-title-box { text-align: center; margin-bottom: 40px; }
+        .section-title-box h3 { font-size: 32px; font-weight: 800; color: var(--secondary); }
+        .section-title-box p { font-size: 15px; color: var(--text-muted); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-card-body { padding: 25px; }
+        .service-tag { background: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; display: inline-block; margin-bottom: 12px; }
+
+        .service-card h4 { font-size: 19px; font-weight: 800; color: var(--secondary); margin-bottom: 8px; }
+        .service-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; }
+
+        .service-card-footer {
+            padding: 15px 25px;
+            background: #f8fafc;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-card-wa {
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        /* Seção de Depoimentos Google */
+        .reviews-section {
+            background: #f1f5f9;
+            padding: 50px 20px;
+            border-radius: 24px;
+            margin-bottom: 60px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .review-item {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .stars { color: #f59e0b; margin-bottom: 8px; font-size: 14px; }
+        .review-text { font-size: 13px; color: #334155; font-style: italic; margin-bottom: 12px; }
+        .review-author { font-size: 12px; font-weight: 800; color: var(--secondary); }
+
+        /* Rodapé Monti Pneus */
+        footer {
+            background: var(--secondary);
+            color: white;
+            padding: 50px 20px 30px 20px;
+            font-size: 14px;
+        }
+
+        .footer-container {
+            max-width: 1150px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h5 { font-size: 16px; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
+        .footer-col p { color: #94a3b8; font-size: 13px; margin-bottom: 8px; }
+
+        .copyright-bar {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* Botão Flutuante */
+        .fixed-wa-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+            z-index: 999;
         }
     </style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <span>📍 <strong>Oficina Dois Amigos</strong> • Itajubá - MG</span>
-        <span>📞 WhatsApp: <strong>(11) 96806-6402</strong></span>
+    <!-- Top Bar -->
+    <div class="top-banner">
+        <span>📍 <strong>Oficina Dois Amigos</strong> • Mecânica & Peças em Itajubá - MG</span>
+        <span>📞 Atendimento WhatsApp: <a href="https://wa.me/5511968066402">(11) 96806-6402</a></span>
     </div>
 
-    <div class="hero">
-        <div class="logo-frame">
-            <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo">
+    <!-- Header Principal -->
+    <header>
+        <div class="nav-container">
+            <div class="brand-logo-area">
+                <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo">
+                <div class="brand-title-text">
+                    <h1>Oficina Dois Amigos</h1>
+                    <p>Mecânica & Peças em Itajubá</p>
+                </div>
+            </div>
+            <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20gostaria%20de%20agendar%20um%20servi%C3%A7o%20na%20Oficina%20Dois%20Amigos!" target="_blank" class="btn-header-wa">
+                💬 Agendar pelo WhatsApp
+            </a>
         </div>
-        <h1>Oficina Dois Amigos</h1>
-        <p>Mecânica Especializada, Peças & Acessórios para Motos</p>
-        <div class="rating-badge">
-            <span>⭐ 4.9 no Google Maps (A melhor avaliada de Itajubá)</span>
-        </div>
-    </div>
+    </header>
 
-    <div class="container">
+    <!-- Hero Banner Estilo Monti Pneus -->
+    <section class="hero-section">
+        <div class="hero-badge">
+            <span>⭐ Oficina Avaliada com 4.9 Estrelas no Google Maps</span>
+        </div>
+        <h2>Oficina Mecânica Completa, Pneus & Peças em Itajubá</h2>
+        <p>Manutenção preventiva, revisão, freios, suspensão e diagnóstico elétrico com preço justo e garantia no serviço.</p>
         
+        <div class="hero-ctas">
+            <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="btn-hero-primary">
+                💬 Solicitar Orçamento no WhatsApp: (11) 96806-6402
+            </a>
+            <a href="#servicos" class="btn-hero-secondary">Ver Serviços</a>
+        </div>
+    </section>
+
+    <!-- Conteúdo Principal -->
+    <div class="content-container">
+
+        <!-- Grid de Diferenciais Monti Pneus -->
         <div class="features-grid">
-            <div class="feat-box">
-                <div class="feat-icon">⚡</div>
-                <div class="feat-title">Atendimento Rápido</div>
-                <div class="feat-desc">Sua moto pronta sem enrolação</div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Agilidade no Serviço</h3>
+                <p>Equipe preparada para entregar seu veículo/moto rapidamente sem enrolação.</p>
             </div>
-            <div class="feat-box">
-                <div class="feat-icon">🛡️</div>
-                <div class="feat-title">Peças de Qualidade</div>
-                <div class="feat-desc">Marcas originais garantidas</div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Peças com Garantia</h3>
+                <p>Trabalhamos apenas com componentes e marcas de qualidade comprovada.</p>
             </div>
-            <div class="feat-box">
-                <div class="feat-icon">💳</div>
-                <div class="feat-title">Facilidade no Pagamento</div>
-                <div class="feat-desc">Desconto no PIX ou até 12x</div>
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3>Pagamento Facilitado</h3>
+                <p>Desconto especial no PIX ou parcelamento em até 12x no cartão de crédito.</p>
             </div>
-            <div class="feat-box">
-                <div class="feat-icon">🔧</div>
-                <div class="feat-title">Mecânicos Experts</div>
-                <div class="feat-desc">Experiência multimarcas</div>
-            </div>
-        </div>
-
-        <div class="section-title">🔧 Nossos Serviços Mecânicos</div>
-
-        <div class="service-card">
-            <div class="service-icon">🏍️</div>
-            <div class="service-details">
-                <div class="service-title">Revisão Geral Preventiva</div>
-                <div class="service-desc">Check-up completo de segurança: freios, suspensão, carburação/injeção e parte elétrica.</div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>Nota 4.9 no Google</h3>
+                <p>Mais de 100 avaliações 5 estrelas de clientes satisfeitos em Itajubá e região.</p>
             </div>
         </div>
 
-        <div class="service-card">
-            <div class="service-icon">⚙️</div>
-            <div class="service-details">
-                <div class="service-title">Troca de Óleo, Relação & Filtros</div>
-                <div class="service-desc">Lubrificação com marcas originais, troca do kit transmissão e regulagem de corrente.</div>
+        <!-- Seção de Serviços -->
+        <div class="section-title-box" id="servicos">
+            <h3>Serviços Automotivos & Mecânicos</h3>
+            <p>Confira as principais soluções que a Oficina Dois Amigos oferece para você rodar com segurança</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-card-body">
+                    <span class="service-tag">MANUTENÇÃO PREVENTIVA</span>
+                    <h4>Revisão Geral Completa</h4>
+                    <p>Check-up detalhado de segurança: freios, suspensão, alinhamento, velas e sistema de arrefecimento/óleo.</p>
+                </div>
+                <div class="service-card-footer">
+                    <span style="font-size: 12px; color: #64748b;">Orçamento Grátis</span>
+                    <a href="https://wa.me/5511968066402?text=Gostaria%20de%20or%C3%A7amento%20para%20Revis%C3%A3o%20Geral" target="_blank" class="btn-card-wa">Solicitar ➔</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-card-body">
+                    <span class="service-tag">LUBRIFICAÇÃO & TRANSMISSÃO</span>
+                    <h4>Troca de Óleo & Filtros</h4>
+                    <p>Troca rápida com lubrificantes de alta performance e substituição de filtros de ar e combustível.</p>
+                </div>
+                <div class="service-card-footer">
+                    <span style="font-size: 12px; color: #64748b;">Marcas Originais</span>
+                    <a href="https://wa.me/5511968066402?text=Gostaria%20de%20or%C3%A7amento%20para%20Troca%20de%20%C3%93leo" target="_blank" class="btn-card-wa">Solicitar ➔</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-card-body">
+                    <span class="service-tag">SEGURANÇA TOTAL</span>
+                    <h4>Freios, Pneus & Suspensão</h4>
+                    <p>Substituição de pastilhas, discos, amortecedores e alinhamento de pneus para estabilidade máxima.</p>
+                </div>
+                <div class="service-card-footer">
+                    <span style="font-size: 12px; color: #64748b;">Segurança Garantida</span>
+                    <a href="https://wa.me/5511968066402?text=Gostaria%20de%20or%C3%A7amento%20para%20Freios%20e%20Pneus" target="_blank" class="btn-card-wa">Solicitar ➔</a>
+                </div>
+            </div>
+
+            <div class="service-card">
+                <div class="service-card-body">
+                    <span class="service-tag">DIAGNÓSTICO DIGITAL</span>
+                    <h4>Elétrica & Injeção Eletrônica</h4>
+                    <p>Diagnóstico computadorizado para identificação de falhas na injeção, limpeza de bicos e bateria.</p>
+                </div>
+                <div class="service-card-footer">
+                    <span style="font-size: 12px; color: #64748b;">Scanner Digital</span>
+                    <a href="https://wa.me/5511968066402?text=Gostaria%20de%20or%C3%A7amento%20para%20Inje%C3%A7%C3%A3o%20Eletr%C3%B4nica" target="_blank" class="btn-card-wa">Solicitar ➔</a>
+                </div>
             </div>
         </div>
 
-        <div class="service-card">
-            <div class="service-icon">⚡</div>
-            <div class="service-details">
-                <div class="service-title">Injeção Eletrônica & Elétrica</div>
-                <div class="service-desc">Diagnóstico de falhas, limpeza de bicos injetores, testes de bateria e estator.</div>
+        <!-- Avaliações Google estilo Monti Pneus -->
+        <div class="reviews-section">
+            <div class="section-title-box" style="margin-bottom: 20px;">
+                <h3>Avaliações de Clientes em Itajubá</h3>
+                <p>Veja o que os clientes dizem sobre a Oficina Dois Amigos no Google Maps</p>
             </div>
-        </div>
 
-        <div class="service-card">
-            <div class="service-icon">🛞</div>
-            <div class="service-details">
-                <div class="service-title">Pneus, Freios & Suspensão</div>
-                <div class="service-desc">Troca de pneus (Metzeler/Pirelli), substituição de pastilhas/lonas e retífica de bengalas.</div>
+            <div class="reviews-grid">
+                <div class="review-item">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"Excelente atendimento! Levei meu veículo para fazer a revisão e o serviço ficou impecável. Preço justo e transparência total."</div>
+                    <div class="review-author">Carlos Eduardo — Cliente Google Maps</div>
+                </div>
+
+                <div class="review-item">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"Oficina rápida e de confiança em Itajubá! Resolveram o problema do freio e da suspensão no mesmo dia."</div>
+                    <div class="review-author">Roberto Silva — Cliente Google Maps</div>
+                </div>
+
+                <div class="review-item">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"Mecânicos super honestos e educados. Explicaram exatamente o que precisava ser feito sem inventar peças."</div>
+                    <div class="review-author">Marcelo Ramos — Cliente Google Maps</div>
+                </div>
             </div>
-        </div>
-
-        <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="btn-wa-main">
-            💬 Agendar Orçamento no WhatsApp da Oficina (11) 96806-6402
-        </a>
-
-        <div class="section-header" style="font-size: 18px; font-weight: 800; color: var(--accent); margin-top: 30px;">⭐ O que dizem os motoqueiros de Itajubá</div>
-
-        <div class="review-card">
-            <div class="review-author">⭐⭐⭐⭐⭐ Carlos Eduardo - Cliente Google</div>
-            <div class="review-text">"Atendimento sensacional! Levei minha moto pra fazer revisão completa e ficou perfeita. O preço é justo e os caras são honestos."</div>
-        </div>
-
-        <div class="review-card">
-            <div class="review-author">⭐⭐⭐⭐⭐ Roberto Silva - Cliente Google</div>
-            <div class="review-text">"Melhor oficina de motos de Itajubá sem dúvidas! Peças de primeira e entrega rápida."</div>
         </div>
 
     </div>
 
-    <div class="fixed-wa-bar">
-        <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="fixed-wa-btn">
-            💬 Falar com a Oficina Dois Amigos: (11) 96806-6402
-        </a>
-    </div>
+    <!-- Rodapé Completo Monti Pneus -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h5>Oficina Dois Amigos</h5>
+                <p>Oficina Mecânica & Auto Center completa em Itajubá - MG. Qualidade, rapidez e o melhor atendimento da região.</p>
+                <p><strong>Nota 4.9 no Google Maps ⭐</strong></p>
+            </div>
+            <div class="footer-col">
+                <h5>Horário de Funcionamento</h5>
+                <p>📅 Segunda a Sexta: 08:00 às 18:00</p>
+                <p>📅 Sábado: 08:00 às 12:00</p>
+                <p>❌ Domingo: Fechado</p>
+            </div>
+            <div class="footer-col">
+                <h5>Contato Directo</h5>
+                <p>📲 WhatsApp: (11) 96806-6402</p>
+                <p>📍 Cidade: Itajubá - MG</p>
+                <p>⚡ Atendimento Imediato pelo WhatsApp</p>
+            </div>
+        </div>
+
+        <div class="copyright-bar">
+            <p>© 2026 Oficina Dois Amigos • Desenvolvido pela agência Webfy.</p>
+        </div>
+    </footer>
+
+    <!-- Botão Flutuante de WhatsApp -->
+    <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="fixed-wa-float">
+        💬 Falar com a Oficina: (11) 96806-6402
+    </a>
 
 </body>
 </html>
