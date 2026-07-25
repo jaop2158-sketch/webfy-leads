@@ -6,6 +6,9 @@
 <title>Academia Forge – Transforme Seu Corpo</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
+/* ==========================================================================
+   RESET & VARIAVEIS
+   ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg: #09090b;
@@ -17,246 +20,320 @@
   --text: #f0f0f0;
   --muted: #888;
 }
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
 
-/* NAV */
+body { 
+  font-family: 'Inter', sans-serif; 
+  background: var(--bg); color: var(--text); 
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 36px;
+  padding: 24px 60px;
   background: rgba(9,9,11,0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(230,57,70,0.2);
+  transition: padding 0.4s;
 }
-.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; background: linear-gradient(90deg, #e63946, #f77f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; }
+nav.scrolled { padding: 16px 60px; }
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 4px; background: linear-gradient(90deg, #e63946, #f77f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
 .nav-links a:hover { color: var(--red2); }
 .nav-cta {
   background: linear-gradient(135deg, #e63946, #f77f00);
-  color: white;
-  padding: 10px 22px;
-  border-radius: 8px;
+  color: white; padding: 12px 28px; border-radius: 50px;
   font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none; transition: transform 0.3s, box-shadow 0.3s;
 }
-.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(230,57,70,0.4); }
+.nav-cta:hover { transform: scale(1.05); box-shadow: 0 8px 28px rgba(230,57,70,0.4); }
 
-/* HERO */
+/* ==========================================================================
+   HERO
+   ========================================================================== */
 .hero {
   min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center;
-  padding: 130px 24px 90px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 120px 60px 60px; gap: 60px;
   position: relative;
-  overflow: hidden;
-}
-.hero-bg-img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
-  z-index: 0;
 }
 .hero::before {
-  content: '';
-  position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to bottom, rgba(9,9,11,0.86) 0%, rgba(9,9,11,0.76) 50%, rgba(9,9,11,0.90) 100%);
+  content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+  background: radial-gradient(circle at center, rgba(230,57,70,0.15) 0%, transparent 60%);
+  z-index: 0; pointer-events: none;
 }
-.hero > * { position: relative; z-index: 2; }
-.hero-eyebrow { color: var(--red); font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; }
-.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 14vw, 120px); letter-spacing: 4px; line-height: 1; margin-bottom: 24px; }
+.hero-content { flex: 1; max-width: 600px; z-index: 2; }
+.hero-eyebrow { color: var(--red); font-size: 13px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: inline-block; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 8vw, 110px); letter-spacing: 4px; line-height: 0.9; margin-bottom: 30px; }
+.hero h1 span { display: block; overflow: hidden; }
 .hero h1 .fire { background: linear-gradient(90deg, #e63946, #f77f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p { color: var(--muted); font-size: 17px; max-width: 520px; line-height: 1.8; margin: 0 auto 44px; }
-.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
-.btn-fire {
+.hero p { color: var(--muted); font-size: 17px; line-height: 1.8; margin-bottom: 44px; }
+.btn-solid {
   background: linear-gradient(135deg, #e63946, #f77f00);
-  color: white;
-  padding: 16px 38px; border-radius: 10px;
-  font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: white; padding: 16px 36px; border-radius: 50px;
+  font-size: 14px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; display: inline-block; transition: transform 0.3s;
 }
-.btn-fire:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(230,57,70,0.4); }
-.btn-outline {
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 16px 38px; border-radius: 10px;
-  font-size: 15px; font-weight: 600;
-  text-decoration: none;
-  transition: border-color 0.2s;
+.btn-solid:hover { transform: translateY(-3px); }
+
+.hero-image {
+  flex: 1; position: relative; height: 75vh;
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 40px 80px rgba(230,57,70,0.15);
+  z-index: 2;
 }
-.btn-outline:hover { border-color: var(--red); color: var(--red2); }
+.hero-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-/* STATS */
-.stats-bar { display: flex; justify-content: center; background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.stat { flex: 1; max-width: 220px; text-align: center; padding: 32px 20px; border-right: 1px solid var(--border); }
-.stat:last-child { border-right: none; }
-.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; background: linear-gradient(90deg, #e63946, #f77f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
-.stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+/* ==========================================================================
+   TRANSFORMACOES (SCROLL-DRIVEN SLIDER PURO)
+   ========================================================================== */
+.transformacoes {
+  background: var(--bg); padding: 150px 60px; color: var(--text);
+  display: flex; gap: 80px; align-items: center; justify-content: center;
+  border-top: 1px solid var(--border);
+}
+.tr-left { flex: 1; max-width: 500px; }
+.tr-right { flex: 1; display: flex; justify-content: center; position: relative; }
+.tr-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 6vw, 80px); letter-spacing: 3px; line-height: 1; margin-bottom: 30px; }
+.tr-title em { color: var(--red); font-style: normal; }
+.tr-desc { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; }
 
-/* PLANOS */
-.section { padding: 90px 24px; max-width: 1100px; margin: 0 auto; }
-.section-label { color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
-.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 5vw, 56px); letter-spacing: 2px; margin-bottom: 48px; }
-.plans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+/* Slider Wipe GSAP */
+.ba-wrap {
+  position: relative; width: 100%; max-width: 420px; aspect-ratio: 4/5;
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 40px 80px rgba(230,57,70,0.15);
+}
+.ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(80%); } 
+.ba-img.after { z-index: 1; filter: grayscale(0%) contrast(1.2); }
+.ba-img.before { z-index: 2; clip-path: inset(0 50% 0 0); filter: grayscale(100%); }
+
+.ba-tag {
+  position: absolute; z-index: 12; bottom: 30px;
+  padding: 8px 16px; border-radius: 50px;
+  font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  background: rgba(9,9,11,0.9); color: white; backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.ba-tag.left { left: 30px; }
+.ba-tag.right { right: 30px; background: var(--red); border: none; }
+
+/* ==========================================================================
+   PLANOS
+   ========================================================================== */
+.services { padding: 150px 60px; background: var(--card); border-top: 1px solid var(--border); }
+.sec-header { text-align: center; margin-bottom: 80px; }
+.sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 6vw, 80px); letter-spacing: 2px; }
+
+.srv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
 .plan {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 32px 28px;
-  position: relative;
-  transition: transform 0.2s, border-color 0.2s;
+  background: var(--bg); border: 1px solid var(--border); border-radius: 24px; padding: 40px;
+  transition: transform 0.3s;
 }
-.plan:hover { transform: translateY(-4px); }
-.plan.featured { border-color: var(--red); }
+.plan:hover { transform: translateY(-10px); }
+.plan.featured { border-color: var(--red); position: relative; }
 .plan.featured::before {
-  content: 'MAIS POPULAR';
-  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-  background: linear-gradient(135deg, #e63946, #f77f00);
-  color: white; font-size: 10px; font-weight: 800; letter-spacing: 2px;
-  padding: 4px 16px; border-radius: 50px;
+  content: 'MAIS POPULAR'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, #e63946, #f77f00); color: white; font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  padding: 6px 16px; border-radius: 50px;
 }
-.plan-name { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px; }
-.plan-price { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--text); letter-spacing: 2px; }
-.plan-period { color: var(--muted); font-size: 13px; }
-.plan-features { margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
-.plan-feat { font-size: 14px; color: var(--text); display: flex; align-items: center; gap: 8px; }
-.plan-feat::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
-.plan-cta {
-  display: block; text-align: center;
-  background: linear-gradient(135deg, #e63946, #f77f00);
-  color: white; padding: 14px; border-radius: 10px;
-  font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
-  text-decoration: none; margin-top: 24px;
-  transition: transform 0.2s;
+.plan-price { font-family: 'Bebas Neue', sans-serif; font-size: 60px; margin: 20px 0; color: white; }
+.plan-features { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; color: var(--muted); }
+.plan-cta { display: block; text-align: center; background: var(--border); color: white; padding: 16px; border-radius: 50px; text-decoration: none; font-weight: 700; text-transform: uppercase; transition: background 0.3s; }
+.plan.featured .plan-cta { background: var(--red); }
+
+/* ==========================================================================
+   FOOTER MEGA
+   ========================================================================== */
+.footer-wrap { position: relative; background: var(--bg); border-top: 1px solid var(--border); }
+footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justify-content: space-between; }
+.footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
+.footer-links { display: flex; gap: 100px; }
+.f-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.f-col a { color: var(--text); text-decoration: none; font-size: 15px; transition: color 0.3s; }
+.f-col a:hover { color: var(--red); }
+.footer-bottom { padding-top: 60px; text-align: center; overflow: hidden; }
+.footer-huge {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 16vw, 220px);
+  color: var(--card); /* Texto escuro mesclado ao fundo */
+  line-height: 0.8; margin: 0;
+  text-shadow: 0 0 1px rgba(255,255,255,0.1);
+  letter-spacing: -2px;
 }
-.plan-cta:hover { transform: translateY(-2px); }
 
-/* DEPOIMENTOS */
-.reviews-section { background: #050507; padding: 90px 24px; border-top: 1px solid var(--border); }
-.reviews-inner { max-width: 1100px; margin: 0 auto; }
-.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-.review { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
-.stars { color: #f77f00; font-size: 16px; margin-bottom: 12px; }
-.review-text { font-size: 14px; line-height: 1.8; font-style: italic; color: #ccc; margin-bottom: 14px; }
-.review-author { font-size: 13px; font-weight: 700; color: var(--red2); }
-
-/* CTA */
-.cta { text-align: center; padding: 90px 24px; }
-.cta h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 72px); letter-spacing: 3px; margin-bottom: 16px; }
-.cta p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
-
-/* FOOTER */
-footer { background: #030304; border-top: 1px solid var(--border); text-align: center; padding: 32px; color: var(--muted); font-size: 13px; }
-footer strong { color: var(--red); }
-
-@media (max-width: 640px) {
-  nav { padding: 14px 20px; }
-  .nav-links { display: none; }
-  .stats-bar { flex-wrap: wrap; }
-  .stat { min-width: 50%; }
+@media (max-width: 1024px) {
+  nav { padding: 20px; } .nav-links { display: none; }
+  .hero { flex-direction: column; padding: 120px 30px 60px; text-align: center; }
+  .hero-image { width: 100%; height: 50vh; }
+  .srv-grid { grid-template-columns: 1fr; }
+  .transformacoes { flex-direction: column; padding: 80px 30px; text-align: center; }
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo">FORGE GYM</div>
+<nav id="nav">
+  <div class="nav-logo">FORGE.</div>
   <ul class="nav-links">
     <li><a href="#planos">Planos</a></li>
-    <li><a href="#avaliacoes">Avaliacoes</a></li>
-    <li><a href="#contato">Contato</a></li>
+    <li><a href="#resultados">Resultados</a></li>
   </ul>
-  <a href="https://wa.me/5511999999999" class="nav-cta">Matricular Agora</a>
+  <a href="https://wa.me/5511999999999" class="nav-cta">Matricular</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <img src="img_hero_academia.jpg" alt="Interior da Forge Gym" class="hero-bg-img">
-  <div class="hero-eyebrow">Academia &bull; Santo Andre, SP</div>
-  <h1>TRANSFORME<br><span class="fire">SEU CORPO.</span></h1>
-  <p>Equipamentos de ponta, instrutores certificados e uma comunidade que vai te motivar todos os dias. Sua mudanca comeca aqui.</p>
-  <div class="hero-btns">
-    <a href="https://wa.me/5511999999999" class="btn-fire">Matricular Agora</a>
-    <a href="#planos" class="btn-outline">Ver Planos</a>
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="gs-eyebrow">Alto Rendimento</span></div>
+    <h1 class="gs-title">Forje o<br><span class="fire">Seu Corpo.</span></h1>
+    <p class="gs-desc">Equipamentos de ponta, instrutores certificados e uma comunidade que vai te empurrar para o limite. Sua mudança começa aqui.</p>
+    <a href="https://wa.me/5511999999999" class="btn-solid gs-desc">Começar Agora</a>
+  </div>
+  <div class="hero-image gs-img">
+    <img src="img_hero_academia.jpg" alt="Academia" class="hero-bg-anim">
   </div>
 </section>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Anos no Mercado</div></div>
-  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Google Maps</div></div>
-  <div class="stat"><div class="stat-num">1K+</div><div class="stat-label">Alunos Ativos</div></div>
-  <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Funcionamento</div></div>
-</div>
+<!-- ANTES E DEPOIS WIPE -->
+<section class="transformacoes" id="resultados">
+  <div class="tr-left gs-fade-up">
+    <h2 class="tr-title">Resultados<br><em>Reais</em></h2>
+    <p class="tr-desc">A consistência gera o impossível. Role a tela para revelar a evolução alcançada com nossa metodologia de alta intensidade.</p>
+    <a href="https://wa.me/5511999999999" class="btn-solid">Ver Planos</a>
+  </div>
+  <div class="tr-right">
+    <div class="ba-wrap gs-ba-wrap">
+      <img src="acad_depois.jpg" class="ba-img after" alt="">
+      <img src="acad_antes.jpg" class="ba-img before" id="ba-before" alt="">
+      <div class="ba-tag left" id="tag-antes">INÍCIO</div>
+      <div class="ba-tag right" id="tag-depois">AGORA</div>
+    </div>
+  </div>
+</section>
 
 <!-- PLANOS -->
-<div id="planos" class="section">
-  <div class="section-label">Escolha seu plano</div>
-  <div class="section-title">INVISTA EM VOCE</div>
-  <div class="plans-grid">
-    <div class="plan">
-      <div class="plan-name">Mensal</div>
+<section class="services" id="planos">
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title">INVISTA EM VOCÊ</h2>
+  </div>
+  <div class="srv-grid">
+    <div class="plan gs-fade-up">
+      <div style="color:var(--muted); font-weight:bold; letter-spacing:2px; font-size:12px;">MENSAL</div>
       <div class="plan-price">R$ 99</div>
-      <div class="plan-period">/mes</div>
       <div class="plan-features">
-        <div class="plan-feat">Acesso a todos os equipamentos</div>
-        <div class="plan-feat">Musculacao e cardio</div>
-        <div class="plan-feat">Avaliacao fisica mensal</div>
+        <div>Acesso total</div>
+        <div>Avaliação Mensal</div>
       </div>
-      <a href="https://wa.me/5511999999999" class="plan-cta">Matricular</a>
+      <a href="#" class="plan-cta">Matricular</a>
     </div>
-    <div class="plan featured">
-      <div class="plan-name">Trimestral</div>
-      <div class="plan-price">R$ 79</div>
-      <div class="plan-period">/mes &bull; Cobrado a cada 3 meses</div>
+    <div class="plan featured gs-fade-up" style="transition-delay: 0.1s;">
+      <div style="color:var(--muted); font-weight:bold; letter-spacing:2px; font-size:12px;">TRIMESTRAL</div>
+      <div class="plan-price">R$ 79<span style="font-size:20px;">/mês</span></div>
       <div class="plan-features">
-        <div class="plan-feat">Tudo do plano mensal</div>
-        <div class="plan-feat">Aula de treino com personal</div>
-        <div class="plan-feat">Acesso a aulas coletivas</div>
-        <div class="plan-feat">App de acompanhamento</div>
+        <div>Aula Coletiva</div>
+        <div>App de Treino</div>
       </div>
-      <a href="https://wa.me/5511999999999" class="plan-cta">Matricular</a>
+      <a href="#" class="plan-cta">Matricular</a>
     </div>
-    <div class="plan">
-      <div class="plan-name">Anual</div>
-      <div class="plan-price">R$ 59</div>
-      <div class="plan-period">/mes &bull; Melhor custo-beneficio</div>
+    <div class="plan gs-fade-up" style="transition-delay: 0.2s;">
+      <div style="color:var(--muted); font-weight:bold; letter-spacing:2px; font-size:12px;">ANUAL</div>
+      <div class="plan-price">R$ 59<span style="font-size:20px;">/mês</span></div>
       <div class="plan-features">
-        <div class="plan-feat">Tudo do plano trimestral</div>
-        <div class="plan-feat">Personal trainer incluso</div>
-        <div class="plan-feat">Dieta personalizada</div>
-        <div class="plan-feat">Acesso 24 horas</div>
+        <div>Personal Trainer 1x</div>
+        <div>Dieta Inclusa</div>
       </div>
-      <a href="https://wa.me/5511999999999" class="plan-cta">Matricular</a>
+      <a href="#" class="plan-cta">Matricular</a>
     </div>
   </div>
-</div>
+</section>
 
-<!-- DEPOIMENTOS -->
-<div id="avaliacoes" class="reviews-section">
-  <div class="reviews-inner">
-    <div class="section-label">O que dizem</div>
-    <div class="section-title" style="font-family:'Bebas Neue',sans-serif; font-size: clamp(32px,5vw,56px); letter-spacing:2px;">RESULTADOS REAIS</div>
-    <div class="reviews-grid">
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Perdi 12kg em 3 meses! O ambiente e os instrutores me motivam todos os dias. Melhor academia que ja fui."</div><div class="review-author">— Thiago R.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Equipamentos novos, espaco limpo e os professores sao excelentes. Indico para todo mundo!"</div><div class="review-author">— Fernanda L.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Comecei sem saber nada de musculacao e em 6 meses ja tenho resultados visiveis. Estrutura incrivel!"</div><div class="review-author">— Bruno K.</div></div>
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <footer id="footer">
+    <div class="footer-top gs-fade-up">
+      <div class="nav-logo">FORGE.</div>
+      <div class="footer-links">
+        <div class="f-col">
+          <h4>Contato</h4>
+          <ul><li><a href="#">(11) 99999-9999</a></li><li><a href="#">Av. Atleta, SP</a></li></ul>
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="footer-bottom">
+      <h2 class="footer-huge gs-fade-up">TREINE.</h2>
+    </div>
+  </footer>
 </div>
 
-<!-- CTA -->
-<div id="contato" class="cta">
-  <h2>COMECE HOJE<br>SUA TRANSFORMACAO</h2>
-  <p>Primeira semana gratis! Venha conhecer e experimente sem compromisso.</p>
-  <a href="https://wa.me/5511999999999" class="btn-fire" style="font-size:16px; padding:18px 44px;">Garantir Semana Gratis</a>
-</div>
+<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-<footer>
-  <strong>Forge Gym</strong> &mdash; Santo Andre, SP &mdash; Desenvolvido por <strong>Webfy</strong>
-</footer>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger);
 
+  const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0, 0);
+
+  ScrollTrigger.create({
+    start: 'top -50',
+    onUpdate: (self) => {
+      if(self.scroll() > 50) document.getElementById('nav').classList.add('scrolled');
+      else document.getElementById('nav').classList.remove('scrolled');
+    }
+  });
+
+  const tl = gsap.timeline();
+  tl.from('.gs-img', { opacity: 0, x: 50, duration: 1.5, ease: 'power3.out' })
+    .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1')
+    .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
+    .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
+
+  // Hero image Parallax/Scale breathing
+  gsap.to('.hero-bg-anim', {
+    scale: 1.05,
+    duration: 10,
+    yoyo: true,
+    repeat: -1,
+    ease: 'sine.inOut'
+  });
+
+  gsap.utils.toArray('.gs-fade-up').forEach(el => {
+    gsap.from(el, {
+      opacity: 0, y: 50, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+  });
+
+  // WIPE BEFORE/AFTER
+  const tlBa = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#resultados',
+      start: 'top 70%', 
+      end: 'bottom 40%', 
+      scrub: 1, 
+    }
+  });
+  tlBa.fromTo('#ba-before', 
+    { clipPath: 'inset(0 0% 0 0)' }, 
+    { clipPath: 'inset(0 100% 0 0)', ease: 'none' }, 0 
+  );
+  tlBa.to('#tag-antes', { opacity: 0, ease: 'none' }, 0);
+  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#e63946', color: 'white', ease: 'none' }, 0);
+});
+</script>
 </body>
 </html>

@@ -4,8 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pizzaria Forno Vivo – A Pizza do Jeito Certo</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ==========================================================================
+   RESET & VARIAVEIS
+   ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --bg: #0e0a06;
@@ -17,136 +20,149 @@
   --text: #f5f0e8;
   --muted: #8a7a6a;
 }
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
 
-/* NAV */
+body { 
+  font-family: 'Inter', sans-serif; 
+  background: var(--bg); color: var(--text); 
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 36px;
+  padding: 24px 60px;
   background: rgba(14,10,6,0.95);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(232,93,4,0.2);
+  border-bottom: 1px solid rgba(232,93,4,0.15);
+  transition: padding 0.4s;
 }
-.nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--yellow); }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+nav.scrolled { padding: 16px 60px; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--yellow); }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; transition: color 0.3s; }
 .nav-links a:hover { color: var(--orange2); }
 .nav-cta {
   background: linear-gradient(135deg, #e85d04, #fb8500);
-  color: white;
-  padding: 10px 22px;
-  border-radius: 8px;
-  font-size: 13px; font-weight: 700;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: white; padding: 12px 28px; border-radius: 50px;
+  font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+  text-decoration: none; transition: transform 0.3s, box-shadow 0.3s;
 }
-.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,93,4,0.4); }
+.nav-cta:hover { transform: scale(1.05); box-shadow: 0 8px 24px rgba(232,93,4,0.4); }
 
-/* HERO */
+/* ==========================================================================
+   HERO
+   ========================================================================== */
 .hero {
   min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center;
-  padding: 130px 24px 90px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 120px 60px 60px; gap: 60px;
   position: relative;
-  overflow: hidden;
 }
-.hero-bg-img {
-  position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
-  z-index: 0;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to bottom, rgba(14,10,6,0.87) 0%, rgba(14,10,6,0.76) 50%, rgba(14,10,6,0.90) 100%);
-}
-.hero > * { position: relative; z-index: 2; }
-.hero-badge {
-  display: inline-block;
-  background: rgba(232,93,4,0.12);
-  border: 1px solid rgba(232,93,4,0.3);
-  color: var(--orange2);
-  padding: 7px 20px; border-radius: 50px;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
-  margin-bottom: 32px;
-}
-.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(44px, 10vw, 88px); font-weight: 900; line-height: 1.05; margin-bottom: 24px; }
-.hero h1 .hot { color: var(--orange2); }
-.hero p { color: var(--muted); font-size: 17px; max-width: 540px; line-height: 1.8; margin: 0 auto 44px; }
-.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.hero-content { flex: 1; max-width: 600px; z-index: 2; }
+.hero-eyebrow { color: var(--orange2); font-size: 12px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; display: inline-block; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(50px, 7vw, 90px); font-weight: 900; line-height: 1.05; margin-bottom: 30px; }
+.hero h1 span { display: block; overflow: hidden; }
+.hero h1 .hot { color: var(--orange2); font-style: italic; }
+.hero p { color: var(--muted); font-size: 17px; line-height: 1.8; margin-bottom: 44px; }
 .btn-fire {
   background: linear-gradient(135deg, #e85d04, #fb8500);
-  color: white;
-  padding: 16px 36px; border-radius: 10px;
-  font-size: 15px; font-weight: 800;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: white; padding: 16px 36px; border-radius: 50px;
+  font-size: 14px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; display: inline-block; transition: transform 0.3s, box-shadow 0.3s;
 }
 .btn-fire:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(232,93,4,0.4); }
-.btn-outline {
-  border: 1px solid rgba(232,93,4,0.3);
-  color: var(--orange2);
-  padding: 16px 36px; border-radius: 10px;
-  font-size: 15px; font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-.btn-outline:hover { background: rgba(232,93,4,0.08); }
 
-/* STATS */
+.hero-image {
+  flex: 1; position: relative; height: 80vh;
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 40px 80px rgba(232,93,4,0.15);
+  z-index: 2;
+}
+.hero-image img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero-image::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(14,10,6,0.5) 0%, transparent 50%);
+}
+
+/* ==========================================================================
+   STATS
+   ========================================================================== */
 .stats { display: flex; justify-content: center; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.stat { flex: 1; max-width: 220px; text-align: center; padding: 32px 20px; border-right: 1px solid var(--border); }
+.stat { flex: 1; text-align: center; padding: 60px 24px; border-right: 1px solid var(--border); }
 .stat:last-child { border-right: none; }
-.stat-num { font-family: 'Playfair Display', serif; font-size: 44px; color: var(--orange2); font-weight: 900; }
-.stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 6px; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 56px; color: var(--orange2); font-weight: 900; margin-bottom: 8px; }
+.stat-label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; }
 
-/* CARDAPIO */
-.section { padding: 90px 24px; max-width: 1100px; margin: 0 auto; }
-.section-tag { display: inline-block; background: rgba(232,93,4,0.1); color: var(--orange); border: 1px solid rgba(232,93,4,0.2); padding: 5px 14px; border-radius: 50px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
-.section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; margin-bottom: 48px; }
-.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+/* ==========================================================================
+   CARDAPIO PARALLAX (SCROLL TRIGGER)
+   ========================================================================== */
+.menu-section { padding: 150px 60px; background: var(--bg); position: relative; overflow: hidden; }
+.sec-header { text-align: center; margin-bottom: 80px; position: relative; z-index: 10; }
+.sec-title { font-family: 'Playfair Display', serif; font-size: clamp(40px, 6vw, 70px); font-weight: 900; }
+.sec-title em { color: var(--orange2); font-style: italic; }
+
+.menu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1000px; margin: 0 auto; position: relative; z-index: 10; }
 .menu-item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 28px 24px;
-  transition: transform 0.2s, border-color 0.2s;
+  background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 40px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  transition: border-color 0.4s;
 }
-.menu-item:hover { transform: translateY(-4px); border-color: var(--orange); }
-.menu-emoji { font-size: 44px; margin-bottom: 16px; }
-.menu-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--yellow); }
-.menu-desc { color: var(--muted); font-size: 13px; line-height: 1.7; margin-bottom: 16px; }
-.menu-price { font-size: 18px; font-weight: 800; color: var(--orange2); }
+.menu-item:hover { border-color: var(--orange); }
+.menu-emoji { margin-bottom: 24px; }
+.menu-emoji svg { stroke: var(--orange2); width: 34px; height: 34px; }
+.menu-name { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--yellow); margin-bottom: 12px; }
+.menu-desc { color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 20px; }
+.menu-price { font-size: 22px; font-weight: 900; color: var(--orange2); }
 
-/* DEPOIMENTOS */
-.reviews-section { background: rgba(255,255,255,0.015); padding: 90px 24px; border-top: 1px solid var(--border); }
-.reviews-inner { max-width: 1100px; margin: 0 auto; }
-.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-.review { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
-.stars { color: var(--yellow); font-size: 16px; margin-bottom: 12px; }
-.review-text { font-size: 14px; line-height: 1.8; font-style: italic; color: #ccc; margin-bottom: 14px; }
-.review-author { font-size: 13px; font-weight: 700; color: var(--orange2); }
+/* Para criar um efeito de offset (parallax) natural no CSS via Grid */
+.menu-item:nth-child(even) { margin-top: 80px; }
 
-/* CTA DELIVERY */
-.cta {
-  text-align: center;
-  padding: 90px 24px;
-  background: radial-gradient(ellipse at center, rgba(232,93,4,0.1) 0%, transparent 65%);
-  border-top: 1px solid var(--border);
+/* ==========================================================================
+   DEPOIMENTOS
+   ========================================================================== */
+.reviews-section { background: rgba(255,255,255,0.015); padding: 150px 60px; border-top: 1px solid var(--border); }
+.reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+.review { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 40px; }
+.stars { color: var(--yellow); font-size: 20px; margin-bottom: 16px; }
+.review-text { font-size: 15px; line-height: 1.8; font-style: italic; color: #ccc; margin-bottom: 20px; }
+.review-author { font-size: 14px; font-weight: 800; color: var(--orange2); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ==========================================================================
+   FOOTER MEGA
+   ========================================================================== */
+.footer-wrap { position: relative; background: var(--bg); border-top: 1px solid var(--border); }
+footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justify-content: space-between; }
+.footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
+.footer-links { display: flex; gap: 100px; }
+.f-col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.f-col a { color: var(--text); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.f-col a:hover { color: var(--orange); }
+.footer-bottom { padding-top: 60px; text-align: center; overflow: hidden; }
+.footer-huge {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(80px, 16vw, 240px);
+  color: var(--card); /* Texto escuro mesclado ao fundo */
+  line-height: 0.8; margin: 0;
+  text-shadow: 0 0 1px rgba(255,255,255,0.05);
+  letter-spacing: -2px;
 }
-.cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; margin-bottom: 16px; }
-.cta p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
 
-/* FOOTER */
-footer { background: #050402; border-top: 1px solid var(--border); text-align: center; padding: 32px; color: var(--muted); font-size: 13px; }
-footer strong { color: var(--orange2); }
-
-@media (max-width: 640px) {
-  nav { padding: 14px 20px; }
-  .nav-links { display: none; }
+@media (max-width: 1024px) {
+  nav { padding: 20px; } .nav-links { display: none; }
+  .hero { flex-direction: column; padding: 120px 30px 60px; text-align: center; }
+  .hero-image { width: 100%; height: 50vh; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .menu-item:nth-child(even) { margin-top: 0; }
+  .reviews-grid { grid-template-columns: 1fr; }
   .stats { flex-wrap: wrap; }
   .stat { min-width: 50%; }
 }
@@ -154,107 +170,156 @@ footer strong { color: var(--orange2); }
 </head>
 <body>
 
-<nav>
+<nav id="nav">
   <div class="nav-logo">Forno Vivo</div>
   <ul class="nav-links">
-    <li><a href="#cardapio">Cardapio</a></li>
-    <li><a href="#avaliacoes">Avaliacoes</a></li>
-    <li><a href="#delivery">Delivery</a></li>
+    <li><a href="#cardapio">Cardápio</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
   </ul>
   <a href="https://wa.me/5511999999999" class="nav-cta">Pedir Agora</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <img src="img_hero_restaurante.jpg" alt="Interior da Pizzaria Forno Vivo" class="hero-bg-img">
-  <div class="hero-badge">Pizzaria Artesanal &bull; Santo Andre, SP</div>
-  <h1>A Pizza Do<br><span class="hot">Jeito Certo.</span></h1>
-  <p>Massa fresca feita na hora, ingredientes selecionados e um forno a lenha que garante o sabor que voce nunca vai esquecer.</p>
-  <div class="hero-btns">
-    <a href="https://wa.me/5511999999999" class="btn-fire">Pedir pelo WhatsApp</a>
-    <a href="#cardapio" class="btn-outline">Ver Cardapio</a>
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow"><span class="gs-eyebrow">Alta Gastronomia</span></div>
+    <h1 class="gs-title">A Arte da<br><span class="hot">Pizza.</span></h1>
+    <p class="gs-desc">Massa de fermentação lenta, ingredientes italianos selecionados e um forno a lenha que garante o sabor autêntico que você nunca vai esquecer.</p>
+    <a href="https://wa.me/5511999999999" class="btn-fire gs-desc">Reservar Mesa</a>
+  </div>
+  <div class="hero-image gs-img">
+    <img src="img_hero_restaurante.jpg" alt="Restaurante" class="hero-bg-anim">
   </div>
 </section>
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Anos de Tradição</div></div>
-  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Google Maps</div></div>
-  <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Sabores no Cardapio</div></div>
-  <div class="stat"><div class="stat-num">30min</div><div class="stat-label">Entrega Garantida</div></div>
+  <div class="stat gs-fade-up"><div class="stat-num">12+</div><div class="stat-label">Anos de Tradição</div></div>
+  <div class="stat gs-fade-up" style="transition-delay:0.1s;"><div class="stat-num">50+</div><div class="stat-label">Sabores</div></div>
+  <div class="stat gs-fade-up" style="transition-delay:0.2s;"><div class="stat-num">4.9</div><div class="stat-label">Google Maps</div></div>
 </div>
 
-<!-- CARDAPIO -->
-<div id="cardapio" class="section">
-  <div class="section-tag">Nosso Cardapio</div>
-  <div class="section-title">Sabores que Fazem Voce<br>Voltar Sempre</div>
+<!-- CARDAPIO PARALLAX -->
+<section class="menu-section" id="cardapio">
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title">Os Nossos <em>Clássicos</em></h2>
+  </div>
   <div class="menu-grid">
-    <div class="menu-item">
-      <div class="menu-emoji">
-        <div style="width:56px;height:56px;border-radius:16px;background:rgba(232,93,4,0.12);border:1px solid rgba(232,93,4,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="1.8" width="28" height="28"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-        </div>
-      </div>
-      <div class="menu-name">Margherita Classica</div>
-      <div class="menu-desc">Molho de tomate artesanal, mussarela de bufala, manjericao fresco e azeite extra virgem.</div>
-      <div class="menu-price">A partir de R$ 44</div>
+    <div class="menu-item gs-parallax-item" data-speed="1.1">
+      <div class="menu-emoji"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+      <div class="menu-name">Margherita Clássica</div>
+      <div class="menu-desc">Molho de tomate San Marzano, muçarela de búfala fresca, manjericão e azeite extra virgem.</div>
+      <div class="menu-price">R$ 58</div>
     </div>
-    <div class="menu-item">
-      <div class="menu-emoji">
-        <div style="width:56px;height:56px;border-radius:16px;background:rgba(232,93,4,0.12);border:1px solid rgba(232,93,4,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="1.8" width="28" height="28"><path d="M8.56 2.9A7 7 0 0119 9v5a2 2 0 002 2H3a2 2 0 002-2V9a7 7 0 011.56-4.42"/><path d="M10 22v-4M14 22v-4"/></svg>
-        </div>
-      </div>
-      <div class="menu-name">Calabresa Especial</div>
-      <div class="menu-desc">Calabresa artesanal grelhada, cebola roxa, mussarela premium e toque de oregano.</div>
-      <div class="menu-price">A partir de R$ 48</div>
+    <div class="menu-item gs-parallax-item" data-speed="0.9">
+      <div class="menu-emoji"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8.56 2.9A7 7 0 0119 9v5a2 2 0 002 2H3a2 2 0 002-2V9a7 7 0 011.56-4.42"/><path d="M10 22v-4M14 22v-4"/></svg></div>
+      <div class="menu-name">Calabresa Premium</div>
+      <div class="menu-desc">Linguiça artesanal defumada, cebola roxa marinada, azeitonas pretas e toque de orégano.</div>
+      <div class="menu-price">R$ 64</div>
     </div>
-    <div class="menu-item">
-      <div class="menu-emoji">
-        <div style="width:56px;height:56px;border-radius:16px;background:rgba(232,93,4,0.12);border:1px solid rgba(232,93,4,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="1.8" width="28" height="28"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
-        </div>
-      </div>
-      <div class="menu-name">Frango com Catupiry</div>
-      <div class="menu-desc">Frango desfiado temperado, catupiry cremoso e cobertura de mussarela derretida.</div>
-      <div class="menu-price">A partir de R$ 48</div>
+    <div class="menu-item gs-parallax-item" data-speed="1.2">
+      <div class="menu-emoji"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg></div>
+      <div class="menu-name">Burrata & Parma</div>
+      <div class="menu-desc">Base branca, presunto parma italiano, burrata fresca inteira no centro e raspas de limão siciliano.</div>
+      <div class="menu-price">R$ 89</div>
     </div>
-    <div class="menu-item">
-      <div class="menu-emoji">
-        <div style="width:56px;height:56px;border-radius:16px;background:rgba(232,93,4,0.12);border:1px solid rgba(232,93,4,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#e85d04" stroke-width="1.8" width="28" height="28"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-        </div>
-      </div>
-      <div class="menu-name">Chocolate Belga</div>
-      <div class="menu-desc">Pizza doce com chocolate belga, morango fresco e Nutella. O encerramento perfeito.</div>
-      <div class="menu-price">A partir de R$ 42</div>
+    <div class="menu-item gs-parallax-item" data-speed="0.8">
+      <div class="menu-emoji"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      <div class="menu-name">Dolce Vita</div>
+      <div class="menu-desc">Nutella original quente, morangos frescos, avelãs torradas picadas. A verdadeira sobremesa.</div>
+      <div class="menu-price">R$ 52</div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- DEPOIMENTOS -->
 <div id="avaliacoes" class="reviews-section">
-  <div class="reviews-inner">
-    <div class="section-tag">Avaliacoes</div>
-    <div class="section-title" style="font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,48px);">O Que Nossos Clientes Dizem</div>
-    <div class="reviews-grid">
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"A melhor pizza da regiao, sem duvida! Massa fininha, ingredientes de qualidade e entrega super rapida."</div><div class="review-author">— Carlos M.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Ja experimentei muitas pizzarias mas essa e outra categoria. Recomendo o frango com catupiry!"</div><div class="review-author">— Ana P.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Pedi no WhatsApp, foi super facil e a pizza chegou quentinha em menos de 30 minutos. Viciada!"</div><div class="review-author">— Juliana K.</div></div>
-    </div>
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title" style="font-size: clamp(30px,4vw,50px);">O Que Dizem os <em>Críticos</em></h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review gs-fade-up"><div class="stars">★★★★★</div><div class="review-text">"Massa de fermentação natural perfeita. Leve, aerada nas bordas e incrivelmente saborosa."</div><div class="review-author">Chef Felipe M.</div></div>
+    <div class="review gs-fade-up" style="transition-delay:0.1s;"><div class="stars">★★★★★</div><div class="review-text">"Ingredientes de altíssima qualidade. O molho de tomate deles é simplesmente incomparável."</div><div class="review-author">Ana Beatriz</div></div>
+    <div class="review gs-fade-up" style="transition-delay:0.2s;"><div class="stars">★★★★★</div><div class="review-text">"O ambiente é incrível e a pizza de Burrata com Parma é uma obra de arte gastronômica."</div><div class="review-author">Guia Gastronômico SP</div></div>
   </div>
 </div>
 
-<!-- CTA DELIVERY -->
-<div id="delivery" class="cta">
-  <h2>Com Fome Agora?<br>Peca Pelo WhatsApp!</h2>
-  <p>Delivery rapido para toda a regiao. Pedido minimo de R$ 40. Frete gratis a partir de R$ 70!</p>
-  <a href="https://wa.me/5511999999999" class="btn-fire" style="font-size:16px; padding:18px 44px;">Pedir Agora pelo WhatsApp</a>
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <footer id="footer">
+    <div class="footer-top gs-fade-up">
+      <div class="nav-logo">Forno Vivo</div>
+      <div class="footer-links">
+        <div class="f-col">
+          <h4>Contato</h4>
+          <ul><li><a href="#">(11) 99999-9999</a></li><li><a href="#">Rua Gastronômica, SP</a></li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <h2 class="footer-huge gs-fade-up">SABOR.</h2>
+    </div>
+  </footer>
 </div>
 
-<footer>
-  <strong>Forno Vivo Pizzaria</strong> &mdash; Santo Andre, SP &mdash; Desenvolvido por <strong>Webfy</strong>
-</footer>
+<script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add(time => lenis.raf(time * 1000));
+  gsap.ticker.lagSmoothing(0, 0);
+
+  ScrollTrigger.create({
+    start: 'top -50',
+    onUpdate: (self) => {
+      if(self.scroll() > 50) document.getElementById('nav').classList.add('scrolled');
+      else document.getElementById('nav').classList.remove('scrolled');
+    }
+  });
+
+  const tl = gsap.timeline();
+  tl.from('.gs-img', { opacity: 0, x: 50, duration: 1.5, ease: 'power3.out' })
+    .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1')
+    .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
+    .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
+
+  gsap.to('.hero-bg-anim', {
+    scale: 1.05,
+    duration: 10,
+    yoyo: true,
+    repeat: -1,
+    ease: 'sine.inOut'
+  });
+
+  gsap.utils.toArray('.gs-fade-up').forEach(el => {
+    gsap.from(el, {
+      opacity: 0, y: 50, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+  });
+
+  // Parallax para os Cards do Menu
+  if(window.innerWidth > 1024) {
+    gsap.utils.toArray('.gs-parallax-item').forEach(el => {
+      const speed = el.getAttribute('data-speed');
+      gsap.to(el, {
+        y: () => (1 - speed) * 150,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".menu-section",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
+    });
+  }
+});
+</script>
 </body>
 </html>
