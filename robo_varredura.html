@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Robô de Varredura Google Maps | Webfy Prospecção Live</title>
-    <meta name="description" content="Robô de busca em tempo real no Google Maps para prospecção de oficinas mecânicas no celular.">
+    <title>Robô Multi-Nicho Google Maps | Webfy Prospecção Live</title>
+    <meta name="description" content="Gerador inteligente de pesquisas no Google Maps e prompts customizados de ligação para qualquer nicho e cidade.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,7 +57,7 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
 
-        select, input {
+        input {
             width: 100%;
             background: #0f172a;
             border: 1px solid #475569;
@@ -69,7 +69,7 @@
             outline: none;
         }
 
-        select:focus, input:focus { border-color: var(--primary); }
+        input:focus { border-color: var(--primary); }
 
         .btn-live-search {
             width: 100%;
@@ -90,6 +90,42 @@
             margin-bottom: 12px;
         }
 
+        .btn-generate-prompts {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent), #eab308);
+            color: #000000;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(250, 204, 21, 0.3);
+        }
+
+        .output-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .output-card h3 { font-size: 17px; font-weight: 800; color: var(--accent); margin-bottom: 12px; }
+
+        .prompt-box {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        .prompt-box strong { color: #ffffff; }
+
         .btn-whatsapp-builder {
             width: 100%;
             background: linear-gradient(135deg, var(--primary), var(--primary-hover));
@@ -101,17 +137,8 @@
             font-size: 15px;
             cursor: pointer;
             box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+            margin-top: 10px;
         }
-
-        .quick-lead-card {
-            background: var(--card-bg);
-            border: 1px solid #334155;
-            border-radius: 18px;
-            padding: 18px;
-            margin-top: 15px;
-        }
-
-        .quick-lead-card h3 { font-size: 16px; font-weight: 800; color: var(--accent); margin-bottom: 12px; }
 
         .btn-action-wa {
             background: #25D366;
@@ -126,86 +153,77 @@
             margin-top: 10px;
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
-
-        .script-box {
-            background: #0f172a;
-            border: 1px solid var(--accent);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 20px;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-        .script-box h4 { color: var(--accent); font-weight: 800; margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
     <div class="header-box">
-        <h1>🔍 Robô de Busca ao Vivo no Google Maps</h1>
-        <p>Varredura Direta no Google sem Terminal</p>
+        <h1>🤖 Robô Multi-Nicho Google Maps</h1>
+        <p>Busca ao Vivo & Prompts de Ligação Gerados na Hora</p>
     </div>
 
-    <!-- BUSCA DIRETA NO GOOGLE MAPS -->
+    <!-- CAMPO LIVRE DE CIDADE E NICHO -->
     <div class="control-card">
         <div class="form-group">
-            <label>1. Digite a Cidade ou Escolha:</label>
-            <input type="text" id="cityInput" value="Santo André SP" placeholder="Ex: Campinas SP, Santo André SP, Pouso Alegre MG">
+            <label>1. Digite o Nicho (Livre):</label>
+            <input type="text" id="nicheInput" value="Oficina Mecânica" placeholder="Ex: Oficina Mecânica, Barbearia, Hamburgueria, Odontologia, Pet Shop">
         </div>
 
         <div class="form-group">
-            <label>2. Escolha o Nicho:</label>
-            <select id="nicheSelect">
-                <option value="oficina de motos">Oficina de Motos</option>
-                <option value="oficina mecanica">Oficina Mecânica</option>
-                <option value="auto center">Auto Center</option>
-                <option value="motopeças">Loja de Motopeças</option>
-                <option value="funilaria e pintura">Funilaria e Pintura</option>
-            </select>
+            <label>2. Digite a Cidade (Livre):</label>
+            <input type="text" id="cityInput" value="Santo André SP" placeholder="Ex: Santo André SP, Campinas SP, Sorocaba SP, Pouso Alegre MG">
         </div>
 
         <button onclick="executeGoogleSearch()" class="btn-live-search">
-            📍 Abrir Busca ao Vivo no Google Maps
+            📍 Buscar no Google Maps ao Vivo
+        </button>
+
+        <button onclick="generateCustomPrompts()" class="btn-generate-prompts">
+            ⚡ Gerar Prompts de Ligação para este Nicho
         </button>
     </div>
 
-    <!-- GERADOR INSTANTÂNEO DE PITCH DE WHATSAPP -->
+    <!-- PROMPTS CUSTOMIZADOS GERADOS DINAMICAMENTE -->
+    <div id="outputPrompts" class="output-card">
+        <h3 id="promptTitle">📞 Prompt de Ligação Gerado:</h3>
+        
+        <div class="prompt-box" id="callScriptBox"></div>
+
+        <h3>💬 Mensagem de WhatsApp Gerada:</h3>
+        <div class="prompt-box" id="waScriptBox"></div>
+    </div>
+
+    <!-- GERADOR DE PITCH DIRETO PARA O LEAD ACHADO NO GOOGLE -->
     <div class="control-card">
         <div class="form-group">
-            <label>⚡ Gerador de Pitch de WhatsApp do Lead:</label>
-            <input type="text" id="leadName" placeholder="Nome da Oficina achada no Google (Ex: Oficina DAF)">
+            <label>⚡ Enviar Proposta para o Lead Achado no Google:</label>
+            <input type="text" id="leadName" placeholder="Nome do Estabelecimento (Ex: Oficina DAF)">
         </div>
 
         <div class="form-group">
-            <input type="tel" id="leadPhone" placeholder="Telefone / WhatsApp (Ex: 11968066402)">
+            <input type="tel" id="leadPhone" placeholder="WhatsApp do Lead (Ex: 11968066402)">
         </div>
 
         <button onclick="generatePitch()" class="btn-whatsapp-builder">
-            🚀 Gerar Link de Pitch de WhatsApp 1-Clique
+            🚀 Gerar Conversa 1-Clique no WhatsApp
         </button>
 
-        <div id="pitchResult" style="display: none;" class="quick-lead-card">
-            <h3>✅ Lead Pronto para Disparar:</h3>
+        <div id="pitchResult" style="display: none; margin-top: 15px;" class="prompt-box">
+            <h4 style="color: var(--accent); font-weight: 800; margin-bottom: 6px;">✅ Mensagem Pronta:</h4>
             <p id="pitchPreviewText" style="font-size: 13px; color: #cbd5e1; margin-bottom: 10px;"></p>
             <a id="pitchWaBtn" href="#" target="_blank" class="btn-action-wa">
-                💬 Abrir conversa no WhatsApp com Proposta
+                💬 Disparar no WhatsApp do Lead
             </a>
         </div>
     </div>
 
-    <!-- ROTEIRO RÁPIDO DE LIGAÇÃO EMBUTIDO -->
-    <div class="script-box">
-        <h4>📞 Roteiro de Ligação Fria Embutido:</h4>
-        <p><em>"Fala [Nome], vi sua oficina no Google Maps com nota 4.9 estrelas! Parabéns! Montei uma prévia gratuita de um site no celular pra vocês. Posso te mandar no WhatsApp sem compromisso pra você dar uma olhada?"</em></p>
-    </div>
-
     <script>
         function executeGoogleSearch() {
+            const niche = document.getElementById('nicheInput').value.trim();
             const city = document.getElementById('cityInput').value.trim();
-            const niche = document.getElementById('nicheSelect').value;
 
-            if(!city) {
-                alert("Por favor, digite o nome de uma cidade!");
+            if(!niche || !city) {
+                alert("Por favor, preencha o nicho e a cidade!");
                 return;
             }
 
@@ -215,12 +233,39 @@
             window.open(googleMapsUrl, '_blank');
         }
 
+        function generateCustomPrompts() {
+            const niche = document.getElementById('nicheInput').value.trim() || 'estabelecimento';
+            const city = document.getElementById('cityInput').value.trim() || 'sua região';
+
+            document.getElementById('promptTitle').innerText = `📞 Roteiro de Ligação para ${niche} em ${city}:`;
+
+            document.getElementById('callScriptBox').innerHTML = `
+                <strong>[Abertura Amigável]:</strong><br>
+                <em>"Fala, [Nome do Dono]! Tudo bem? Aqui é o João!<br>
+                Cara, tava pesquisando os melhores lugares de <strong>${niche}</strong> aqui em <strong>${city}</strong> no Google Maps e vi a nota excelente de vocês! Parabéns pelo atendimento!<br><br>
+                Eu sou especialista em presença digital para <strong>${niche}</strong> e montei uma prévia gratuita de um site moderno pra vocês.<br>
+                Não tô te vendendo nada agora, só queria te mandar o link no WhatsApp pra você dar uma olhada no celular. Posso te mandar nesse número mesmo?"</em>
+            `;
+
+            document.getElementById('waScriptBox').innerHTML = `
+                <em>"Fala, pessoal da [Nome da empresa]! Tudo bem? Aqui é o João!<br><br>
+                Dando uma olhada na excelente reputação de vocês como <strong>${niche}</strong> em <strong>${city}</strong> no Google Maps, montei uma prévia exclusiva de um site moderno no celular:<br><br>
+                👉 Acesse a prévia: https://webfy-leads.vercel.app/oficina_dois_amigos.html<br><br>
+                Dá uma olhada no celular e me diz o que acharam! Se quiserem ajustar qualquer detalhe, mudo na hora pra vocês!"</em>
+            `;
+
+            document.getElementById('outputPrompts').style.display = 'block';
+            window.scrollTo({ top: 400, behavior: 'smooth' });
+        }
+
         function generatePitch() {
-            const name = document.getElementById('leadName').value.trim() || 'Oficina';
+            const niche = document.getElementById('nicheInput').value.trim() || 'estabelecimento';
+            const city = document.getElementById('cityInput').value.trim() || 'região';
+            const name = document.getElementById('leadName').value.trim() || 'Cliente';
             let phone = document.getElementById('leadPhone').value.replace(/\D/g, '');
 
             if (!phone) {
-                alert("Por favor, digite o telefone/WhatsApp do lead!");
+                alert("Por favor, digite o WhatsApp do lead!");
                 return;
             }
 
@@ -228,11 +273,11 @@
                 phone = '55' + phone;
             }
 
-            const pitchText = `Fala, pessoal da ${name}! Tudo bem? Aqui é o João!\n\nEstava vendo as avaliações no Google Maps e montei uma prévia exclusiva de um site moderno de motos para a oficina de vocês:\n\n👉 Acesse a prévia no celular: https://webfy-leads.vercel.app/oficina_dois_amigos.html\n\nDá uma olhada sem compromisso e me diz o que acharam! Se quiserem mudar fotos ou textos, ajusto na hora para vocês!`;
+            const pitchText = `Fala, pessoal da ${name}! Tudo bem? Aqui é o João!\n\nEstava vendo as avaliações no Google Maps de ${niche} em ${city} e montei uma prévia exclusiva de um site moderno no celular para vocês:\n\n👉 Acesse a prévia no celular: https://webfy-leads.vercel.app/oficina_dois_amigos.html\n\nDá uma olhada sem compromisso e me diz o que acharam! Se quiserem mudar fotos ou textos, ajusto na hora para vocês!`;
 
             const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(pitchText)}`;
 
-            document.getElementById('pitchPreviewText').innerText = `Mensagem formatada para: ${name} (${phone})`;
+            document.getElementById('pitchPreviewText').innerText = `Proposta formatada para: ${name} (${phone})`;
             document.getElementById('pitchWaBtn').href = waLink;
             document.getElementById('pitchResult').style.display = 'block';
         }
