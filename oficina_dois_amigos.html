@@ -4,11 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Oficina Dois Amigos | Mecânica de Moto em São Paulo</title>
-    <meta name="description" content="Oficina Dois Amigos em São Paulo. Mecânica de moto completa: pneus, freios, suspensão e revisão. Agende agora! (11) 96806-6402" />
-    <meta property="og:title" content="Oficina Dois Amigos | Mecânica de Moto em São Paulo" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="Oficina Dois Amigos em São Paulo. Mecânica de moto completa: pneus, freios, suspensão e revisão. Agende agora! (11) 96806-6402" />
-    <meta property="og:site_name" content="Oficina Dois Amigos">
+    <meta name="description" content="Oficina Dois Amigos em São Paulo. Mecânica de moto completa: pneus, freios, suspensão e revisão. Agende agora pelo WhatsApp (11) 96806-6402!" />
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,10 +13,12 @@
     
     <style>
         :root {
-            --primary: #dc2626;
+            --primary: #dc2626; /* Vermelho Oficial */
             --primary-hover: #b91c1c;
-            --secondary: #0f172a;
-            --accent: #facc15;
+            --primary-glow: rgba(220, 38, 38, 0.4);
+            --accent: #eab308; /* Amarelo Ouro Oficial */
+            --accent-glow: rgba(234, 179, 8, 0.3);
+            --dark-header: #111827; /* Escuro Neutro */
             --bg-body: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
@@ -29,29 +27,17 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
 
-        body { background-color: var(--bg-body); color: var(--text-main); antialiased; line-height: 1.6; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; padding-bottom: 90px; }
 
-        /* Top Bar Monti Pneus */
-        .top-bar {
-            background-color: var(--secondary);
-            color: #f1f5f9;
-            padding: 8px 20px;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .top-bar a { color: var(--accent); text-decoration: none; font-weight: 700; }
-
-        /* Header Navigation 100% Monti Pneus */
+        /* Header Navigation Limpo sem Top Banner Superior */
         header {
             background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 3px solid var(--primary);
             padding: 15px 25px;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(220,38,38,0.1);
         }
 
         .nav-wrapper {
@@ -70,14 +56,15 @@
         }
 
         .brand-container img {
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             border-radius: 12px;
             object-fit: cover;
-            border: 2px solid var(--primary);
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 15px var(--primary-glow);
         }
 
-        .brand-info h1 { font-size: 22px; font-weight: 800; color: var(--secondary); line-height: 1.1; }
+        .brand-info h1 { font-size: 22px; font-weight: 800; color: #000; line-height: 1.1; }
         .brand-info p { font-size: 12px; color: var(--primary); font-weight: 800; text-transform: uppercase; }
 
         .nav-menu {
@@ -101,25 +88,25 @@
         }
 
         .btn-header-wa {
-            background: #25D366;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 30px;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 14px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.35);
             transition: transform 0.2s;
         }
         .btn-header-wa:hover { transform: translateY(-2px); }
 
-        /* Hero Section 100% Monti Pneus */
+        /* Hero Section nas Cores Vermelho & Amarelo (Zero Azul) */
         .hero-banner {
             position: relative;
-            background: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.94)), url('https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(rgba(17, 24, 39, 0.90), rgba(185, 28, 28, 0.92)), url('https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1600&q=80');
             background-size: cover;
             background-position: center;
             color: white;
@@ -131,9 +118,9 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(250, 204, 21, 0.2);
+            background: rgba(250, 204, 21, 0.25);
             color: var(--accent);
-            border: 1px solid rgba(250, 204, 21, 0.4);
+            border: 1px solid var(--accent);
             padding: 8px 22px;
             border-radius: 30px;
             font-size: 14px;
@@ -149,13 +136,15 @@
             margin: 0 auto 15px auto;
             line-height: 1.2;
             letter-spacing: -0.5px;
+            color: #ffffff;
         }
 
         .hero-banner p {
             font-size: 18px;
-            color: #cbd5e1;
+            color: #fef08a;
             max-width: 700px;
             margin: 0 auto 35px auto;
+            font-weight: 600;
         }
 
         .hero-actions {
@@ -166,14 +155,14 @@
         }
 
         .btn-hero-main {
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: white;
+            background: linear-gradient(135deg, var(--accent), #eab308);
+            color: #000;
             padding: 18px 36px;
             border-radius: 12px;
             font-weight: 800;
             font-size: 17px;
             text-decoration: none;
-            box-shadow: 0 4px 25px rgba(220, 38, 38, 0.5);
+            box-shadow: 0 4px 25px rgba(234, 179, 8, 0.5);
             transition: transform 0.2s;
         }
         .btn-hero-main:hover { transform: translateY(-2px); }
@@ -200,10 +189,10 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         .section-title-box { text-align: center; margin-bottom: 40px; }
-        .section-title-box h3 { font-size: 34px; font-weight: 800; color: var(--secondary); }
+        .section-title-box h3 { font-size: 34px; font-weight: 800; color: #000; }
         .section-title-box p { font-size: 16px; color: var(--text-muted); }
 
-        /* Grid de Diferenciais Monti Pneus */
+        /* Grid de Diferenciais */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -225,7 +214,7 @@
         .feature-icon {
             width: 60px;
             height: 60px;
-            background: #fee2e2;
+            background: #fef2f2;
             color: var(--primary);
             border-radius: 14px;
             display: flex;
@@ -233,12 +222,13 @@
             justify-content: center;
             font-size: 28px;
             margin: 0 auto 15px auto;
+            border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
-        .feature-card h3 { font-size: 17px; font-weight: 800; color: var(--secondary); margin-bottom: 6px; }
+        .feature-card h3 { font-size: 17px; font-weight: 800; color: #000; margin-bottom: 6px; }
         .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
-        /* Cards de Serviços Monti Pneus */
+        /* Cards de Serviços com Fotos de Conserto Real de Moto */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -262,7 +252,7 @@
             height: 220px;
             width: 100%;
             overflow: hidden;
-            background: #1e293b;
+            background: #111827;
         }
 
         .service-img-box img {
@@ -272,15 +262,15 @@
         }
 
         .service-body { padding: 25px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .service-body h4 { font-size: 22px; font-weight: 800; color: var(--secondary); margin-bottom: 10px; }
+        .service-body h4 { font-size: 22px; font-weight: 800; color: #000; margin-bottom: 10px; }
         .service-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
 
         .btn-card-wa {
             display: block;
             text-align: center;
-            background: #f8fafc;
+            background: #fef2f2;
             color: var(--primary);
-            border: 1px solid #e2e8f0;
+            border: 1px solid rgba(220, 38, 38, 0.3);
             padding: 14px;
             border-radius: 12px;
             font-weight: 800;
@@ -288,9 +278,9 @@
             transition: all 0.2s;
             cursor: pointer;
         }
-        .btn-card-wa:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .btn-card-wa:hover { background: var(--primary); color: white; }
 
-        /* Seção Google Maps 100% Monti Pneus */
+        /* Seção Google Maps Identica a Monti Pneus */
         .maps-box {
             background: white;
             border-radius: 24px;
@@ -301,7 +291,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
-        .maps-box h3 { font-size: 30px; font-weight: 800; color: var(--secondary); margin-bottom: 15px; }
+        .maps-box h3 { font-size: 30px; font-weight: 800; color: #000; margin-bottom: 15px; }
 
         .pills-group {
             display: flex;
@@ -312,13 +302,13 @@
         }
 
         .pill-item {
-            background: #f1f5f9;
-            color: #475569;
+            background: #fef2f2;
+            color: var(--primary);
             padding: 8px 18px;
             border-radius: 30px;
             font-size: 13px;
-            font-weight: 700;
-            border: 1px solid #e2e8f0;
+            font-weight: 800;
+            border: 1px solid rgba(220, 38, 38, 0.2);
         }
 
         .maps-subtext {
@@ -349,7 +339,7 @@
             top: 15px;
             left: 15px;
             background: white;
-            color: var(--secondary);
+            color: var(--primary);
             padding: 10px 18px;
             border-radius: 10px;
             font-weight: 800;
@@ -370,7 +360,7 @@
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
-        .info-text-block h4 { font-size: 24px; font-weight: 800; color: var(--secondary); margin-bottom: 10px; }
+        .info-text-block h4 { font-size: 24px; font-weight: 800; color: #000; margin-bottom: 10px; }
         .info-text-block p { font-size: 15px; color: var(--text-muted); max-width: 850px; margin: 0 auto; line-height: 1.7; }
 
         .about-box {
@@ -386,7 +376,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
-        .about-text h3 { font-size: 32px; font-weight: 800; color: var(--secondary); margin-bottom: 15px; }
+        .about-text h3 { font-size: 32px; font-weight: 800; color: #000; margin-bottom: 15px; }
         .about-text p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 15px; }
         .about-badge {
             background: #fef2f2;
@@ -405,11 +395,11 @@
             padding: 50px 30px;
             text-align: center;
             margin-bottom: 50px;
-            box-shadow: 0 15px 35px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 15px 35px rgba(220, 38, 38, 0.35);
         }
 
         .cta-box h3 { font-size: 34px; font-weight: 800; margin-bottom: 10px; }
-        .cta-box p { font-size: 18px; color: #fecaca; margin-bottom: 25px; }
+        .cta-box p { font-size: 18px; color: #fef08a; margin-bottom: 25px; font-weight: 700; }
 
         .btn-cta-white {
             background: white;
@@ -446,13 +436,14 @@
 
         .stars-row { color: #f59e0b; margin-bottom: 8px; font-size: 15px; }
         .review-text { font-size: 13.5px; color: #334155; font-style: italic; margin-bottom: 14px; line-height: 1.6; }
-        .review-author { font-size: 12.5px; font-weight: 800; color: var(--secondary); }
+        .review-author { font-size: 12.5px; font-weight: 800; color: #000; }
 
         footer {
-            background: var(--secondary);
+            background: #111827;
             color: white;
             padding: 60px 20px 30px 20px;
             font-size: 14px;
+            border-top: 4px solid var(--primary);
         }
 
         .footer-grid {
@@ -496,20 +487,14 @@
 </head>
 <body>
 
-    <!-- Top Bar Monti Pneus -->
-    <div class="top-bar">
-        <span>📍 <strong>Oficina Dois Amigos</strong> • Mecânica & Peças para Motocicletas em São Paulo</span>
-        <span>📞 WhatsApp: <a href="https://wa.me/5511968066402">(11) 96806-6402</a></span>
-    </div>
-
-    <!-- Header Navigation 100% Monti Pneus -->
+    <!-- Header Navigation Limpo e Sem Top Banner -->
     <header>
         <div class="nav-wrapper">
             <div class="brand-container" onclick="showTab('tab-home')">
                 <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo">
                 <div class="brand-info">
                     <h1>Oficina Dois Amigos</h1>
-                    <p>Mecânica de Moto em São Paulo</p>
+                    <p>Mecânica & Peças para Motocicletas</p>
                 </div>
             </div>
 
@@ -522,18 +507,18 @@
             </ul>
 
             <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20gostaria%20de%20agendar%20um%20servi%C3%A7o%20na%20Oficina%20Dois%20Amigos!" target="_blank" class="btn-header-wa">
-                💬 Agendar pelo WhatsApp
+                💬 WhatsApp da Oficina
             </a>
         </div>
     </header>
 
-    <!-- Hero Banner 100% Monti Pneus -->
+    <!-- Hero Banner em Vermelho & Amarelo (Zero Azul) -->
     <section class="hero-banner">
         <div class="hero-badge">
             <span>⭐ Oficina de Moto Avaliada com 4.9 Estrelas no Google Maps</span>
         </div>
-        <h2>Oficina Dois Amigos | Mecânica de Moto em São Paulo</h2>
-        <p>Oficina mecânica de motos completa: pneus e balanceamento, freios, suspensão, kit relação e revisão. Agende agora!</p>
+        <h2>Oficina Dois Amigos | Mecânica de Moto & Peças em São Paulo</h2>
+        <p>Oficina mecânica de motos completa: troca de pneus, manutenção de freios, bengalas, kit relação e revisão geral. Agende agora!</p>
         
         <div class="hero-actions">
             <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="btn-hero-main">
@@ -543,7 +528,7 @@
         </div>
     </section>
 
-    <!-- Conteúdo Principal com Abas -->
+    <!-- Conteúdo Principal -->
     <div class="container">
 
         <!-- ABA INÍCIO -->
@@ -573,47 +558,50 @@
             </div>
 
             <div class="section-title-box">
-                <h3>Nossas Especialidades</h3>
-                <p>Confira os serviços mecânicos para motos mais procurados na Oficina Dois Amigos</p>
+                <h3>Nossas Especialidades em Conserto de Motos</h3>
+                <p>Confira os serviços mecânicos com mecânicos trabalhando de verdade na sua moto</p>
             </div>
 
             <div class="services-grid">
+                <!-- Card 1: Conserto de Pneu de Moto -->
                 <div class="service-card">
                     <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80" alt="Pneus e Balanceamento de Moto">
+                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80" alt="Conserto de Pneu de Moto">
                     </div>
                     <div class="service-body">
                         <div>
-                            <h4>Pneus e Balanceamento</h4>
-                            <p>Montagem de pneus novos, remendo técnico de câmara/tubeless, alinhamento de roda e balanceamento para máxima estabilidade no asfalto.</p>
+                            <h4>Conserto & Troca de Pneus de Moto</h4>
+                            <p>Mecânico realizando a desmontagem, remendo técnico de câmara/tubeless, montagem de pneus novos e alinhamento de roda para sua segurança.</p>
                         </div>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Pneus%20e%20Balanceamento%20de%20Moto" target="_blank" class="btn-card-wa">Solicitar Orçamento ➔</a>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Conserto%20de%20Pneu%20de%20Moto" target="_blank" class="btn-card-wa">Solicitar no WhatsApp ➔</a>
                     </div>
                 </div>
 
+                <!-- Card 2: Conserto de Freio & Suspensão de Moto -->
                 <div class="service-card">
                     <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558980664-769d59546b3d?auto=format&fit=crop&w=800&q=80" alt="Suspensão e Freios de Moto">
+                        <img src="https://images.unsplash.com/photo-1558980664-769d59546b3d?auto=format&fit=crop&w=800&q=80" alt="Conserto de Freios e Bengala de Moto">
                     </div>
                     <div class="service-body">
                         <div>
-                            <h4>Suspensão e Freios</h4>
-                            <p>Troca de pastilhas, lonas, fluido de freio, discos e manutenção de bengalas (troca de retentores e óleo de bengala) para sua segurança.</p>
+                            <h4>Conserto de Suspensão & Freios</h4>
+                            <p>Manutenção em andamento de pastilhas, lonas, substituição de fluido de freio e retífica/troca de retentores e óleo de bengala.</p>
                         </div>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios%20de%20Moto" target="_blank" class="btn-card-wa">Solicitar Orçamento ➔</a>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Manuten%C3%A7%C3%A3o%20de%20Freios%20de%20Moto" target="_blank" class="btn-card-wa">Solicitar no WhatsApp ➔</a>
                     </div>
                 </div>
 
+                <!-- Card 3: Conserto de Motor & Troca de Óleo -->
                 <div class="service-card">
                     <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80" alt="Mecânica Geral de Moto">
+                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80" alt="Conserto de Motor e Troca de Óleo de Moto">
                     </div>
                     <div class="service-body">
                         <div>
-                            <h4>Mecânica Geral & Motores</h4>
-                            <p>Troca de óleo de motor com marcas originais (Mobil, Yamalube, Motul), regulagem de corrente, kit transmissão/relação e injeção eletrônica.</p>
+                            <h4>Conserto de Motores, Óleo & Relação</h4>
+                            <p>Manutenção técnica em motor de moto, regulagem de válvulas, troca de óleo com marcas originais e montagem de kit transmissão/relação.</p>
                         </div>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Mec%C3%A2nica%20Geral%20de%20Moto" target="_blank" class="btn-card-wa">Solicitar Orçamento ➔</a>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Conserto%20de%20Motor%20e%20Troca%20de%20%C3%93leo" target="_blank" class="btn-card-wa">Solicitar no WhatsApp ➔</a>
                     </div>
                 </div>
             </div>
@@ -623,7 +611,7 @@
                 <p>Na <strong>Oficina Dois Amigos</strong> em São Paulo, entendemos a importância da sua moto no dia a dia. Oferecemos diagnóstico rápido, orçamento prévio justo e peças originais com garantia no serviço. Agende sua revisão no WhatsApp!</p>
             </div>
 
-            <!-- Seção Google Maps 100% Monti Pneus -->
+            <!-- Seção Google Maps Identica a Monti Pneus -->
             <div class="maps-box">
                 <h3>Atendemos São Paulo e Região</h3>
                 
@@ -666,7 +654,7 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80" alt="Pneus e Balanceamento de Moto">
+                        <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=800&q=80" alt="Conserto de Pneu de Moto">
                     </div>
                     <div class="service-body">
                         <div>
@@ -752,20 +740,37 @@
             </div>
         </div>
 
-        <!-- ABA CONTATO -->
+        <!-- ABA CONTATO & LOCALIZAÇÃO (COM WIDGET GOOGLE MAPS COMPLETO) -->
         <div id="tab-contato" class="tab-content">
             <div class="maps-box">
-                <h3>Contato & Localização</h3>
-                <p class="maps-subtext">Atendimento presencial e agendamentos diretos em São Paulo - SP</p>
+                <h3>Contato & Localização em São Paulo</h3>
+                
+                <div class="pills-group">
+                    <span class="pill-item">São Paulo - SP</span>
+                    <span class="pill-item">Zona Leste</span>
+                    <span class="pill-item">Zona Sul</span>
+                    <span class="pill-item">Centro</span>
+                    <span class="pill-item">Tatuapé</span>
+                    <span class="pill-item">Mooca</span>
+                </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; margin-top: 30px;">
+                <p class="maps-subtext">Atendimento presencial de segunda a sábado em São Paulo - SP. Venha nos visitar ou agende direto no WhatsApp!</p>
+
+                <div class="map-wrapper">
+                    <a href="https://maps.google.com/?q=São+Paulo" target="_blank" class="map-link-btn">
+                        📍 Abrir no Maps ↗
+                    </a>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d467692.04886071477!2d-46.87549727506649!3d-23.550519991206103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce448183a461d1%3A0x9ac94b58e2270d0!2zU8OjbyBQYXVsbywgU1A!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; margin-top: 35px;">
                     <div>
-                        <h4 style="font-weight: 800; color: var(--secondary); margin-bottom: 10px;">📍 Cidade & Atendimento</h4>
-                        <p style="color: var(--text-muted); font-size: 14px;">• Atendemos <strong>São Paulo e região</strong>.</p>
-                        <p style="color: var(--text-muted); font-size: 14px;">• 📲 WhatsApp: <strong>(11) 96806-6402</strong></p>
+                        <h4 style="font-weight: 800; color: #000; margin-bottom: 10px;">📍 Atendimento em São Paulo</h4>
+                        <p style="color: var(--text-muted); font-size: 14px;">• Atendemos <strong>São Paulo - SP e região</strong>.</p>
+                        <p style="color: var(--text-muted); font-size: 14px;">• 📲 WhatsApp Directo: <strong>(11) 96806-6402</strong></p>
                     </div>
                     <div>
-                        <h4 style="font-weight: 800; color: var(--secondary); margin-bottom: 10px;">⏱️ Horário de Funcionamento</h4>
+                        <h4 style="font-weight: 800; color: #000; margin-bottom: 10px;">⏱️ Horário de Funcionamento</h4>
                         <p style="color: var(--text-muted); font-size: 14px;">• <strong>Segunda a Sexta:</strong> 08:00 às 18:00</p>
                         <p style="color: var(--text-muted); font-size: 14px;">• <strong>Sábado:</strong> 08:00 às 13:00</p>
                         <p style="color: var(--text-muted); font-size: 14px;">• <strong>Domingo & Feriados:</strong> Fechado</p>
@@ -776,7 +781,7 @@
 
     </div>
 
-    <!-- Rodapé 100% Monti Pneus -->
+    <!-- Rodapé 100% Vermelho & Amarelo (Zero Azul) -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
@@ -790,7 +795,7 @@
                 <p><a onclick="showTab('tab-especialidades')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Especialidades</a></p>
                 <p><a onclick="showTab('tab-sobre')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Sobre Nós (Tradição e Modernidade)</a></p>
                 <p><a onclick="showTab('tab-avaliacoes')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Avaliações</a></p>
-                <p><a onclick="showTab('tab-contato')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Contato</a></p>
+                <p><a onclick="showTab('tab-contato')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Contato & Localização</a></p>
             </div>
             <div class="footer-col">
                 <h5>Contato Direto</h5>
@@ -807,7 +812,7 @@
 
     <!-- Botão Flutuante de WhatsApp -->
     <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="fixed-wa-float">
-        💬 Falar com a Oficina: (11) 96806-6402
+        💬 Falar no WhatsApp
     </a>
 
     <script>
