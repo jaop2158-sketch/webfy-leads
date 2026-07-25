@@ -16,17 +16,17 @@
 :root {
   --white: #ffffff;
   --light-blue: #f0f9ff;
-  --blue: #0284c7; /* Azul premium */
+  --blue: #0284c7; 
   --blue-dark: #0369a1;
   --text: #0f172a;
   --text-light: #475569;
   --muted: #94a3b8;
+  --border: #e2e8f0;
 }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
-.lenis.lenis-scrolling iframe { pointer-events: none; }
 
 body { 
   font-family: 'Inter', sans-serif; 
@@ -41,15 +41,17 @@ body {
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 30px 60px;
-  color: var(--text);
-  transition: background 0.4s, padding 0.4s;
+  padding: 24px 60px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  transition: padding 0.4s;
 }
-nav.scrolled {
-  background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
-  padding: 20px 60px; border-bottom: 1px solid rgba(0,0,0,0.05);
-}
+nav.scrolled { padding: 16px 60px; }
 .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--blue-dark); }
+.nav-links { display: flex; gap: 30px; list-style: none; }
+.nav-links a { text-decoration: none; color: var(--text-light); font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+.nav-links a:hover { color: var(--blue); }
 .nav-btn {
   font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 2px;
@@ -60,102 +62,90 @@ nav.scrolled {
 .nav-btn:hover { background: var(--blue-dark); transform: scale(1.05); }
 
 /* ==========================================================================
-   HERO (FULLSCREEN VIDEO + LIGHT AESTHETIC)
+   HERO (FOTO BEM NO COMECO - SPLIT LAYOUT)
    ========================================================================== */
 .hero {
-  position: relative; height: 100vh; width: 100vw; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: space-between;
   background: var(--light-blue);
-}
-.hero-video-wrap {
-  position: absolute; inset: -5%; width: 110%; height: 110%;
-  transform-origin: center;
-}
-.hero-video-wrap video, .hero-video-wrap img {
-  width: 100%; height: 100%; object-fit: cover;
-}
-.hero-overlay {
-  position: absolute; inset: 0;
-  /* Degradê branco translúcido para leitura perfeita sem escurecer a foto/vídeo */
-  background: linear-gradient(to right, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.4) 100%);
+  padding: 120px 60px 60px;
+  gap: 60px;
 }
 .hero-content {
-  position: relative; z-index: 10; text-align: left;
-  width: 100%; max-width: 1400px; padding: 0 60px;
+  flex: 1; max-width: 600px;
 }
 .hero-eyebrow {
   font-size: 13px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
-  color: var(--blue); margin-bottom: 24px;
-  display: inline-block; overflow: hidden;
+  color: var(--blue); margin-bottom: 24px; display: inline-block;
 }
 .hero h1 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(60px, 10vw, 140px);
-  font-weight: 300; line-height: 0.95;
-  color: var(--text); margin: 0;
+  font-size: clamp(50px, 6vw, 80px);
+  font-weight: 400; line-height: 1.1;
+  color: var(--text); margin-bottom: 30px;
 }
-.hero h1 span { display: block; overflow: hidden; }
 .hero h1 em { font-style: italic; color: var(--blue); }
+.hero p {
+  font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px;
+}
+.hero-image {
+  flex: 1; position: relative; height: 75vh;
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15);
+}
+.hero-image img {
+  width: 100%; height: 100%; object-fit: cover;
+}
 
 /* ==========================================================================
-   STATEMENT (KINETIC TYPOGRAPHY)
+   STATEMENT & DOUTORA
    ========================================================================== */
 .statement {
-  background: var(--white); color: var(--text);
-  min-height: 100vh; display: flex; align-items: center; justify-content: center;
-  padding: 100px 40px; position: relative; z-index: 20;
+  background: var(--white); padding: 120px 60px;
+  display: flex; align-items: center; justify-content: space-between; gap: 80px;
 }
-.statement-inner { max-width: 1100px; text-align: center; }
+.st-image { flex: 1; border-radius: 24px; overflow: hidden; height: 600px; }
+.st-image img { width: 100%; height: 100%; object-fit: cover; }
+.st-text-wrap { flex: 1; }
 .st-text {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(40px, 6vw, 76px); line-height: 1.15;
-  font-weight: 400; color: var(--text);
+  font-size: clamp(36px, 4vw, 56px); line-height: 1.2;
+  font-weight: 400; color: var(--text); margin-bottom: 40px;
 }
 .st-text em { color: var(--blue); font-style: italic; }
-.st-text span.word { display: inline-block; overflow: hidden; vertical-align: bottom; }
-.st-text span.word > span { display: inline-block; transform: translateY(110%); }
+.st-desc { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+.st-stats { display: flex; gap: 40px; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 40px; }
+.stat-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--blue); font-weight: 400; line-height: 1; }
+.stat-box p { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 8px; }
 
 /* ==========================================================================
-   TRATAMENTOS (HOVER REVEAL - LIGHT MODE)
+   TRATAMENTOS (GRID LIMPO E ELEGANTE)
    ========================================================================== */
 .services {
-  background: var(--light-blue); padding: 150px 60px;
+  background: var(--light-blue); padding: 120px 60px;
 }
-.sec-header { margin-bottom: 100px; display: flex; justify-content: space-between; align-items: flex-end; }
-.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); font-weight: 300; color: var(--text); }
-.sec-title em { color: var(--blue); }
-.sec-desc { max-width: 400px; font-size: 16px; color: var(--text-light); line-height: 1.6; }
+.sec-header { text-align: center; margin-bottom: 80px; }
+.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); font-weight: 400; color: var(--text); }
+.sec-title em { color: var(--blue); font-style: italic; }
+.sec-desc { font-size: 16px; color: var(--text-light); max-width: 600px; margin: 20px auto 0; line-height: 1.6; }
 
-.srv-list { border-top: 1px solid rgba(0,0,0,0.1); }
-.srv-item {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 50px 0; border-bottom: 1px solid rgba(0,0,0,0.1);
-  cursor: pointer; position: relative;
-  transition: padding-left 0.4s ease;
+.srv-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto;
 }
-.srv-item:hover { padding-left: 40px; }
-.srv-item h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(40px, 6vw, 80px); font-weight: 400; color: var(--text);
-  transition: color 0.4s ease; margin: 0; line-height: 1;
+.srv-card {
+  background: var(--white); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s;
 }
-.srv-item:hover h3 { color: var(--blue); }
-.srv-details { display: flex; gap: 80px; align-items: center; opacity: 0; transform: translateX(20px); transition: all 0.4s ease; }
-.srv-item:hover .srv-details { opacity: 1; transform: translateX(0); }
-.srv-details p { font-size: 14px; color: var(--text-light); max-width: 280px; line-height: 1.6; }
-.srv-details img { width: 180px; height: 120px; object-fit: cover; border-radius: 100px; }
-
-/* Imagem flutuante que segue o cursor */
-.cursor-img-wrap {
-  position: fixed; top: 0; left: 0; pointer-events: none;
-  width: 340px; height: 420px; z-index: 90;
-  opacity: 0; transform: scale(0.8); transition: opacity 0.3s, transform 0.3s;
-}
-.cursor-img-wrap.active { opacity: 1; transform: scale(1); }
-.cursor-img-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+.srv-card:hover { transform: translateY(-10px); }
+.srv-card-img { height: 280px; width: 100%; overflow: hidden; }
+.srv-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.srv-card:hover .srv-card-img img { transform: scale(1.05); }
+.srv-card-content { padding: 40px; }
+.srv-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 500; margin-bottom: 16px; color: var(--text); }
+.srv-card p { font-size: 15px; color: var(--text-light); line-height: 1.7; }
 
 /* ==========================================================================
-   TRANSFORMACOES (SCROLL-DRIVEN SLIDER)
+   TRANSFORMACOES (SCROLL-DRIVEN SLIDER SEM TRAVAR A TELA)
    ========================================================================== */
 .transformacoes {
   background: var(--white); padding: 150px 60px; color: var(--text);
@@ -163,11 +153,11 @@ nav.scrolled {
 }
 .tr-left { flex: 1; }
 .tr-right { flex: 1.2; position: relative; }
-.tr-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(50px, 6vw, 80px); line-height: 1.1; margin-bottom: 30px; font-weight: 300; }
+.tr-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); line-height: 1.1; margin-bottom: 30px; font-weight: 400; }
 .tr-title em { color: var(--blue); font-style: italic; }
-.tr-desc { font-size: 16px; color: var(--text-light); max-width: 400px; line-height: 1.8; margin-bottom: 50px; }
+.tr-desc { font-size: 16px; color: var(--text-light); max-width: 400px; line-height: 1.8; margin-bottom: 40px; }
 .btn-solid {
-  background: var(--blue); color: white; padding: 18px 40px; border-radius: 50px;
+  background: var(--blue); color: white; padding: 16px 36px; border-radius: 50px;
   font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
   text-decoration: none; display: inline-block; transition: background 0.3s, transform 0.3s;
 }
@@ -176,13 +166,13 @@ nav.scrolled {
 /* Componente Slider */
 .ba-wrap {
   position: relative; width: 100%; aspect-ratio: 4/5;
-  border-radius: 20px; overflow: hidden;
-  box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15); /* Sombra azulada */
+  border-radius: 24px; overflow: hidden;
+  box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15);
 }
 .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ba-img.after { z-index: 1; }
 .ba-img.before { z-index: 2; clip-path: inset(0 50% 0 0); }
-.ba-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: white; z-index: 10; transform: translateX(-50%); box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+.ba-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: white; z-index: 10; transform: translateX(-50%); box-shadow: 0 0 10px rgba(0,0,0,0.2); }
 .ba-knob {
   position: absolute; top: 50%; left: 50%; z-index: 11; transform: translate(-50%, -50%);
   width: 64px; height: 64px; border-radius: 50%; background: white;
@@ -199,31 +189,47 @@ nav.scrolled {
 .ba-tag.left { left: 30px; }
 .ba-tag.right { right: 30px; background: var(--blue); color: white; }
 
-/* Dica de scroll */
-.scroll-hint { margin-top: 20px; font-size: 12px; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
-.scroll-hint svg { width: 16px; height: 16px; animation: bounce 2s infinite; }
-@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+/* ==========================================================================
+   DEPOIMENTOS
+   ========================================================================== */
+.testimonials {
+  background: var(--light-blue); padding: 120px 60px; text-align: center;
+}
+.test-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 60px auto 0;
+}
+.test-card {
+  background: var(--white); padding: 40px; border-radius: 20px;
+  text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+.stars { color: #f59e0b; margin-bottom: 20px; font-size: 20px; }
+.test-text { font-size: 15px; color: var(--text-light); line-height: 1.7; font-style: italic; margin-bottom: 24px; }
+.test-author { font-weight: 700; color: var(--text); font-size: 14px; }
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+.faq { background: var(--white); padding: 120px 60px; max-width: 900px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--border); padding: 30px 0; }
+.faq-question { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--blue-dark); margin-bottom: 10px; }
+.faq-answer { font-size: 15px; color: var(--text-light); line-height: 1.7; }
 
 /* ==========================================================================
    FOOTER
    ========================================================================== */
 .footer-wrap { position: relative; background: var(--text); color: white; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-footer {
-  padding: 150px 60px 40px; display: flex; flex-direction: column; justify-content: space-between;
-  min-height: 80vh;
-}
+footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justify-content: space-between; }
 .footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; }
 .footer-links { display: flex; gap: 100px; }
 .f-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
 .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 14px; }
 .f-col a { color: white; text-decoration: none; font-size: 15px; transition: color 0.3s; }
 .f-col a:hover { color: var(--blue); }
-.footer-bottom { padding-top: 80px; text-align: center; }
+.footer-bottom { padding-top: 60px; text-align: center; }
 .footer-huge {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(60px, 15vw, 250px);
+  font-size: clamp(50px, 12vw, 180px);
   font-weight: 300; color: white; line-height: 0.8; margin: 0;
-  letter-spacing: -2px;
 }
 .footer-copy { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 40px; }
 
@@ -231,21 +237,16 @@ footer {
    RESPONSIVE
    ========================================================================== */
 @media (max-width: 1024px) {
-  nav { padding: 20px 40px; }
-  .hero-content { padding: 0 40px; text-align: center; }
-  .hero-overlay { background: radial-gradient(circle at center, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 100%); }
-  .srv-item { flex-direction: column; align-items: flex-start; gap: 30px; }
-  .srv-details { transform: none; opacity: 1; }
-  .transformacoes { flex-direction: column; }
+  nav { padding: 20px; } .nav-links { display: none; }
+  .hero { flex-direction: column; padding: 120px 30px 60px; text-align: center; }
+  .hero-image { width: 100%; height: 50vh; }
+  .statement { flex-direction: column-reverse; padding: 80px 30px; text-align: center; }
+  .st-image { height: 400px; width: 100%; }
+  .st-stats { justify-content: center; }
+  .srv-grid { grid-template-columns: 1fr; }
+  .transformacoes { flex-direction: column; padding: 80px 30px; text-align: center; }
+  .test-grid { grid-template-columns: 1fr; }
   .footer-top { flex-direction: column; gap: 60px; }
-}
-@media (max-width: 640px) {
-  nav { padding: 20px; }
-  .hero h1 { font-size: 60px; }
-  .statement, .services, .transformacoes, footer { padding: 80px 20px; }
-  .st-text { font-size: 36px; }
-  .srv-item h3 { font-size: 40px; }
-  .srv-details { flex-direction: column; align-items: flex-start; gap: 20px; }
   .footer-links { flex-direction: column; gap: 40px; }
 }
 </style>
@@ -255,84 +256,89 @@ footer {
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-logo">Ana Fernandes.</div>
+  <ul class="nav-links">
+    <li><a href="#clinica">A Clinica</a></li>
+    <li><a href="#tratamentos">Tratamentos</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#depoimentos">Depoimentos</a></li>
+  </ul>
   <a href="https://wa.me/5511999999999" class="nav-btn">Agendar</a>
 </nav>
 
-<!-- HERO -->
+<!-- HERO (FOTO DIRETO NO INICIO) -->
 <section class="hero" id="hero">
-  <div class="hero-video-wrap">
-    <!-- Video Premium (Coverr) com Poster de Fallback -->
-    <video src="https://cdn.coverr.co/videos/coverr-woman-smiling-at-the-dentist-5246/1080p.mp4" poster="odonto_hero_smile_1785016150873.jpg" autoplay loop muted playsinline></video>
-  </div>
-  <div class="hero-overlay"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow"><span class="gs-eyebrow">Odontologia de Alta Performance</span></div>
-    <h1>
-      <span class="gs-title-line">A ARTE DO</span>
-      <span class="gs-title-line"><em>SORRISO</em></span>
-    </h1>
+    <div class="hero-eyebrow"><span class="gs-eyebrow">Alta Estetica Dental</span></div>
+    <h1 class="gs-title">A Arte de<br><em>Transformar</em><br>Sorrisos.</h1>
+    <p class="gs-desc">Tecnologia avancada, conforto absoluto e um olhar artistico dedicado a criar a melhor versao do seu sorriso. Descubra a odontologia premium.</p>
+    <a href="https://wa.me/5511999999999" class="btn-solid gs-desc">Agendar Avaliacao</a>
+  </div>
+  <div class="hero-image gs-img">
+    <img src="odonto_hero_smile_1785016150873.jpg" alt="Paciente sorrindo">
   </div>
 </section>
 
-<!-- STATEMENT -->
-<section class="statement">
-  <div class="statement-inner">
-    <h2 class="st-text">
-      "Redefinimos a estetica dental unindo <em>precisao milimetrica</em> e um olhar puramente artistico para criar sorrisos irreplicaveis."
-    </h2>
+<!-- STATEMENT & DOUTORA -->
+<section class="statement" id="clinica">
+  <div class="st-image gs-fade-up">
+    <!-- Usando a foto do interior da clinica ou uma medica -->
+    <img src="odonto_clinic_interior_1785016163974.jpg" alt="Interior da Clinica Premium">
+  </div>
+  <div class="st-text-wrap">
+    <h2 class="st-text gs-fade-up">"Nosso compromisso e com a <em>excelencia</em> em cada detalhe do seu sorriso."</h2>
+    <p class="st-desc gs-fade-up">A Dra. Ana Fernandes e especialista em reabilitacao oral e estetica dental. Com uma estrutura de ultima geracao, garantimos procedimentos precisos, rapidos e indolores para que sua experiencia seja incrivel do inicio ao fim.</p>
+    <div class="st-stats gs-fade-up">
+      <div class="stat-box"><h4>15+</h4><p>Anos de Experiencia</p></div>
+      <div class="stat-box"><h4>3k+</h4><p>Sorrisos Transformados</p></div>
+    </div>
   </div>
 </section>
 
-<!-- TRATAMENTOS EDITORIAL -->
-<section class="services">
-  <div class="sec-header gs-fade">
+<!-- TRATAMENTOS (GRID LIMPO) -->
+<section class="services" id="tratamentos">
+  <div class="sec-header gs-fade-up">
     <h2 class="sec-title">Nossas<br><em>Especialidades</em></h2>
-    <p class="sec-desc">Cada tratamento e planejado digitalmente para garantir previsibilidade e perfeicao absoluta no resultado final.</p>
+    <p class="sec-desc">Tratamentos planejados digitalmente para garantir precisao, estetica natural e seguranca.</p>
   </div>
   
-  <div class="srv-list">
-    <div class="srv-item gs-srv" data-img="img_depois_odonto.jpg">
-      <h3>Lentes de Contato</h3>
-      <div class="srv-details">
-        <p>Laminas ultrafinas de porcelana premium que transformam formato, cor e harmonia natural.</p>
-        <img src="img_depois_odonto.jpg" alt="">
+  <div class="srv-grid">
+    <div class="srv-card gs-fade-up">
+      <div class="srv-card-img"><img src="img_depois_odonto.jpg" alt="Lentes de Contato"></div>
+      <div class="srv-card-content">
+        <h3>Lentes de Contato</h3>
+        <p>Laminas ultrafinas de porcelana premium que corrigem imperfeicoes, formato e cor com resultado permanente e hiper-realista.</p>
       </div>
     </div>
-    <div class="srv-item gs-srv" data-img="odonto_treatment_photo_1785016178956.jpg">
-      <h3>Clareamento Laser</h3>
-      <div class="srv-details">
-        <p>Protocolo exclusivo que clareia ate 8 tons em uma unica sessao, sem sensibilidade.</p>
-        <img src="odonto_treatment_photo_1785016178956.jpg" alt="">
+    <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="srv-card-img"><img src="odonto_treatment_photo_1785016178956.jpg" alt="Clareamento a Laser"></div>
+      <div class="srv-card-content">
+        <h3>Clareamento Laser</h3>
+        <p>Dentes significativamente mais brancos em uma unica sessao, utilizando protocolo sem sensibilidade para seu total conforto.</p>
       </div>
     </div>
-    <div class="srv-item gs-srv" data-img="odonto_clinic_interior_1785016163974.jpg">
-      <h3>Implantes Premium</h3>
-      <div class="srv-details">
-        <p>Tecnologia suica em titanio e zirconia para um resultado permanente e imperceptivel.</p>
-        <img src="odonto_clinic_interior_1785016163974.jpg" alt="">
+    <div class="srv-card gs-fade-up">
+      <div class="srv-card-img"><img src="odonto_clinic_interior_1785016163974.jpg" alt="Implantes"></div>
+      <div class="srv-card-content">
+        <h3>Implantes Premium</h3>
+        <p>Recupere a seguranca ao sorrir e mastigar. Utilizamos componentes importados de altissima qualidade com resultados imperceptiveis.</p>
       </div>
     </div>
-    <div class="srv-item gs-srv" data-img="img_antes_odonto.jpg">
-      <h3>Alinhador Invisivel</h3>
-      <div class="srv-details">
-        <p>O padrao ouro mundial em ortodontia invisivel, totalmente digital e confortavel.</p>
-        <img src="img_antes_odonto.jpg" alt="">
+    <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
+      <div class="srv-card-img"><img src="img_antes_odonto.jpg" alt="Alinhadores"></div>
+      <div class="srv-card-content">
+        <h3>Ortodontia Invisivel</h3>
+        <p>Alinhe seus dentes de forma discreta e confortavel com alinhadores transparentes removiveis de alta tecnologia.</p>
       </div>
     </div>
   </div>
-  
-  <div class="cursor-img-wrap"><img src="" alt="" id="cursor-img"></div>
 </section>
 
-<!-- ANTES E DEPOIS (SCROLL DRIVEN) -->
-<section class="transformacoes" id="transf-section">
-  <div class="tr-left gs-fade">
-    <h2 class="tr-title">Resultados<br><em>Reais</em></h2>
-    <p class="tr-desc">Desca a pagina para revelar a transformacao. Nossas documentacoes possuem qualidade de estudio fotográfico.</p>
-    <div class="scroll-hint">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-      Role para ver a magica
-    </div>
+<!-- ANTES E DEPOIS (SCROLL DRIVEN SEM TRAVAR) -->
+<section class="transformacoes" id="resultados">
+  <div class="tr-left gs-fade-up">
+    <h2 class="tr-title">O Poder de um<br><em>Novo Sorriso</em></h2>
+    <p class="tr-desc">Resultados reais que mudam vidas. A estetica dental vai muito alem da beleza; ela devolve a confianca e a autoestima.<br><br><b>Role a tela</b> para ver a transformacao acontecer magicamente.</p>
+    <a href="https://wa.me/5511999999999" class="btn-solid">Quero Transformar meu Sorriso</a>
   </div>
   <div class="tr-right">
     <div class="ba-wrap gs-ba-wrap">
@@ -348,15 +354,58 @@ footer {
   </div>
 </section>
 
+<!-- DEPOIMENTOS -->
+<section class="testimonials" id="depoimentos">
+  <div class="sec-header gs-fade-up">
+    <h2 class="sec-title">O que dizem<br>nossos <em>Pacientes</em></h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card gs-fade-up">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Sempre tive muito medo de dentista, mas a Dra. Ana me passou tanta seguranca que fiz minhas lentes de contato e amei o resultado. O ambiente e fantastico!"</p>
+      <p class="test-author">- Mariana Costa</p>
+    </div>
+    <div class="test-card gs-fade-up" style="transition-delay:0.1s;">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Profissionalismo impecavel. O clareamento a laser foi realmente indolor e o resultado superou minhas expectativas logo na primeira sessao."</p>
+      <p class="test-author">- Ricardo Alves</p>
+    </div>
+    <div class="test-card gs-fade-up" style="transition-delay:0.2s;">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Estrutura incrivel e atendimento de primeira. Transformaram meu sorriso e minha autoestima. Melhor clinica de Sao Paulo, sem duvidas."</p>
+      <p class="test-author">- Fernanda Lima</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq gs-fade-up">
+  <div class="sec-header">
+    <h2 class="sec-title">Duvidas <em>Frequentes</em></h2>
+  </div>
+  <div class="faq-item">
+    <h3 class="faq-question">As lentes de contato desgastam muito o dente?</h3>
+    <p class="faq-answer">Nao. A tecnologia atual permite preparos minimamente invasivos. Em muitos casos, sequer e necessario realizar desgastes na estrutura natural do dente, preservando sua saude.</p>
+  </div>
+  <div class="faq-item">
+    <h3 class="faq-question">O clareamento dental causa sensibilidade?</h3>
+    <p class="faq-answer">Nosso protocolo a laser e projetado justamente para evitar a sensibilidade. Utilizamos geis de altissima qualidade aliados a lasers dessensibilizantes, garantindo total conforto.</p>
+  </div>
+  <div class="faq-item">
+    <h3 class="faq-question">Quanto tempo dura o tratamento de lentes?</h3>
+    <p class="faq-answer">Apos o planejamento digital aprovado por voce, o tratamento completo pode ser finalizado em apenas duas a tres sessoes clinicas, de forma rapida e extremamente eficiente.</p>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <div class="footer-wrap">
   <footer id="footer">
-    <div class="footer-top gs-fade">
+    <div class="footer-top gs-fade-up">
       <div class="nav-logo" style="color:white;">Ana Fernandes.</div>
       <div class="footer-links">
         <div class="f-col">
           <h4>Clinica</h4>
-          <ul><li><a href="#">Tratamentos</a></li><li><a href="#">Transformacoes</a></li><li><a href="#">Corpo Clinico</a></li></ul>
+          <ul><li><a href="#tratamentos">Tratamentos</a></li><li><a href="#resultados">Resultados</a></li><li><a href="#clinica">Corpo Clinico</a></li></ul>
         </div>
         <div class="f-col">
           <h4>Contato</h4>
@@ -365,7 +414,7 @@ footer {
       </div>
     </div>
     <div class="footer-bottom">
-      <h2 class="footer-huge gs-huge">Sorria.</h2>
+      <h2 class="footer-huge gs-fade-up">SORRIA.</h2>
       <div class="footer-copy">
         <span>© 2026 Dra. Ana Fernandes</span>
         <span>Feito por Webfy</span>
@@ -384,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
 
   // 1. Lenis Smooth Scroll
-  const lenis = new Lenis({ duration: 1.5, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+  const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0, 0);
@@ -398,108 +447,67 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 2. Wrap Words utility para o Statement
-  const stText = document.querySelector('.st-text');
-  if(stText) {
-    // Preserve as tags <em>
-    const html = stText.innerHTML;
-    // Divisão manual simples para não quebrar HTML tags (uma regex básica para separar)
-    // Para simplificar e evitar quebrar o em, vamos envolver todo o innerHTML em GSAP split logic manual ou apenas animar linhas.
-    // Como GSAP vanilla não tem SplitText free, vamos animar a opacidade/y do bloco inteiro
-  }
-  gsap.from('.st-text', {
-    y: 60, opacity: 0, duration: 1.5, ease: 'power3.out',
-    scrollTrigger: { trigger: '.statement', start: 'top 75%' }
-  });
-
-  // 3. Animacao Hero (Load)
+  // 2. Animacao Hero (Load)
   const tl = gsap.timeline();
-  tl.from('.hero-video-wrap', { scale: 1.15, duration: 2.5, ease: 'expo.out' })
-    .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1.5')
-    .from('.gs-title-line', { y: 150, opacity: 0, duration: 1.5, stagger: 0.2, ease: 'expo.out' }, '-=1.5');
+  tl.from('.gs-img', { opacity: 0, x: 50, duration: 1.5, ease: 'power3.out' })
+    .from('.gs-eyebrow', { y: 20, opacity: 0, duration: 1 }, '-=1')
+    .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
+    .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
 
-  // Hero Parallax no Scroll
-  gsap.to('.hero-video-wrap', {
-    yPercent: 30, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
-  gsap.to('.hero-content', {
-    yPercent: 40, opacity: 0, ease: 'none',
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-  });
-
-  // 5. Lista de Servicos (Reveal)
-  gsap.from('.gs-srv', {
-    opacity: 0, x: -50, stagger: 0.15, duration: 1, ease: 'power3.out',
-    scrollTrigger: { trigger: '.srv-list', start: 'top 75%' }
-  });
-
-  // Hover Reveal Image na lista de servicos
-  if(window.innerWidth > 1024) {
-    const cursorImgWrap = document.querySelector('.cursor-img-wrap');
-    const cursorImg = document.getElementById('cursor-img');
-    let mouseX = 0, mouseY = 0;
-    let currX = 0, currY = 0;
-    
-    window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-    gsap.ticker.add(() => {
-      currX += (mouseX - currX) * 0.1;
-      currY += (mouseY - currY) * 0.1;
-      gsap.set(cursorImgWrap, { x: currX + 40, y: currY - 200 });
+  // Fade Up Elements Generic
+  gsap.utils.toArray('.gs-fade-up').forEach(el => {
+    gsap.from(el, {
+      opacity: 0, y: 50, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
     });
+  });
 
-    document.querySelectorAll('.srv-item').forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        cursorImg.src = item.getAttribute('data-img');
-        cursorImgWrap.classList.add('active');
-      });
-      item.addEventListener('mouseleave', () => {
-        cursorImgWrap.classList.remove('active');
-      });
-    });
-  }
-
-  // 6. Componente Antes/Depois (SCROLL-DRIVEN MAGIC)
+  // 3. Componente Antes/Depois (SCROLL-DRIVEN SEM TRAVAR A TELA)
+  // Removemos o 'pin: true'. A animacao ocorre puramente baseada na passagem do scroll
   const baWrap = document.querySelector('.gs-ba-wrap');
-  gsap.from(baWrap, { opacity: 0, y: 100, duration: 1.2, scrollTrigger: { trigger: '#transf-section', start: 'top 75%' }});
-
-  // A animação de arraste através do scroll!
+  
   const tlBa = gsap.timeline({
     scrollTrigger: {
-      trigger: '#transf-section',
-      start: 'center center',
-      end: '+=800', // Altura do scroll para revelar tudo
-      scrub: 1, // Suave
-      pin: true // Trava a tela enquanto ocorre o "reveal" do sorriso
+      trigger: '#resultados',
+      start: 'top 80%', // Inicia quando a secao entra na tela
+      end: 'bottom 20%', // Termina quando a secao esta saindo da tela
+      scrub: true, // Liga a animacao ao scroll sem travar!
     }
   });
 
-  // O estado inicial no CSS tem clip-path 50%. Vamos iniciar em 85% e ir ate 15%
+  // Animamos da posicao 90% (antes) ate a 10% (depois revelado) suavemente durante o scroll normal
   tlBa.fromTo('#ba-before', 
-    { clipPath: 'inset(0 15% 0 0)' }, 
-    { clipPath: 'inset(0 85% 0 0)', ease: 'none' }, 0
+    { clipPath: 'inset(0 10% 0 0)' }, 
+    { clipPath: 'inset(0 90% 0 0)', ease: 'none' }, 0
   );
   tlBa.fromTo('#ba-line', 
-    { left: '85%' }, 
-    { left: '15%', ease: 'none' }, 0
+    { left: '90%' }, 
+    { left: '10%', ease: 'none' }, 0
   );
   tlBa.fromTo('#ba-knob', 
-    { left: '85%' }, 
-    { left: '15%', ease: 'none' }, 0
+    { left: '90%' }, 
+    { left: '10%', ease: 'none' }, 0
   );
-  // Fade out na tag "Antes" e fade in na tag "Depois" para chocar mais
+  // Fade out tag Antes / In tag Depois
   tlBa.to('#tag-antes', { opacity: 0.2, ease: 'none' }, 0);
-  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#0369a1', ease: 'none' }, 0);
+  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#0369a1', color: 'white', ease: 'none' }, 0);
 
-  // 7. Footer Reveal e Tipografia Gigante
-  gsap.from('#footer', {
-    yPercent: -40, ease: 'none',
-    scrollTrigger: { trigger: '.footer-wrap', start: 'top bottom', end: 'bottom bottom', scrub: true }
-  });
-  gsap.from('.gs-huge', {
-    y: 100, opacity: 0, duration: 1.5, ease: 'expo.out',
-    scrollTrigger: { trigger: '.footer-bottom', start: 'top 90%' }
-  });
+  // Funcionalidade de clique/arraste mantida caso o usuario prefira interagir manualmente 
+  // (Isso pausa o ScrollTrigger temporariamente ou sobrescreve o valor)
+  let isDragging = false;
+  function setBa(x) {
+    const r = baWrap.getBoundingClientRect();
+    let p = Math.max(2, Math.min(98, ((x - r.left)/r.width)*100));
+    document.getElementById('ba-before').style.clipPath = `inset(0 ${100-p}% 0 0)`; 
+    document.getElementById('ba-line').style.left = `${p}%`; 
+    document.getElementById('ba-knob').style.left = `${p}%`;
+  }
+  baWrap.addEventListener('mousedown', e => { isDragging = true; setBa(e.clientX); e.preventDefault(); });
+  window.addEventListener('mousemove', e => { if(isDragging) setBa(e.clientX); });
+  window.addEventListener('mouseup', () => isDragging = false);
+  baWrap.addEventListener('touchstart', e => { isDragging = true; setBa(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchmove', e => { if(isDragging) setBa(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('touchend', () => isDragging = false);
 });
 </script>
 </body>
