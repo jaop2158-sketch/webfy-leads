@@ -17,7 +17,7 @@
             --primary-glow: rgba(220, 38, 38, 0.15);
             --accent: #facc15; /* Amarelo Ouro */
             --accent-hover: #eab308;
-            --dark-header: #000000; /* Preto Puro (Zero Azul) */
+            --dark-bg: #0a0a0a; /* Preto Puro (Zero Azul) */
             --bg-body: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
@@ -26,7 +26,9 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
 
-        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; padding-bottom: 90px; }
+        html, body { background-color: #0a0a0a; color: var(--text-main); line-height: 1.6; min-height: 100vh; }
+
+        .main-wrapper { background-color: var(--bg-body); min-height: 100vh; display: flex; flex-direction: column; }
 
         /* Header Navigation Limpo Sem Emojis */
         header {
@@ -101,7 +103,7 @@
         }
         .btn-header-wa:hover { transform: translateY(-2px); background: var(--accent-hover); }
 
-        /* Hero Banner Preto & Vermelho (Sem Gaps Brancos, Zero Azul) */
+        /* Hero Banner Preto & Vermelho */
         .hero-banner {
             position: relative;
             background: linear-gradient(rgba(0, 0, 0, 0.90), rgba(185, 28, 28, 0.92)), url('moto_motor_conserto.jpg');
@@ -179,15 +181,14 @@
             cursor: pointer;
         }
 
-        .container { max-width: 1150px; margin: 0 auto; padding: 50px 20px; }
+        .container { max-width: 1150px; margin: 0 auto; padding: 50px 20px; flex: 1; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeInGlow 0.4s ease; }
 
-        /* Animação Suave com Luz Vermelha Discreta no Fundo */
         @keyframes fadeInGlow {
-            from { opacity: 0; transform: translateY(8px); box-shadow: 0 0 0 rgba(220, 38, 38, 0); }
-            to { opacity: 1; transform: translateY(0); box-shadow: 0 0 60px rgba(220, 38, 38, 0.08); }
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .section-title-box { text-align: center; margin-bottom: 40px; }
@@ -227,7 +228,7 @@
         .feature-card h3 { font-size: 17px; font-weight: 800; color: #000000; margin-bottom: 6px; }
         .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
-        /* GRID ESTILO MONTI PNEUS 100% EXATO */
+        /* GRID ESTILO MONTI PNEUS */
         .monti-services-container {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
@@ -485,13 +486,14 @@
         .review-text { font-size: 13.5px; color: #334155; font-style: italic; margin-bottom: 14px; line-height: 1.6; }
         .review-author { font-size: 12.5px; font-weight: 800; color: #000000; }
 
-        /* Rodapé 100% PRETO PURO (#0a0a0a) ZERO AZUL */
+        /* Rodapé 100% PRETO PURO (#0a0a0a) Sem Margem Branca Inferior */
         footer {
             background: #0a0a0a;
             color: white;
-            padding: 60px 20px 30px 20px;
+            padding: 60px 20px 40px 20px;
             font-size: 14px;
             border-top: 4px solid var(--primary);
+            margin-top: auto;
         }
 
         .footer-grid {
@@ -514,7 +516,7 @@
             font-size: 12px;
         }
 
-        /* Botão Flutuante Amarelo */
+        /* Botão Flutuante Amarelo sem Emojis */
         .fixed-wa-float {
             position: fixed;
             bottom: 20px;
@@ -539,346 +541,336 @@
 </head>
 <body>
 
-    <!-- Header Navigation Limpo sem Emojis -->
-    <header>
-        <div class="nav-wrapper">
-            <div class="brand-container" onclick="showTab('tab-home')">
-                <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo">
-                <div class="brand-info">
-                    <h1>Oficina Dois Amigos</h1>
-                    <p>Mecânica & Peças de Motocicletas</p>
-                </div>
-            </div>
-
-            <ul class="nav-menu">
-                <li><a class="nav-item active" onclick="showTab('tab-home')">Início</a></li>
-                <li><a class="nav-item" onclick="showTab('tab-especialidades')">Especialidades</a></li>
-                <li><a class="nav-item" onclick="showTab('tab-sobre')">Sobre Nós</a></li>
-                <li><a class="nav-item" onclick="showTab('tab-avaliacoes')">Avaliações</a></li>
-                <li><a class="nav-item" onclick="showTab('tab-contato')">Contato</a></li>
-            </ul>
-
-            <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20gostaria%20de%20agendar%20um%20servi%C3%A7o%20na%20Oficina%20Dois%20Amigos!" target="_blank" class="btn-header-wa">
-                WhatsApp da Oficina
-            </a>
-        </div>
-    </header>
-
-    <!-- Hero Banner Vermelho & Preto (Sem Gaps) -->
-    <section class="hero-banner">
-        <div class="hero-badge">
-            <span>Nota 4.9 de 5.0 no Google Maps • São Paulo - SP</span>
-        </div>
-        <h2>Oficina Dois Amigos | Mecânica de Moto & Peças em São Paulo</h2>
-        <p>Oficina mecânica de motos completa: conserto de pneus, manutenção de freios, bengalas, kit relação e revisão geral. Agende agora!</p>
-        
-        <div class="hero-actions">
-            <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="btn-hero-main">
-                Solicitar Orçamento no WhatsApp
-            </a>
-            <button onclick="showTab('tab-especialidades')" class="btn-hero-sec">Ver Especialidades ➔</button>
-        </div>
-    </section>
-
-    <!-- Conteúdo Principal -->
-    <div class="container">
-
-        <!-- ABA INÍCIO -->
-        <div id="tab-home" class="tab-content active">
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <span class="feature-tag">ESPECIALIDADE</span>
-                    <h3>Especialistas em Motos</h3>
-                    <p>Manutenção e peças originais para todas as marcas e modelos de motocicletas.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-tag">AGILIDADE</span>
-                    <h3>Atendimento Rápido</h3>
-                    <p>Equipe preparada para entregar sua moto rapidamente sem enrolação.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-tag">CONDIÇÕES</span>
-                    <h3>Pagamento Facilitado</h3>
-                    <p>Desconto especial no PIX ou parcelamento em até 12x no cartão de crédito.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-tag">AVALIAÇÃO</span>
-                    <h3>Nota 4.9 no Google</h3>
-                    <p>Mais de 100 avaliações 5 estrelas de motoqueiros satisfeitos em São Paulo.</p>
-                </div>
-            </div>
-
-            <div class="section-title-box">
-                <h3>Nossas Especialidades em Conserto de Motos</h3>
-                <p>Fotos reais do serviço mecânico prestado pela Oficina Dois Amigos</p>
-            </div>
-
-            <!-- LAYOUT GRID IDÊNTICO À MONTI PNEUS (1 GRANDE NA ESQUERDA + 2 NA DIREITA) -->
-            <div class="monti-services-container">
-                
-                <!-- CARD 1 ESQUERDA (GRANDE): CONSERTO DE PNEUS -->
-                <div class="monti-card-large">
-                    <img src="moto_pneu_conserto.jpg" alt="Mecânico fazendo conserto de pneu de moto">
-                    <div class="monti-card-overlay">
-                        <h4>Pneus e Balanceamento</h4>
-                        <p>Manutenção e conserto profissional de pneus de moto. Troca de câmaras, montagem de pneus tubeless e balanceamento computadorizado de rodas.</p>
-                        <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Pneus%20e%20Balanceamento" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
+    <div class="main-wrapper">
+        <!-- Header Navigation Limpo sem Emojis -->
+        <header>
+            <div class="nav-wrapper">
+                <div class="brand-container" onclick="showTab('tab-home')">
+                    <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo">
+                    <div class="brand-info">
+                        <h1>Oficina Dois Amigos</h1>
+                        <p>Mecânica & Peças de Motocicletas</p>
                     </div>
                 </div>
 
-                <!-- CARDS 2 E 3 DIREITA (EMPILHADOS) -->
-                <div class="monti-right-stack">
-                    
-                    <!-- CARD 2: SUSPENSÃO E FREIOS DE MOTO -->
-                    <div class="monti-card-small">
-                        <img src="moto_freio_conserto.jpg" alt="Mecânico consertando freio e suspensão de moto">
-                        <div class="monti-small-overlay">
-                            <h4>Suspensão e Freios</h4>
-                            <p>Troca de pastilhas, fluido de freio, retífica de bengalas e retentores para moto.</p>
-                            <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
-                        </div>
-                    </div>
+                <ul class="nav-menu">
+                    <li><a class="nav-item active" onclick="showTab('tab-home')">Início</a></li>
+                    <li><a class="nav-item" onclick="showTab('tab-especialidades')">Especialidades</a></li>
+                    <li><a class="nav-item" onclick="showTab('tab-sobre')">Sobre Nós</a></li>
+                    <li><a class="nav-item" onclick="showTab('tab-avaliacoes')">Avaliações</a></li>
+                    <li><a class="nav-item" onclick="showTab('tab-contato')">Contato</a></li>
+                </ul>
 
-                    <!-- CARD 3: MECÂNICA GERAL E MOTORES -->
-                    <div class="monti-card-small">
-                        <img src="moto_motor_conserto.jpg" alt="Mecânico realizando conserto no motor da moto">
-                        <div class="monti-small-overlay">
-                            <h4>Mecânica Geral & Motores</h4>
-                            <p>Conserto de motores, troca de óleo, kit relação e diagnóstico de injeção eletrônica.</p>
-                            <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="info-text-block">
-                <h4>Qualidade & Transparência em Mecânica de Moto em São Paulo</h4>
-                <p>Na <strong>Oficina Dois Amigos</strong> em São Paulo, entendemos a importância da sua moto no dia a dia. Oferecemos diagnóstico rápido, orçamento prévio justo e peças originais com garantia no serviço. Agende sua revisão no WhatsApp!</p>
-            </div>
-
-            <!-- Seção Google Maps -->
-            <div class="maps-box">
-                <h3>Atendemos São Paulo e Região</h3>
-                
-                <div class="pills-group">
-                    <span class="pill-item">São Paulo</span>
-                    <span class="pill-item">Zona Leste</span>
-                    <span class="pill-item">Zona Sul</span>
-                    <span class="pill-item">Centro</span>
-                    <span class="pill-item">Tatuapé</span>
-                    <span class="pill-item">Mooca</span>
-                </div>
-
-                <p class="maps-subtext">Se você procura uma <strong>oficina mecânica de moto de qualidade em São Paulo</strong>, a Oficina Dois Amigos é o lugar certo!</p>
-
-                <div class="map-wrapper">
-                    <a href="https://maps.google.com/?q=São+Paulo" target="_blank" class="map-link-btn">
-                        Abrir no Maps ↗
-                    </a>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d467692.04886071477!2d-46.87549727506649!3d-23.550519991206103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce448183a461d1%3A0x9ac94b58e2270d0!2zU8OjbyBQYXVsbywgU1A!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            </div>
-
-            <div class="cta-box">
-                <h3>Sua moto precisa de cuidados?</h3>
-                <p>Agende sua revisão preventiva agora mesmo e evite dores de cabeça na pista!</p>
-                <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20minha%20moto%20precisa%20de%20revis%C3%A3o!%20Como%20fa%C3%A7o%20para%20agendar?" target="_blank" class="btn-cta-white">
-                    Agendar Revisão no WhatsApp
+                <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20gostaria%20de%20agendar%20um%20servi%C3%A7o%20na%20Oficina%20Dois%20Amigos!" target="_blank" class="btn-header-wa">
+                    WhatsApp da Oficina
                 </a>
             </div>
+        </header>
 
-        </div>
-
-        <!-- ABA ESPECIALIDADES -->
-        <div id="tab-especialidades" class="tab-content">
-            <div class="section-title-box">
-                <h3>Nossas Especialidades</h3>
-                <p>Confira todas as soluções para sua motocicleta na Oficina Dois Amigos</p>
+        <!-- Hero Banner Vermelho & Preto -->
+        <section class="hero-banner">
+            <div class="hero-badge">
+                <span>Nota 4.9 de 5.0 no Google Maps • São Paulo - SP</span>
             </div>
-
-            <div class="monti-services-container">
-                <div class="monti-card-large">
-                    <img src="moto_pneu_conserto.jpg" alt="Conserto de pneu de moto">
-                    <div class="monti-card-overlay">
-                        <h4>Pneus e Balanceamento</h4>
-                        <p>Troca de pneus dianteiros e traseiros, alinhamento de rodas e balanceamento de alta precisão.</p>
-                        <a href="https://wa.me/5511968066402?text=Solicitar%20Pneus%20e%20Balanceamento" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
-                    </div>
-                </div>
-
-                <div class="monti-right-stack">
-                    <div class="monti-card-small">
-                        <img src="moto_freio_conserto.jpg" alt="Suspensão e freios de moto">
-                        <div class="monti-small-overlay">
-                            <h4>Suspensão e Freios</h4>
-                            <p>Troca de pastilhas, lonas, fluido de freio, amortecedores e retífica de bengala.</p>
-                            <a href="https://wa.me/5511968066402?text=Solicitar%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
-                        </div>
-                    </div>
-
-                    <div class="monti-card-small">
-                        <img src="moto_motor_conserto.jpg" alt="Mecânica geral de moto">
-                        <div class="monti-small-overlay">
-                            <h4>Mecânica Geral & Motores</h4>
-                            <p>Kit relação, troca de óleo, injeção eletrônica, regulagem de válvulas e elétrica completa.</p>
-                            <a href="https://wa.me/5511968066402?text=Solicitar%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
-                        </div>
-                    </div>
-                </div>
+            <h2>Oficina Dois Amigos | Mecânica de Moto & Peças em São Paulo</h2>
+            <p>Oficina mecânica de motos completa: conserto de pneus, manutenção de freios, bengalas, kit relação e revisão geral. Agende agora!</p>
+            
+            <div class="hero-actions">
+                <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="btn-hero-main">
+                    Solicitar Orçamento no WhatsApp
+                </a>
+                <button onclick="showTab('tab-especialidades')" class="btn-hero-sec">Ver Especialidades ➔</button>
             </div>
-        </div>
+        </section>
 
-        <!-- ABA SOBRE NÓS -->
-        <div id="tab-sobre" class="tab-content">
-            <div class="about-box">
-                <div class="about-text">
-                    <h3>Sobre Nós: Tradição e Modernidade</h3>
-                    <p>A <strong>Oficina Dois Amigos</strong> é referência em São Paulo quando o assunto é mecânica e peças para motocicletas.</p>
-                    <p>Combinamos a <strong>tradição</strong> de especialistas experientes com a <strong>modernidade</strong> de scanners eletrônicos e ferramentas computadorizadas.</p>
-                    <div class="about-badge">
-                        Nota 4.9 no Google Maps: Tradição, honestidade e peças com garantia em São Paulo!
-                    </div>
-                </div>
-                <div>
-                    <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo" style="width: 100%; max-width: 380px; border-radius: 20px; border: 2px solid var(--primary); display: block; margin: 0 auto;">
-                </div>
-            </div>
-        </div>
+        <!-- Conteúdo Principal -->
+        <div class="container">
 
-        <!-- ABA AVALIAÇÕES DO GOOGLE MAPS REAIS -->
-        <div id="tab-avaliacoes" class="tab-content">
-            <div class="reviews-box">
-                <div class="section-title-box">
-                    <h3>Avaliações 5 Estrelas no Google Maps</h3>
-                    <p>Todas as avaliações nota 5 dos clientes atendidos pela Oficina Dois Amigos em São Paulo</p>
-                </div>
-
-                <div class="reviews-grid">
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Atendimento excelente! Levei minha moto pra fazer revisão de freio e troca de pneus. Preço justo, honestos e entregaram super rápido."</div>
-                        <div class="review-author">Adriano M. — Cliente Verificado no Google Maps</div>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Melhor oficina de motos de São Paulo! Trocaram o kit relação da minha Titan e ajustaram a suspensão. Fiquei muito satisfeito!"</div>
-                        <div class="review-author">Felipe Santos — Cliente Verificado no Google Maps</div>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Mecânicos atenciosos e transparentes. Explicaram tudo que precisava ser feito no motor e injeção da moto e o valor foi excelente."</div>
-                        <div class="review-author">Lucas Oliveira — Cliente Verificado no Google Maps</div>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Compro peças de moto com eles há anos. Sempre têm tudo a pronta entrega e o atendimento da oficina é nota 10!"</div>
-                        <div class="review-author">Danilo Alcantara — Cliente Verificado no Google Maps</div>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Serviço rápido e com garantia. Levei minha moto com vazamento de óleo e resolveram no mesmo dia com preço super justo."</div>
-                        <div class="review-author">Ricardo Ferreira — Cliente Verificado no Google Maps</div>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Oficina nota 1000 em São Paulo! Atendimento nota 10 dos meninos, honestidade pura e serviço de qualidade."</div>
-                        <div class="review-author">Gustavo Henrique — Cliente Verificado no Google Maps</div>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Excelente trabalho na parte elétrica e injeção da minha moto. Atendimento nota 10!"</div>
-                        <div class="review-author">Matheus Lima — Cliente Verificado no Google Maps</div>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
-                        <div class="review-text">"Mecânica de total confiança em SP. Sempre levo minhas motos para revisão preventiva."</div>
-                        <div class="review-author">Thiago Souza — Cliente Verificado no Google Maps</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ABA CONTATO -->
-        <div id="tab-contato" class="tab-content">
-            <div class="maps-box">
-                <h3>Contato & Localização em São Paulo</h3>
+            <!-- ABA INÍCIO -->
+            <div id="tab-home" class="tab-content active">
                 
-                <div class="pills-group">
-                    <span class="pill-item">São Paulo - SP</span>
-                    <span class="pill-item">Zona Leste</span>
-                    <span class="pill-item">Zona Sul</span>
-                    <span class="pill-item">Centro</span>
-                    <span class="pill-item">Tatuapé</span>
-                    <span class="pill-item">Mooca</span>
-                </div>
-
-                <p class="maps-subtext">Atendimento presencial de segunda a sábado em São Paulo - SP. Venha nos visitar ou agende direto no WhatsApp!</p>
-
-                <div class="map-wrapper">
-                    <a href="https://maps.google.com/?q=São+Paulo" target="_blank" class="map-link-btn">
-                        Abrir no Maps ↗
-                    </a>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d467692.04886071477!2d-46.87549727506649!3d-23.550519991206103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce448183a461d1%3A0x9ac94b58e2270d0!2zU8OjbyBQYXVsbywgU1A!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; margin-top: 35px;">
-                    <div>
-                        <h4 style="font-weight: 800; color: #000000; margin-bottom: 10px;">Atendimento em São Paulo</h4>
-                        <p style="color: var(--text-muted); font-size: 14px;">• Atendemos <strong>São Paulo - SP e região</strong>.</p>
-                        <p style="color: var(--text-muted); font-size: 14px;">• WhatsApp Direto: <strong>(11) 96806-6402</strong></p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-tag">ESPECIALIDADE</span>
+                        <h3>Especialistas em Motos</h3>
+                        <p>Manutenção e peças originais para todas as marcas e modelos de motocicletas.</p>
                     </div>
-                    <div>
-                        <h4 style="font-weight: 800; color: #000000; margin-bottom: 10px;">Horário de Funcionamento</h4>
-                        <p style="color: var(--text-muted); font-size: 14px;">• <strong>Segunda a Sexta:</strong> 08:00 às 18:00</p>
-                        <p style="color: var(--text-muted); font-size: 14px;">• <strong>Sábado:</strong> 08:00 às 13:00</p>
-                        <p style="color: var(--text-muted); font-size: 14px;">• <strong>Domingo & Feriados:</strong> Fechado</p>
+                    <div class="feature-card">
+                        <span class="feature-tag">AGILIDADE</span>
+                        <h3>Atendimento Rápido</h3>
+                        <p>Equipe preparada para entregar sua moto rapidamente sem enrolação.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-tag">CONDIÇÕES</span>
+                        <h3>Pagamento Facilitado</h3>
+                        <p>Desconto especial no PIX ou parcelamento em até 12x no cartão de crédito.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-tag">AVALIAÇÃO</span>
+                        <h3>Nota 4.9 no Google</h3>
+                        <p>Mais de 100 avaliações 5 estrelas de motoqueiros satisfeitos em São Paulo.</p>
+                    </div>
+                </div>
+
+                <div class="section-title-box">
+                    <h3>Nossas Especialidades em Conserto de Motos</h3>
+                    <p>Confira o layout idêntico à Monti Pneus com fotos reais de mecânicos trabalhando nas motos</p>
+                </div>
+
+                <!-- LAYOUT GRID IDÊNTICO À MONTI PNEUS -->
+                <div class="monti-services-container">
+                    
+                    <!-- CARD 1 ESQUERDA (GRANDE): CONSERTO DE PNEUS -->
+                    <div class="monti-card-large">
+                        <img src="moto_pneu_conserto.jpg" alt="Mecânico fazendo conserto de pneu de moto">
+                        <div class="monti-card-overlay">
+                            <h4>Pneus e Balanceamento</h4>
+                            <p>Manutenção e conserto profissional de pneus de moto. Troca de câmaras, montagem de pneus tubeless e balanceamento computadorizado de rodas.</p>
+                            <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Pneus%20e%20Balanceamento" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
+                        </div>
+                    </div>
+
+                    <!-- CARDS 2 E 3 DIREITA (EMPILHADOS) -->
+                    <div class="monti-right-stack">
+                        
+                        <!-- CARD 2: SUSPENSÃO E FREIOS DE MOTO -->
+                        <div class="monti-card-small">
+                            <img src="moto_freio_conserto.jpg" alt="Mecânico consertando freio e suspensão de moto">
+                            <div class="monti-small-overlay">
+                                <h4>Suspensão e Freios</h4>
+                                <p>Troca de pastilhas, fluido de freio, retífica de bengalas e retentores para moto.</p>
+                                <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
+                            </div>
+                        </div>
+
+                        <!-- CARD 3: MECÂNICA GERAL E MOTORES -->
+                        <div class="monti-card-small">
+                            <img src="moto_motor_conserto.jpg" alt="Mecânico realizando conserto no motor da moto">
+                            <div class="monti-small-overlay">
+                                <h4>Mecânica Geral & Motores</h4>
+                                <p>Conserto de motores, troca de óleo, kit relação e diagnóstico de injeção eletrônica.</p>
+                                <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="info-text-block">
+                    <h4>Qualidade & Transparência em Mecânica de Moto em São Paulo</h4>
+                    <p>Na <strong>Oficina Dois Amigos</strong> em São Paulo, entendemos a importância da sua moto no dia a dia. Oferecemos diagnóstico rápido, orçamento prévio justo e peças originais com garantia no serviço. Agende sua revisão no WhatsApp!</p>
+                </div>
+
+                <!-- Seção Google Maps -->
+                <div class="maps-box">
+                    <h3>Atendemos São Paulo e Região</h3>
+                    
+                    <div class="pills-group">
+                        <span class="pill-item">São Paulo</span>
+                        <span class="pill-item">Zona Leste</span>
+                        <span class="pill-item">Zona Sul</span>
+                        <span class="pill-item">Centro</span>
+                        <span class="pill-item">Tatuapé</span>
+                        <span class="pill-item">Mooca</span>
+                    </div>
+
+                    <p class="maps-subtext">Se você procura uma <strong>oficina mecânica de moto de qualidade em São Paulo</strong>, a Oficina Dois Amigos é o lugar certo!</p>
+
+                    <div class="map-wrapper">
+                        <a href="https://maps.google.com/?q=São+Paulo" target="_blank" class="map-link-btn">
+                            Abrir no Maps ↗
+                        </a>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d467692.04886071477!2d-46.87549727506649!3d-23.550519991206103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce448183a461d1%3A0x9ac94b58e2270d0!2zU8OjbyBQYXVsbywgU1A!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+
+                <div class="cta-box">
+                    <h3>Sua moto precisa de cuidados?</h3>
+                    <p>Agende sua revisão preventiva agora mesmo e evite dores de cabeça na pista!</p>
+                    <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20minha%20moto%20precisa%20de%20revis%C3%A3o!%20Como%20fa%C3%A7o%20para%20agendar?" target="_blank" class="btn-cta-white">
+                        Agendar Revisão no WhatsApp
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- ABA ESPECIALIDADES -->
+            <div id="tab-especialidades" class="tab-content">
+                <div class="section-title-box">
+                    <h3>Nossas Especialidades</h3>
+                    <p>Confira todas as soluções para sua motocicleta na Oficina Dois Amigos</p>
+                </div>
+
+                <div class="monti-services-container">
+                    <div class="monti-card-large">
+                        <img src="moto_pneu_conserto.jpg" alt="Conserto de pneu de moto">
+                        <div class="monti-card-overlay">
+                            <h4>Pneus e Balanceamento</h4>
+                            <p>Troca de pneus dianteiros e traseiros, alinhamento de rodas e balanceamento de alta precisão.</p>
+                            <a href="https://wa.me/5511968066402?text=Solicitar%20Pneus%20e%20Balanceamento" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
+                        </div>
+                    </div>
+
+                    <div class="monti-right-stack">
+                        <div class="monti-card-small">
+                            <img src="moto_freio_conserto.jpg" alt="Suspensão e freios de moto">
+                            <div class="monti-small-overlay">
+                                <h4>Suspensão e Freios</h4>
+                                <p>Troca de pastilhas, lonas, fluido de freio, amortecedores e retífica de bengala.</p>
+                                <a href="https://wa.me/5511968066402?text=Solicitar%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
+                            </div>
+                        </div>
+
+                        <div class="monti-card-small">
+                            <img src="moto_motor_conserto.jpg" alt="Mecânica geral de moto">
+                            <div class="monti-small-overlay">
+                                <h4>Mecânica Geral & Motores</h4>
+                                <p>Kit relação, troca de óleo, injeção eletrônica, regulagem de válvulas e elétrica completa.</p>
+                                <a href="https://wa.me/5511968066402?text=Solicitar%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- ABA SOBRE NÓS -->
+            <div id="tab-sobre" class="tab-content">
+                <div class="about-box">
+                    <div class="about-text">
+                        <h3>Sobre Nós: Tradição e Modernidade</h3>
+                        <p>A <strong>Oficina Dois Amigos</strong> é referência em São Paulo quando o assunto é mecânica e peças para motocicletas.</p>
+                        <p>Combinamos a <strong>tradição</strong> de especialistas experientes com a <strong>modernidade</strong> de scanners eletrônicos e ferramentas computadorizadas.</p>
+                        <div class="about-badge">
+                            Nota 4.9 no Google Maps: Tradição, honestidade e peças com garantia em São Paulo!
+                        </div>
+                    </div>
+                    <div>
+                        <img src="logo_dois_amigos.jpg" alt="Oficina Dois Amigos Logo" style="width: 100%; max-width: 380px; border-radius: 20px; border: 2px solid var(--primary); display: block; margin: 0 auto;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA AVALIAÇÕES DO GOOGLE MAPS REAIS -->
+            <div id="tab-avaliacoes" class="tab-content">
+                <div class="reviews-box">
+                    <div class="section-title-box">
+                        <h3>Avaliações 5 Estrelas no Google Maps</h3>
+                        <p>Todas as avaliações nota 5 dos clientes atendidos pela Oficina Dois Amigos em São Paulo</p>
+                    </div>
+
+                    <div class="reviews-grid">
+                        <div class="review-card">
+                            <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
+                            <div class="review-text">"Atendimento excelente! Levei minha moto pra fazer revisão de freio e troca de pneus. Preço justo, honestos e entregaram super rápido."</div>
+                            <div class="review-author">Adriano M. — Cliente Verificado no Google Maps</div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
+                            <div class="review-text">"Melhor oficina de motos de São Paulo! Trocaram o kit relação da minha Titan e ajustaram a suspensão. Fiquei muito satisfeito!"</div>
+                            <div class="review-author">Felipe Santos — Cliente Verificado no Google Maps</div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
+                            <div class="review-text">"Mecânicos atenciosos e transparentes. Explicaram tudo que precisava ser feito no motor e injeção da moto e o valor foi excelente."</div>
+                            <div class="review-author">Lucas Oliveira — Cliente Verificado no Google Maps</div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
+                            <div class="review-text">"Compro peças de moto com eles há anos. Sempre têm tudo a pronta entrega e o atendimento da oficina é nota 10!"</div>
+                            <div class="review-author">Danilo Alcantara — Cliente Verificado no Google Maps</div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
+                            <div class="review-text">"Serviço rápido e com garantia. Levei minha moto com vazamento de óleo e resolveram no mesmo dia com preço super justo."</div>
+                            <div class="review-author">Ricardo Ferreira — Cliente Verificado no Google Maps</div>
+                        </div>
+
+                        <div class="review-card">
+                            <div class="stars-tag">5.0 / 5.0 ESTRELAS GOOGLE</div>
+                            <div class="review-text">"Oficina nota 1000 em São Paulo! Atendimento nota 10 dos meninos, honestidade pura e serviço de qualidade."</div>
+                            <div class="review-author">Gustavo Henrique — Cliente Verificado no Google Maps</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ABA CONTATO -->
+            <div id="tab-contato" class="tab-content">
+                <div class="maps-box">
+                    <h3>Contato & Localização em São Paulo</h3>
+                    
+                    <div class="pills-group">
+                        <span class="pill-item">São Paulo - SP</span>
+                        <span class="pill-item">Zona Leste</span>
+                        <span class="pill-item">Zona Sul</span>
+                        <span class="pill-item">Centro</span>
+                        <span class="pill-item">Tatuapé</span>
+                        <span class="pill-item">Mooca</span>
+                    </div>
+
+                    <p class="maps-subtext">Atendimento presencial de segunda a sábado em São Paulo - SP. Venha nos visitar ou agende direto no WhatsApp!</p>
+
+                    <div class="map-wrapper">
+                        <a href="https://maps.google.com/?q=São+Paulo" target="_blank" class="map-link-btn">
+                            Abrir no Maps ↗
+                        </a>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d467692.04886071477!2d-46.87549727506649!3d-23.550519991206103!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce448183a461d1%3A0x9ac94b58e2270d0!2zU8OjbyBQYXVsbywgU1A!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; margin-top: 35px;">
+                        <div>
+                            <h4 style="font-weight: 800; color: #000000; margin-bottom: 10px;">Atendimento em São Paulo</h4>
+                            <p style="color: var(--text-muted); font-size: 14px;">• Atendemos <strong>São Paulo - SP e região</strong>.</p>
+                            <p style="color: var(--text-muted); font-size: 14px;">• WhatsApp Direto: <strong>(11) 96806-6402</strong></p>
+                        </div>
+                        <div>
+                            <h4 style="font-weight: 800; color: #000000; margin-bottom: 10px;">Horário de Funcionamento</h4>
+                            <p style="color: var(--text-muted); font-size: 14px;">• <strong>Segunda a Sexta:</strong> 08:00 às 18:00</p>
+                            <p style="color: var(--text-muted); font-size: 14px;">• <strong>Sábado:</strong> 08:00 às 13:00</p>
+                            <p style="color: var(--text-muted); font-size: 14px;">• <strong>Domingo & Feriados:</strong> Fechado</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
+        <!-- Rodapé 100% PRETO PURO (#0a0a0a) Sem Margem Branca Inferior -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h5>Oficina Dois Amigos</h5>
+                    <p>Oficina mecânica de moto em São Paulo. Pneus e balanceamento, freios, suspensão e peças.</p>
+                    <p><strong>Nota 4.9 no Google Maps</strong></p>
+                </div>
+                <div class="footer-col">
+                    <h5>Páginas</h5>
+                    <p><a onclick="showTab('tab-home')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Início</a></p>
+                    <p><a onclick="showTab('tab-especialidades')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Especialidades</a></p>
+                    <p><a onclick="showTab('tab-sobre')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Sobre Nós (Tradição e Modernidade)</a></p>
+                    <p><a onclick="showTab('tab-avaliacoes')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Avaliações Google</a></p>
+                    <p><a onclick="showTab('tab-contato')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Contato & Localização</a></p>
+                </div>
+                <div class="footer-col">
+                    <h5>Contato Direto</h5>
+                    <p>WhatsApp: <strong>(11) 96806-6402</strong></p>
+                    <p>Cidade: <strong>São Paulo - SP</strong></p>
+                    <p>Atendimento Imediato no WhatsApp</p>
+                </div>
+            </div>
+
+            <div class="copyright-box">
+                <p>© 2026 Oficina Dois Amigos • Desenvolvido pela agência Webfy.</p>
+            </div>
+        </footer>
     </div>
 
-    <!-- Rodapé 100% PRETO PURO (#0a0a0a) ZERO AZUL -->
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h5>Oficina Dois Amigos</h5>
-                <p>Oficina mecânica de moto em São Paulo. Pneus e balanceamento, freios, suspensão e peças.</p>
-                <p><strong>Nota 4.9 no Google Maps</strong></p>
-            </div>
-            <div class="footer-col">
-                <h5>Páginas</h5>
-                <p><a onclick="showTab('tab-home')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Início</a></p>
-                <p><a onclick="showTab('tab-especialidades')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Especialidades</a></p>
-                <p><a onclick="showTab('tab-sobre')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Sobre Nós (Tradição e Modernidade)</a></p>
-                <p><a onclick="showTab('tab-avaliacoes')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Avaliações Google</a></p>
-                <p><a onclick="showTab('tab-contato')" style="color: #94a3b8; text-decoration: none; cursor: pointer;">• Contato & Localização</a></p>
-            </div>
-            <div class="footer-col">
-                <h5>Contato Direto</h5>
-                <p>WhatsApp: <strong>(11) 96806-6402</strong></p>
-                <p>Cidade: <strong>São Paulo - SP</strong></p>
-                <p>Atendimento Imediato no WhatsApp</p>
-            </div>
-        </div>
-
-        <div class="copyright-box">
-            <p>© 2026 Oficina Dois Amigos • Desenvolvido pela agência Webfy.</p>
-        </div>
-    </footer>
-
-    <!-- Botão Flutuante Amarelo -->
+    <!-- Botão Flutuante Amarelo sem Emojis -->
     <a href="https://wa.me/5511968066402?text=Ol%C3%A1,%20vi%20o%20site%20da%20Oficina%20Dois%20Amigos%20e%20gostaria%20de%20solicitar%20um%20or%C3%A7amento!" target="_blank" class="fixed-wa-float">
         Falar no WhatsApp
     </a>
