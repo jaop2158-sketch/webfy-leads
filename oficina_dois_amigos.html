@@ -27,7 +27,6 @@
 
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; padding-bottom: 90px; }
 
-        /* Top Bar */
         .top-banner {
             background-color: var(--secondary);
             color: #f1f5f9;
@@ -39,7 +38,6 @@
         }
         .top-banner a { color: var(--accent); text-decoration: none; font-weight: 700; }
 
-        /* Header Navigation Interativo Estilo Monti Pneus */
         header {
             background: #ffffff;
             border-bottom: 1px solid #e2e8f0;
@@ -78,7 +76,7 @@
 
         .nav-links {
             display: flex;
-            gap: 25px;
+            gap: 20px;
             list-style: none;
         }
         .nav-links a {
@@ -86,7 +84,7 @@
             color: var(--text-dark);
             font-weight: 700;
             font-size: 14px;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
@@ -110,7 +108,6 @@
             box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
         }
 
-        /* Hero Grande Estilo Monti Pneus */
         .hero-section {
             position: relative;
             background: linear-gradient(rgba(15, 23, 42, 0.84), rgba(15, 23, 42, 0.94)), url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1600&q=80');
@@ -183,7 +180,6 @@
             cursor: pointer;
         }
 
-        /* Container de Páginas Alternáveis */
         .content-container { max-width: 1150px; margin: 0 auto; padding: 50px 20px; }
 
         .page-tab { display: none; }
@@ -195,7 +191,6 @@
         .section-header h3 { font-size: 34px; font-weight: 800; color: var(--secondary); }
         .section-header p { font-size: 16px; color: var(--text-muted); }
 
-        /* Nossas Especialidades (Cards Monti Pneus Interativos) */
         .specs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -210,16 +205,26 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.04);
             transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
         }
         .spec-card:hover { transform: translateY(-5px); }
 
-        .spec-img {
-            height: 210px;
-            background-size: cover;
-            background-position: center;
+        .spec-img-box {
+            height: 220px;
+            width: 100%;
+            overflow: hidden;
+            background: #1e293b;
+            position: relative;
         }
 
-        .spec-body { padding: 25px; }
+        .spec-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .spec-body { padding: 25px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .spec-body h4 { font-size: 22px; font-weight: 800; color: var(--secondary); margin-bottom: 10px; }
         .spec-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
 
@@ -229,8 +234,8 @@
             background: #f8fafc;
             color: var(--primary);
             border: 1px solid #e2e8f0;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 14px;
+            border-radius: 12px;
             font-weight: 800;
             text-decoration: none;
             transition: all 0.2s;
@@ -238,7 +243,6 @@
         }
         .btn-spec-wa:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Seção Sobre Nós: Tradição e Modernidade */
         .about-section {
             background: white;
             border-radius: 24px;
@@ -264,7 +268,6 @@
             font-size: 14px;
         }
 
-        /* Banner CTA: Seu Carro Precisa de Cuidados */
         .cta-banner {
             background: linear-gradient(135deg, var(--primary), #b91c1c);
             color: white;
@@ -290,7 +293,6 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* Seção de Contato e Localização */
         .location-section {
             background: white;
             border-radius: 24px;
@@ -308,7 +310,6 @@
         .loc-box h4 { font-size: 20px; font-weight: 800; color: var(--secondary); margin-bottom: 12px; }
         .loc-box p { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
 
-        /* Rodapé Monti Pneus */
         footer {
             background: var(--secondary);
             color: white;
@@ -387,7 +388,7 @@
         </div>
     </header>
 
-    <!-- Hero Grande com Imagem Estilo Monti Pneus -->
+    <!-- Hero Grande Estilo Monti Pneus -->
     <section class="hero-section">
         <div class="hero-badge">
             <span>⭐ Oficina Avaliada com 4.9 Estrelas no Google Maps</span>
@@ -411,34 +412,46 @@
             
             <div class="section-header">
                 <h3>Nossas Especialidades em Destaque</h3>
-                <p>Conheça os serviços mais procurados na Oficina Dois Amigos</p>
+                <p>Conheça os serviços mecânicos mais procurados na Oficina Dois Amigos</p>
             </div>
 
             <div class="specs-grid">
                 <div class="spec-card">
-                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-img-box">
+                        <img src="https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=800&q=80" alt="Pneus e Balanceamento">
+                    </div>
                     <div class="spec-body">
-                        <h4>Pneus e Balanceamento</h4>
-                        <p>Montagem, alinhamento, balanceamento de alta precisão e troca de pneus das melhores marcas para garantir máxima estabilidade.</p>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Pneus%20e%20Balanceamento" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+                        <div>
+                            <h4>Pneus e Balanceamento</h4>
+                            <p>Montagem, alinhamento, balanceamento de alta precisão e troca de pneus das melhores marcas para garantir máxima estabilidade e segurança nas ruas.</p>
+                        </div>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Pneus%20e%20Balanceamento" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
                     </div>
                 </div>
 
                 <div class="spec-card">
-                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-img-box">
+                        <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80" alt="Suspensão e Freios">
+                    </div>
                     <div class="spec-body">
-                        <h4>Suspensão e Freios</h4>
-                        <p>Substituição de pastilhas, discos, amortecedores, molas e buchas com testes computadorizados de segurança total.</p>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+                        <div>
+                            <h4>Suspensão e Freios</h4>
+                            <p>Substituição preventiva e corretiva de pastilhas, discos, amortecedores, molas e fluido de freio com testes de segurança computadorizados.</p>
+                        </div>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
                     </div>
                 </div>
 
                 <div class="spec-card">
-                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-img-box">
+                        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" alt="Mecânica Geral & Motores">
+                    </div>
                     <div class="spec-body">
-                        <h4>Mecânica Geral</h4>
-                        <p>Revisão preventiva de motor, troca de óleo, filtros, correias e diagnóstico eletrônico de injeção para carros e motos.</p>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-spec-wa">Solicitar Orçamento ➔</a>
+                        <div>
+                            <h4>Mecânica Geral & Motores</h4>
+                            <p>Revisão de motor, troca de óleo sintético, filtros, correias e diagnóstico digital de injeção eletrônica com escâner automotivo de precisão.</p>
+                        </div>
+                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
                     </div>
                 </div>
             </div>
@@ -457,33 +470,45 @@
         <div id="tab-especialidades" class="page-tab">
             <div class="section-header">
                 <h3>Todas as Nossas Especialidades</h3>
-                <p>Equipamentos de última geração e mecânicos certificados em Itajubá</p>
+                <p>Equipamentos modernos e mecânicos experientes em Itajubá</p>
             </div>
 
             <div class="specs-grid">
                 <div class="spec-card">
-                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-img-box">
+                        <img src="https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=800&q=80" alt="Pneus e Balanceamento">
+                    </div>
                     <div class="spec-body">
-                        <h4>Pneus e Balanceamento</h4>
-                        <p>Alinhamento 3D computadorizado, balanceamento de rodas e montagem de pneus para carros e motos com garantia de fábrica.</p>
+                        <div>
+                            <h4>Pneus e Balanceamento</h4>
+                            <p>Alinhamento 3D computadorizado, balanceamento de rodas e montagem de pneus para carros e motos com garantia de fábrica.</p>
+                        </div>
                         <a href="https://wa.me/5511968066402?text=Solicitar%20Pneus%20e%20Balanceamento" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
                     </div>
                 </div>
 
                 <div class="spec-card">
-                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-img-box">
+                        <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80" alt="Suspensão e Freios">
+                    </div>
                     <div class="spec-body">
-                        <h4>Suspensão e Freios</h4>
-                        <p>Manutenção preventiva e corretiva em amortecedores, molas, pastilhas, discos e sangria de fluido de freio.</p>
+                        <div>
+                            <h4>Suspensão e Freios</h4>
+                            <p>Manutenção preventiva em amortecedores, pastilhas, discos e sangria de fluido de freio com peças originais.</p>
+                        </div>
                         <a href="https://wa.me/5511968066402?text=Solicitar%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
                     </div>
                 </div>
 
                 <div class="spec-card">
-                    <div class="spec-img" style="background-image: url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="spec-img-box">
+                        <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" alt="Mecânica Geral & Motores">
+                    </div>
                     <div class="spec-body">
-                        <h4>Mecânica Geral & Motores</h4>
-                        <p>Diagnóstico de injeção eletrônica via scanner, retífica, regulagem de válvulas e substituição de correia dentada.</p>
+                        <div>
+                            <h4>Mecânica Geral & Motores</h4>
+                            <p>Diagnóstico de injeção eletrônica via scanner, regulagem de válvulas e substituição de correia dentada.</p>
+                        </div>
                         <a href="https://wa.me/5511968066402?text=Solicitar%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-spec-wa">Falar no WhatsApp ➔</a>
                     </div>
                 </div>
@@ -496,7 +521,7 @@
                 <div class="about-text">
                     <h3>Sobre Nós: Tradição & Modernidade</h3>
                     <p>A <strong>Oficina Dois Amigos</strong> nasceu da união de dois especialistas apaixonados por mecânica, fundando um espaço onde transparência e honestidade vêm em primeiro lugar.</p>
-                    <p>Combinamos a **tradição** no atendimento atencioso com a **modernidade** de scanners e ferramentas computadorizadas para diagnosticar com exatidão qualquer problema no seu veículo.</p>
+                    <p>Combinamos a <strong>tradição</strong> no atendimento atencioso com a <strong>modernidade</strong> de scanners e ferramentas computadorizadas para diagnosticar com exatidão qualquer problema no seu veículo.</p>
                     <p>Orgulhosamente atendemos motoristas de <strong>Itajubá e de toda a região do Sul de Minas</strong>.</p>
                     <div class="about-highlight">
                         ⭐ Nota 4.9 no Google Maps: Compromisso total com a satisfação dos nossos clientes!
