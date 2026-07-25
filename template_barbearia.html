@@ -14,13 +14,14 @@
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0d0d0d;
-  --card: #141414;
-  --border: #222;
-  --gold: #c9a84c;
-  --gold2: #f0c96b;
-  --text: #f0ede8;
-  --muted: #888880;
+  --bg: #fcf9f2;
+  --card: #ffffff;
+  --border: #f0e6d2;
+  --gold: #b58d35;
+  --gold2: #d4a339;
+  --text: #1a1a1a;
+  --text-light: #404040;
+  --muted: #737373;
 }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -41,23 +42,23 @@ nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 24px 60px;
-  background: rgba(13,13,13,0.85);
+  background: rgba(252,249,242,0.9);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(201,168,76,0.15);
+  border-bottom: 1px solid rgba(181,141,53,0.2);
   transition: padding 0.4s;
 }
 nav.scrolled { padding: 16px 60px; }
-.nav-logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 3px; color: var(--gold); }
+.nav-logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 3px; color: var(--text); }
 .nav-links { display: flex; gap: 30px; list-style: none; }
-.nav-links a { text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
+.nav-links a { text-decoration: none; color: var(--text-light); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s; }
 .nav-links a:hover { color: var(--gold); }
 .nav-btn {
   font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-  background: linear-gradient(135deg, #c9a84c, #f0c96b); color: #0d0d0d;
+  background: linear-gradient(135deg, var(--gold), var(--gold2)); color: white;
   padding: 12px 28px; border-radius: 50px;
   text-decoration: none; transition: transform 0.3s, box-shadow 0.3s;
 }
-.nav-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.3); }
+.nav-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(181,141,53,0.3); }
 
 /* ==========================================================================
    HERO IMMERSIVE
@@ -70,11 +71,11 @@ nav.scrolled { padding: 16px 60px; }
 }
 .hero-bg {
   position: absolute; inset: 0; width: 100%; height: 100%;
-  object-fit: cover; z-index: 0; transform: scale(1.1);
+  object-fit: cover; z-index: 0; transform: scale(1.1); filter: brightness(1.1);
 }
 .hero-overlay {
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to top, var(--bg) 0%, transparent 60%, rgba(13,13,13,0.7) 100%);
+  background: linear-gradient(to top, var(--bg) 0%, rgba(252,249,242,0.6) 50%, rgba(255,255,255,0.4) 100%);
 }
 .hero-content {
   position: relative; z-index: 2;
@@ -82,9 +83,9 @@ nav.scrolled { padding: 16px 60px; }
 }
 .hero-tag {
   display: inline-block; padding: 6px 16px; border-radius: 50px;
-  background: rgba(201,168,76,0.1); color: var(--gold);
+  background: rgba(181,141,53,0.1); color: var(--gold);
   font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 24px; border: 1px solid rgba(201,168,76,0.3);
+  margin-bottom: 24px; border: 1px solid rgba(181,141,53,0.3);
 }
 .hero h1 {
   font-family: 'Anton', sans-serif;
@@ -94,16 +95,16 @@ nav.scrolled { padding: 16px 60px; }
 }
 .hero h1 span { color: var(--gold); display: block; }
 .hero p {
-  font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; max-width: 500px; margin-inline: auto;
+  font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px; max-width: 500px; margin-inline: auto; font-weight: 500;
 }
 
 /* ==========================================================================
    MARQUEE
    ========================================================================== */
-.marquee-section { background: var(--gold); padding: 16px 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+.marquee-section { background: var(--text); padding: 16px 0; overflow: hidden; white-space: nowrap; display: flex; align-items: center; border-bottom: 1px solid var(--gold); }
 .marquee-content { display: inline-flex; animation: scroll-left 25s linear infinite; gap: 40px; }
-.marquee-item { font-family: 'Anton', sans-serif; color: #0d0d0d; font-size: 24px; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 40px; }
-.marquee-item::after { content: '★'; color: rgba(0,0,0,0.3); letter-spacing: 0; }
+.marquee-item { font-family: 'Anton', sans-serif; color: #ffffff; font-size: 24px; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 40px; }
+.marquee-item::after { content: '★'; color: var(--gold); letter-spacing: 0; }
 @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 /* ==========================================================================
@@ -125,21 +126,21 @@ nav.scrolled { padding: 16px 60px; }
   background: var(--card); border: 1px solid var(--border); border-radius: 20px;
   overflow: hidden; position: relative;
   display: flex; flex-direction: column; justify-content: flex-end; padding: 32px;
-  transition: transform 0.3s, border-color 0.3s;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
-.bento-box:hover { transform: translateY(-4px); border-color: rgba(201,168,76,0.5); }
+.bento-box:hover { transform: translateY(-4px); border-color: rgba(181,141,53,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
 .bento-box.large { grid-column: span 2; grid-row: span 2; }
 .bento-box.tall { grid-row: span 2; }
 .bento-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; transition: transform 0.7s; }
 .bento-box:hover .bento-img { transform: scale(1.05); }
-.bento-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.9) 0%, transparent 60%); z-index: 1; }
+.bento-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 40%, transparent 100%); z-index: 1; }
 .bento-content { position: relative; z-index: 2; color: var(--text); }
-.bento-content.dark { color: var(--text); }
-.bento-box.no-img { background: var(--bg); justify-content: center; align-items: center; text-align: center; }
-.bento-icon { width: 60px; height: 60px; border-radius: 12px; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.bento-box.no-img { background: var(--card); justify-content: center; align-items: center; text-align: center; }
+.bento-icon { width: 60px; height: 60px; border-radius: 12px; background: rgba(181,141,53,0.1); border: 1px solid rgba(181,141,53,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
 .bento-icon svg { width: 30px; height: 30px; stroke: var(--gold); stroke-width: 2; }
 .bento-title { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
-.bento-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.bento-desc { font-size: 14px; color: var(--text-light); line-height: 1.6; font-weight: 500; }
 
 /* ==========================================================================
    SERVIÇOS (CARDS)
@@ -147,14 +148,15 @@ nav.scrolled { padding: 16px 60px; }
 .srv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .srv-card {
   background: var(--card); border: 1px solid var(--border); border-radius: 20px;
-  padding: 40px; transition: transform 0.3s, border-color 0.3s;
+  padding: 40px; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
-.srv-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+.srv-card:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 15px 35px rgba(181,141,53,0.15); }
 .srv-icon { width: 48px; height: 48px; margin-bottom: 24px; }
 .srv-icon svg { width: 100%; height: 100%; stroke: var(--gold); stroke-width: 1.5; }
 .srv-card h3 { font-family: 'Anton', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
-.srv-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
-.srv-price { font-size: 24px; font-weight: 800; color: var(--gold2); }
+.srv-card p { font-size: 14px; color: var(--text-light); line-height: 1.7; margin-bottom: 24px; font-weight: 500; }
+.srv-price { font-size: 24px; font-weight: 800; color: var(--gold); }
 
 /* ==========================================================================
    GALERIA / PARALLAX
@@ -164,21 +166,22 @@ nav.scrolled { padding: 16px 60px; }
   overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
 }
 .parallax-bg { position: absolute; top: -20%; left: 0; width: 100%; height: 140%; object-fit: cover; z-index: 0; }
-.parallax-overlay { position: absolute; inset: 0; background: rgba(13,13,13,0.6); z-index: 1; }
-.parallax-content { position: relative; z-index: 2; text-align: center; color: white; max-width: 800px; padding: 0 24px; }
+.parallax-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.85); z-index: 1; }
+.parallax-content { position: relative; z-index: 2; text-align: center; color: var(--text); max-width: 800px; padding: 0 24px; }
 .parallax-quote { font-family: 'Anton', sans-serif; font-size: clamp(40px, 6vw, 80px); letter-spacing: 2px; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; }
 .parallax-quote span { color: var(--gold); }
-.parallax-author { font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+.parallax-author { font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-light); }
 
 /* ==========================================================================
    DEPOIMENTOS
    ========================================================================== */
 .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .test-card {
-  background: var(--bg); padding: 32px; border-radius: 16px; border: 1px solid var(--border);
+  background: var(--card); padding: 32px; border-radius: 16px; border: 1px solid var(--border);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 .stars { color: var(--gold); margin-bottom: 16px; font-size: 16px; letter-spacing: 2px; }
-.test-text { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 24px; font-style: italic; }
+.test-text { font-size: 14px; color: var(--text-light); line-height: 1.8; margin-bottom: 24px; font-style: italic; font-weight: 500; }
 .test-author { font-weight: 800; color: var(--text); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
 
 /* ==========================================================================
@@ -187,13 +190,13 @@ nav.scrolled { padding: 16px 60px; }
 footer { background: var(--card); border-top: 1px solid var(--border); padding: 80px 40px 40px; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border); padding-bottom: 60px; }
 .footer-brand { max-width: 300px; }
-.footer-logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--gold); margin-bottom: 16px; }
-.footer-brand p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.footer-logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--text); margin-bottom: 16px; }
+.footer-brand p { color: var(--text-light); font-size: 14px; line-height: 1.6; font-weight: 500; }
 .f-col h4 { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text); margin-bottom: 20px; }
 .f-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.f-col a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.f-col a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.3s; font-weight: 500; }
 .f-col a:hover { color: var(--gold); }
-.footer-bottom { max-width: 1200px; margin: 40px auto 0; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; }
+.footer-bottom { max-width: 1200px; margin: 40px auto 0; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 13px; font-weight: 500; }
 
 @media (max-width: 1024px) {
   nav { padding: 16px 24px; } .nav-links { display: none; }
@@ -262,7 +265,7 @@ footer { background: var(--card); border-top: 1px solid var(--border); padding: 
     
     <!-- Box 2 (Text) -->
     <div class="bento-box no-img gs-fade-up" style="transition-delay: 0.1s;">
-      <div class="bento-content dark">
+      <div class="bento-content">
         <div class="bento-icon"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9V3z"/></svg></div>
         <h3 class="bento-title">Barba Clássica</h3>
         <p class="bento-desc">Navalha afiada, espuma cremosa e toalha quente relaxante. O verdadeiro ritual.</p>
@@ -281,7 +284,7 @@ footer { background: var(--card); border-top: 1px solid var(--border); padding: 
 
     <!-- Box 4 -->
     <div class="bento-box gs-fade-up" style="transition-delay: 0.1s;">
-      <div class="bento-content dark" style="text-align: center;">
+      <div class="bento-content" style="text-align: center;">
         <h3 class="bento-title" style="color:var(--gold); font-size:64px; margin:0;">5.0</h3>
         <p class="bento-desc">Avaliação máxima de clientes 100% satisfeitos com a mudança visual.</p>
       </div>
