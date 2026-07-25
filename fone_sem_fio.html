@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fone Sem Fio Bluetooth Pro TWS - Som HD & Cancelamento de Ruído</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-glow: rgba(59, 130, 246, 0.4);
+            --accent: #facc15;
+            --bg: #090d16;
+            --card-bg: rgba(22, 30, 49, 0.85);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --emerald: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding-bottom: 90px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        .hero {
+            position: relative;
+            background: linear-gradient(180deg, rgba(30, 27, 75, 0.8) 0%, rgba(11, 15, 25, 0.95) 100%);
+            text-align: center;
+            padding: 40px 20px 30px 20px;
+            border-bottom: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+        }
+
+        .product-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 16px auto;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 35px var(--primary-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .hero h1 { font-size: 32px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
+        .hero p { color: var(--accent); font-weight: 700; font-size: 15px; margin-top: 4px; }
+
+        .price-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 800;
+            margin-top: 14px;
+        }
+
+        .container { max-width: 650px; margin: 0 auto; padding: 25px 15px; }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent);
+            margin: 25px 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after {
+            content: ''; flex: 1; height: 1px; background: rgba(255, 255, 255, 0.1);
+        }
+
+        .spec-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 14px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            backdrop-filter: blur(12px);
+        }
+
+        .spec-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            flex-shrink: 0;
+        }
+
+        .spec-details { flex: 1; }
+        .spec-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+        .spec-desc { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+        .btn-buy-now {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            text-decoration: none;
+            padding: 18px 24px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 17px;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4);
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .fixed-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(11, 15, 25, 0.95);
+            border-top: 1px solid var(--card-border);
+            padding: 14px 20px;
+            backdrop-filter: blur(16px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fixed-btn {
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <div class="product-avatar">🎧</div>
+        <h1>Fone Sem Fio Bluetooth Pro TWS</h1>
+        <p>Som de Alta Definição • Bateria de Longa Duração • Cancelamento de Ruído</p>
+        <div class="price-badge">
+            <span>De <s style="color: #94a3b8; font-size: 14px;">R$ 199,00</s> por apenas <strong>R$ 99,00</strong></span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-title">⚡ Principais Recursos do Fone</div>
+
+        <div class="spec-card">
+            <div class="spec-icon">🔋</div>
+            <div class="spec-details">
+                <div class="spec-title">Bateria de até 30 Horas</div>
+                <div class="spec-desc">Caixinha de carregamento rápido inteligente que garante até 30 horas de reprodução contínua.</div>
+            </div>
+        </div>
+
+        <div class="spec-card">
+            <div class="spec-icon">🔊</div>
+            <div class="spec-details">
+                <div class="spec-title">Som HD Bass & Cancelamento de Ruído</div>
+                <div class="spec-desc">Graves potentes com tecnologia de isolamento acústico para você ouvir suas músicas sem distrações.</div>
+            </div>
+        </div>
+
+        <div class="spec-card">
+            <div class="spec-icon">💧</div>
+            <div class="spec-details">
+                <div class="spec-title">Resistente à Água & Suor (IPX7)</div>
+                <div class="spec-desc">Ideal para treinos, corridas e uso diário em qualquer condição.</div>
+            </div>
+        </div>
+
+        <div class="spec-card">
+            <div class="spec-icon">🎙️</div>
+            <div class="spec-details">
+                <div class="spec-title">Microfone HD Integrado</div>
+                <div class="spec-desc">Atenda chamadas telefônicas e áudios de WhatsApp com clareza cristalina sem tirar o celular do bolso.</div>
+            </div>
+        </div>
+
+        <a href="https://wa.me/5541999999999?text=Ol%C3%A1,%20gostaria%20de%20comprar%20o%20Fone%20Sem%20Fio%20Bluetooth%20Pro!" target="_blank" class="btn-buy-now">
+            🛒 Comprar Agora pelo WhatsApp
+        </a>
+    </div>
+
+    <div class="fixed-bar">
+        <div>
+            <div style="font-size: 11px; color: var(--text-muted);">Promoção por Tempo Limitado</div>
+            <div style="font-size: 18px; font-weight: 800; color: var(--emerald);">R$ 99,00 no PIX</div>
+        </div>
+        <a href="https://wa.me/5541999999999?text=Ol%C3%A1,%20gostaria%20de%20comprar%20o%20Fone%20Sem%20Fio%20Bluetooth%20Pro!" target="_blank" class="fixed-btn">
+            💬 Comprar Fone
+        </a>
+    </div>
+
+</body>
+</html>
