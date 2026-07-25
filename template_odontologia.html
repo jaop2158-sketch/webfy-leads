@@ -84,6 +84,7 @@ nav.scrolled { padding: 16px 60px; }
   font-weight: 400; line-height: 1.1;
   color: var(--text); margin-bottom: 30px;
 }
+.hero h1 span { display: block; overflow: hidden; }
 .hero h1 em { font-style: italic; color: var(--blue); }
 .hero p {
   font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px;
@@ -93,6 +94,10 @@ nav.scrolled { padding: 16px 60px; }
   border-radius: 24px; overflow: hidden;
   box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15);
 }
+.seq-container { position: relative; width: 100%; height: 100%; }
+.seq-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.seq-1 { opacity: 1; }
+
 .hero-image img {
   position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
@@ -241,9 +246,13 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
     <p class="gs-desc">Tecnologia avancada, conforto absoluto e um olhar artistico dedicado a criar a melhor versao do seu sorriso. Descubra a odontologia premium.</p>
     <a href="https://wa.me/5511999999999" class="btn-solid gs-desc">Agendar Avaliacao</a>
   </div>
-  <!-- Imagem 3D Animada Continua -->
-  <div class="hero-image gs-img">
-    <img src="hero_3d_tooth.jpg" alt="Construcao do Sorriso 3D" class="hero-3d-anim" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+  <!-- Efeito Video (Animacao Sequencial 3D) -->
+  <div class="hero-image gs-img seq-container">
+    <img src="seq_1.jpg" class="seq-img seq-1" alt="Ato 1">
+    <img src="seq_2.jpg" class="seq-img seq-2" alt="Ato 2">
+    <img src="seq_3.jpg" class="seq-img seq-3" alt="Ato 3">
+    <img src="seq_4.jpg" class="seq-img seq-4" alt="Ato 4">
+    <img src="seq_5.jpg" class="seq-img seq-5" alt="Ato 5">
   </div>
 </section>
 
@@ -401,16 +410,14 @@ document.addEventListener("DOMContentLoaded", () => {
     .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
     .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
 
-  // ANIMACAO HERO CONTINUA (FLUTUANDO 3D)
-  gsap.to('.hero-3d-anim', {
-    y: -25,
-    scale: 1.05,
-    rotation: 1.5,
-    duration: 3.5,
-    yoyo: true,
-    repeat: -1,
-    ease: 'sine.inOut'
-  });
+  // ANIMACAO SEQUENCIAL (EFEITO VIDEO STOP MOTION)
+  const tlSeq = gsap.timeline({ repeat: -1 });
+  // Controla o crossfade das imagens simulando frames chave de um video
+  tlSeq.to('.seq-2', { opacity: 1, duration: 0.5 }, "+=1.5")
+       .to('.seq-3', { opacity: 1, duration: 0.5, scale: 1.05 }, "+=1.5")
+       .to('.seq-4', { opacity: 1, duration: 0.5 }, "+=1.2")
+       .to('.seq-5', { opacity: 1, duration: 1, scale: 1.08 }, "+=1.5")
+       .to('.seq-5, .seq-4, .seq-3, .seq-2', { opacity: 0, duration: 1 }, "+=3");
 
   // Fade Up Elements Generic
   gsap.utils.toArray('.gs-fade-up').forEach(el => {
