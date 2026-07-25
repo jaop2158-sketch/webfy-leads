@@ -19,7 +19,7 @@
             --accent: #facc15; /* Amarelo Ouro Oficial */
             --accent-hover: #eab308;
             --accent-glow: rgba(250, 204, 21, 0.4);
-            --dark-header: #111827;
+            --dark-bg: #0a0a0a; /* Preto Puro para Rodapé */
             --bg-body: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
@@ -105,10 +105,10 @@
         }
         .btn-header-wa:hover { transform: translateY(-2px); background: var(--accent-hover); }
 
-        /* Hero Banner Vermelho & Amarelo */
+        /* Hero Banner Vermelho & Amarelo (Fundo Preto com Overlay Vermelho, ZERO Azul) */
         .hero-banner {
             position: relative;
-            background: linear-gradient(rgba(17, 24, 39, 0.88), rgba(185, 28, 28, 0.92)), url('moto_motor_conserto.jpg');
+            background: linear-gradient(rgba(10, 10, 10, 0.88), rgba(185, 28, 28, 0.92)), url('moto_motor_conserto.jpg');
             background-size: cover;
             background-position: center;
             color: white;
@@ -228,7 +228,7 @@
         .feature-card h3 { font-size: 17px; font-weight: 800; color: #000; margin-bottom: 6px; }
         .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
-        /* GRID ESTILO MONTI PNEUS 100% EXATO DA IMAGEM DO USUÁRIO */
+        /* GRID ESTILO MONTI PNEUS 100% EXATO */
         .monti-services-container {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
@@ -489,8 +489,9 @@
         .review-text { font-size: 13.5px; color: #334155; font-style: italic; margin-bottom: 14px; line-height: 1.6; }
         .review-author { font-size: 12.5px; font-weight: 800; color: #000; }
 
+        /* Rodapé 100% PRETO PURO (#0a0a0a) COM DETALHES EM VERMELHO E AMARELO (ZERO AZUL) */
         footer {
-            background: #111827;
+            background: #0a0a0a;
             color: white;
             padding: 60px 20px 30px 20px;
             font-size: 14px;
@@ -840,7 +841,7 @@
 
     </div>
 
-    <!-- Rodapé -->
+    <!-- Rodapé 100% PRETO PURO (#0a0a0a) COM BORDAS E TITULOS EM AMARELO E VERMELHO -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
