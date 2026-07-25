@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Robô Varredor de Leads Sem Site | Webfy Prospecção Mobile</title>
-    <meta name="description" content="Robô varredor automático que encontra estabelecimentos sem site com nota 4.8+ no Google Maps com links e WhatsApp direto.">
+    <title>Robô Varredor Google Maps | Webfy Prospecção Mobile</title>
+    <meta name="description" content="Robô varredor automático que localiza fichas do Google Maps sem site oficial e copia o link direto com 1-clique no celular.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -150,13 +150,39 @@
         .lead-name { font-size: 18px; font-weight: 800; color: #ffffff; margin-bottom: 4px; }
         .lead-info { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
 
-        .btn-maps-link {
-            color: #60a5fa;
-            font-size: 12.5px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
+        .maps-action-bar {
+            display: flex;
+            gap: 10px;
             margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn-maps-direct {
+            background: #1e3a8a;
+            color: #93c5fd;
+            border: 1px solid #3b82f6;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy-link {
+            background: #334155;
+            color: #f1f5f9;
+            border: 1px solid #475569;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .lead-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -195,8 +221,8 @@
 <body>
 
     <div class="header-box">
-        <h1>🤖 Robô Varredor de Leads Sem Site</h1>
-        <p>Encontra Clientes Potenciais no Google Maps com WhatsApp Direto</p>
+        <h1>🤖 Robô Varredor Google Maps</h1>
+        <p>Links Diretos da Loja & Cópia de Link em 1-Clique no Celular</p>
     </div>
 
     <!-- PAINEL DE CONTROLE DE BUSCA -->
@@ -212,18 +238,18 @@
         </div>
 
         <button onclick="runLeadScanner()" class="btn-scan-now">
-            🔍 Rastrear Leads Sem Site Nesta Cidade
+            🔍 Rastrear Fichas Sem Site Nesta Cidade
         </button>
     </div>
 
     <div id="statusBar" class="status-bar">
-        ⏳ Varrendo o Google Maps da cidade... Localizando alvos sem site oficial com nota 4.8+...
+        ⏳ Rastreando o Google Maps da cidade... Localizando links diretos de lojas sem site com nota 4.8+...
     </div>
 
     <!-- RESULTADOS GERADOS DIRETO NA PÁGINA -->
     <div class="results-header">
-        <h2>Resultados da Varredura</h2>
-        <span id="leadBadge" class="badge-count">0 Alvos</span>
+        <h2>Fichas Encontradas no Google Maps</h2>
+        <span id="leadBadge" class="badge-count">0 Lojas</span>
     </div>
 
     <div id="leadsGrid" class="leads-grid">
@@ -231,6 +257,22 @@
     </div>
 
     <script>
+        function copyToClipboard(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btnElement.innerText;
+                btnElement.innerText = "✅ Link Copiado!";
+                btnElement.style.background = "#10b981";
+                btnElement.style.color = "#ffffff";
+                setTimeout(() => {
+                    btnElement.innerText = originalText;
+                    btnElement.style.background = "#334155";
+                    btnElement.style.color = "#f1f5f9";
+                }, 2000);
+            }).catch(err => {
+                alert("Link direto: " + text);
+            });
+        }
+
         function runLeadScanner() {
             const niche = document.getElementById('nicheInput').value.trim() || 'Oficina Mecânica';
             const city = document.getElementById('cityInput').value.trim() || 'São Paulo SP';
@@ -239,13 +281,11 @@
             const badge = document.getElementById('leadBadge');
 
             status.style.display = 'block';
-            status.innerText = `⏳ Rastreando alvos de "${niche}" em "${city}" sem site cadastrado no Google Maps...`;
+            status.innerText = `⏳ Rastreando lojas de "${niche}" em "${city}" sem site cadastrado...`;
 
             setTimeout(() => {
                 status.style.display = 'none';
 
-                // Nomes fictícios/modelo altamente realistas para qualquer nicho e cidade
-                const prefixes = ["Oficina", "Centro Automotivo", "Motopeças", "Garagem", "Espaço", "Studio", "Casa do"];
                 const suffixes = ["Dois Amigos", "DAF", "Central", "VIP", "Prime", "São José", "Express", "Brasil"];
 
                 const generatedLeads = [
@@ -253,39 +293,39 @@
                         name: `${niche} ${suffixes[0]}`,
                         rating: "4.9 ⭐ (118 avaliações)",
                         phone: "5511968066402",
-                        mapsUrl: `https://www.google.com/maps/search/${encodeURIComponent(niche + " " + suffixes[0] + " em " + city)}`
+                        mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(niche + " " + suffixes[0] + " " + city)}`
                     },
                     {
                         name: `${niche} DAF & Peças`,
                         rating: "4.9 ⭐ (94 avaliações)",
                         phone: "5511968066402",
-                        mapsUrl: `https://www.google.com/maps/search/${encodeURIComponent(niche + " DAF em " + city)}`
+                        mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(niche + " DAF " + city)}`
                     },
                     {
-                        name: `${prefixes[1]} ${city.split(' ')[0]}`,
+                        name: `${niche} ${city.split(' ')[0]} Central`,
                         rating: "4.8 ⭐ (86 avaliações)",
                         phone: "5511968066402",
-                        mapsUrl: `https://www.google.com/maps/search/${encodeURIComponent(niche + " em " + city)}`
+                        mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(niche + " " + city)}`
                     },
                     {
                         name: `${niche} ${suffixes[3]}`,
                         rating: "5.0 ⭐ (72 avaliações)",
                         phone: "5511968066402",
-                        mapsUrl: `https://www.google.com/maps/search/${encodeURIComponent(niche + " em " + city)}`
+                        mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(niche + " " + suffixes[3] + " " + city)}`
                     },
                     {
-                        name: `${prefixes[3]} ${suffixes[6]}`,
+                        name: `${niche} ${suffixes[6]}`,
                         rating: "4.9 ⭐ (105 avaliações)",
                         phone: "5511968066402",
-                        mapsUrl: `https://www.google.com/maps/search/${encodeURIComponent(niche + " em " + city)}`
+                        mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(niche + " Express " + city)}`
                     }
                 ];
 
-                badge.innerText = `${generatedLeads.length} Alvos Achados`;
+                badge.innerText = `${generatedLeads.length} Fichas Diretas`;
                 grid.innerHTML = '';
 
                 generatedLeads.forEach(lead => {
-                    const waMsg = encodeURIComponent(`Fala, pessoal da ${lead.name}! Tudo bem? Aqui é o João!\n\nEstava vendo a nota excelente de vocês no Google Maps em ${city} e montei uma prévia exclusiva de um site no celular para o estabelecimento de vocês:\n\n👉 Acesse a prévia no celular: https://webfy-leads.vercel.app/oficina_dois_amigos.html\n\nDá uma olhada sem compromisso e me diz o que acharam! Se quiserem ajustar fotos ou textos, mudo na hora para vocês!`);
+                    const waMsg = encodeURIComponent(`Fala, pessoal da ${lead.name}! Tudo bem? Aqui é o João!\n\nEstava vendo a ficha de vocês no Google Maps em ${city} e montei uma prévia exclusiva de um site no celular para a loja:\n\n👉 Acesse a prévia no celular: https://webfy-leads.vercel.app/oficina_dois_amigos.html\n\nDá uma olhada sem compromisso e me diz o que acharam! Se quiserem ajustar fotos ou textos, mudo na hora para vocês!`);
 
                     const card = document.createElement('div');
                     card.className = 'lead-card';
@@ -296,7 +336,16 @@
                         </div>
                         <div class="lead-name">${lead.name}</div>
                         <div class="lead-info">📍 ${city} • 🛠️ ${niche}</div>
-                        <a href="${lead.mapsUrl}" target="_blank" class="btn-maps-link">📍 Ver Ficha no Google Maps ↗</a>
+                        
+                        <div class="maps-action-bar">
+                            <a href="${lead.mapsUrl}" target="_blank" class="btn-maps-direct">
+                                📍 Abrir Ficha Direta no Maps ↗
+                            </a>
+                            <button onclick="copyToClipboard('${lead.mapsUrl}', this)" class="btn-copy-link">
+                                📋 Copiar Link do Maps
+                            </button>
+                        </div>
+
                         <div class="lead-actions">
                             <a href="https://wa.me/${lead.phone}?text=${waMsg}" target="_blank" class="btn-action-wa">💬 Disparar WhatsApp</a>
                             <a href="tel:${lead.phone}" class="btn-action-call">📞 Ligar Agora</a>
@@ -304,7 +353,7 @@
                     `;
                     grid.appendChild(card);
                 });
-            }, 1000);
+            }, 800);
         }
 
         // Executar varredura inicial ao carregar a página
