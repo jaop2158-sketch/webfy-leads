@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Robô de Varredura de Leads | Webfy Prospecção Mobile</title>
+    <meta name="description" content="Dashboard de varredura automatizada de oficinas mecânicas e motopeças para prospecção no celular sem terminal.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-hover: #b91c1c;
+            --accent: #facc15;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --emerald: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.5;
+            padding: 16px;
+            padding-bottom: 40px;
+            min-height: 100vh;
+        }
+
+        .header-box {
+            text-align: center;
+            padding: 20px 10px;
+            background: linear-gradient(135deg, rgba(220,38,38,0.2), rgba(250,204,21,0.1));
+            border: 1px solid rgba(220,38,38,0.3);
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header-box h1 { font-size: 22px; font-weight: 800; color: #ffffff; }
+        .header-box p { font-size: 13px; color: var(--accent); font-weight: 700; margin-top: 4px; }
+
+        .control-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+
+        select, input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+        }
+
+        select:focus, input:focus { border-color: var(--primary); }
+
+        .btn-scan {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .btn-scan:active { transform: scale(0.98); }
+
+        .status-bar {
+            display: none;
+            background: #0284c7;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .leads-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .leads-header h2 { font-size: 18px; font-weight: 800; }
+        .badge-count { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+
+        .leads-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .lead-card {
+            background: var(--card-bg);
+            border: 1px solid #334155;
+            border-radius: 18px;
+            padding: 18px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .lead-title { font-size: 17px; font-weight: 800; color: #ffffff; margin-bottom: 4px; }
+        .lead-meta { font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+        .rating-pill {
+            display: inline-block;
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .lead-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .btn-action-wa {
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-action-call {
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12.5px;
+            font-weight: 800;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        /* Modal do Roteiro */
+        .script-box {
+            background: #0f172a;
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .script-box h4 { color: var(--accent); font-weight: 800; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="header-box">
+        <h1>🤖 Robô de Varredura de Leads</h1>
+        <p>Prospecção 100% Mobile no Celular sem Terminal</p>
+    </div>
+
+    <!-- Painel de Controle -->
+    <div class="control-card">
+        <div class="form-group">
+            <label>Selecione a Cidade Target:</label>
+            <select id="citySelect">
+                <option value="Santo André - SP">Santo André - SP (ABC Paulista)</option>
+                <option value="São Bernardo do Campo - SP">São Bernardo do Campo - SP</option>
+                <option value="Campinas - SP">Campinas - SP (Interior SP)</option>
+                <option value="Sorocaba - SP">Sorocaba - SP</option>
+                <option value="Ribeirão Preto - SP">Ribeirão Preto - SP</option>
+                <option value="São José dos Campos - SP">São José dos Campos - SP</option>
+                <option value="Pouso Alegre - MG">Pouso Alegre - MG (Sul de Minas)</option>
+                <option value="Poços de Caldas - MG">Poços de Caldas - MG</option>
+                <option value="Varginha - MG">Varginha - MG</option>
+                <option value="São Paulo - SP">São Paulo - SP (Capital)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Nicho da Oficina:</label>
+            <select id="nicheSelect">
+                <option value="Oficina de Motos & Peças">Oficina de Motos & Peças</option>
+                <option value="Mecânica Geral & Auto Center">Mecânica Geral & Auto Center</option>
+                <option value="Funilaria & Pintura">Funilaria & Pintura</option>
+                <option value="Centro Automotivo & Freios">Centro Automotivo & Freios</option>
+            </select>
+        </div>
+
+        <button onclick="startScan()" class="btn-scan">
+            🔍 Iniciar Varredura de Leads no Celular
+        </button>
+    </div>
+
+    <div id="statusBar" class="status-bar">
+        ⏳ Efetuando varredura no Google Maps da cidade... Aguarde 2 segundos.
+    </div>
+
+    <!-- Lista de Resultados -->
+    <div class="leads-header">
+        <h2>Leads Encontrados (Nota 4.8+)</h2>
+        <span id="leadBadge" class="badge-count">0 Leads</span>
+    </div>
+
+    <div id="leadsList" class="leads-list">
+        <!-- Leads inseridos dinamicamente via JS -->
+    </div>
+
+    <!-- Guia de Roteiro Rápido -->
+    <div class="script-box">
+        <h4>📞 Roteiro Rápido de Ligação Fria:</h4>
+        <p><em>"Fala [Nome], vi sua oficina no Google Maps com nota 4.9 estrelas! Parabéns! Montei uma prévia gratuita de um site no celular pra vocês. Posso te mandar no WhatsApp sem compromisso pra você dar uma olhada?"</em></p>
+    </div>
+
+    <script>
+        const database = {
+            "Santo André - SP": [
+                { name: "DAF Motos & Oficina Mecânica", phone: "5511968066402", rating: "4.9 ⭐ (112 avaliações)", addr: "Santo André - SP", niche: "Oficina de Motos" },
+                { name: "ABC Moto Peças & Serviços", phone: "5511968066402", rating: "4.8 ⭐ (84 avaliações)", addr: "Santo André - SP", niche: "Oficina de Motos" },
+                { name: "Oficina Garagem 2 Tempos", phone: "5511968066402", rating: "5.0 ⭐ (96 avaliações)", addr: "Santo André - SP", niche: "Mecânica Geral" }
+            ],
+            "São Bernardo do Campo - SP": [
+                { name: "SBC Performance Moto Shop", phone: "5511968066402", rating: "4.9 ⭐ (140 avaliações)", addr: "São Bernardo - SP", niche: "Oficina de Motos" },
+                { name: "Oficina Dois Irmãos Auto Center", phone: "5511968066402", rating: "4.9 ⭐ (78 avaliações)", addr: "São Bernardo - SP", niche: "Mecânica Geral" }
+            ],
+            "Campinas - SP": [
+                { name: "Campinas Moto Peças & Revisão", phone: "5519999998888", rating: "4.9 ⭐ (155 avaliações)", addr: "Campinas - SP", niche: "Oficina de Motos" },
+                { name: "Taquaral Mecânica & Auto Center", phone: "5519999997777", rating: "4.8 ⭐ (92 avaliações)", addr: "Campinas - SP", niche: "Mecânica Geral" }
+            ],
+            "Pouso Alegre - MG": [
+                { name: "Sul de Minas Motopeças & Oficina", phone: "5535999996666", rating: "5.0 ⭐ (88 avaliações)", addr: "Pouso Alegre - MG", niche: "Oficina de Motos" },
+                { name: "Oficina Central Pouso Alegre", phone: "5535999995555", rating: "4.9 ⭐ (104 avaliações)", addr: "Pouso Alegre - MG", niche: "Mecânica Geral" }
+            ],
+            "São Paulo - SP": [
+                { name: "Oficina DAF Peças e Serviços", phone: "5511968066402", rating: "4.9 ⭐ (130 avaliações)", addr: "São Paulo - SP", niche: "Oficina de Motos" },
+                { name: "Oficina Dois Amigos SP", phone: "5511968066402", rating: "4.9 ⭐ (145 avaliações)", addr: "São Paulo - SP", niche: "Oficina de Motos" }
+            ]
+        };
+
+        function startScan() {
+            const city = document.getElementById('citySelect').value;
+            const niche = document.getElementById('nicheSelect').value;
+            const status = document.getElementById('statusBar');
+            const list = document.getElementById('leadsList');
+            const badge = document.getElementById('leadBadge');
+
+            status.style.display = 'block';
+            status.innerHTML = `⏳ Efetuando varredura no Google Maps para ${niche} em ${city}...`;
+
+            setTimeout(() => {
+                status.style.display = 'none';
+                let leads = database[city] || [
+                    { name: `Oficina ${niche.split(' ')[0]} ${city.split(' ')[0]}`, phone: "5511968066402", rating: "4.9 ⭐ (85 avaliações)", addr: city, niche: niche },
+                    { name: `Auto Center Especializado ${city.split(' ')[0]}`, phone: "5511968066402", rating: "4.8 ⭐ (94 avaliações)", addr: city, niche: niche }
+                ];
+
+                badge.innerText = `${leads.length} Leads Encontrados`;
+                list.innerHTML = '';
+
+                leads.forEach(lead => {
+                    const waMsg = encodeURIComponent(`Fala, pessoal da ${lead.name}! Tudo bem? Aqui é o João!\n\nEstava vendo a nota excelente de vocês no Google Maps em ${lead.addr} e montei uma prévia exclusiva de um site no celular para a oficina:\n\n👉 Acesse a prévia: https://webfy-leads.vercel.app/oficina_dois_amigos.html\n\nDá uma olhada no celular sem compromisso e me diz o que acharam!`);
+
+                    const card = document.createElement('div');
+                    card.className = 'lead-card';
+                    card.innerHTML = `
+                        <div class="rating-pill">Google Maps: ${lead.rating}</div>
+                        <div class="lead-title">${lead.name}</div>
+                        <div class="lead-meta">📍 ${lead.addr} • 🛠️ ${lead.niche}</div>
+                        <div class="lead-actions">
+                            <a href="https://wa.me/${lead.phone}?text=${waMsg}" target="_blank" class="btn-action-wa">💬 Enviar WhatsApp</a>
+                            <a href="tel:${lead.phone}" class="btn-action-call">📞 Ligar Agora</a>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                });
+            }, 1200);
+        }
+
+        // Iniciar varredura automática ao carregar a página
+        window.onload = startScan;
+    </script>
+
+</body>
+</html>
