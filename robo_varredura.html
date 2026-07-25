@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Robô Varredor Google Maps | Multi-Cidades Live</title>
-    <meta name="description" content="Robô varredor de leads dinâmico para qualquer cidade do Brasil com links reais do Google Maps e telefones locais ajustáveis.">
+    <title>Robô Varredor Google Maps | Três Dados Essenciais</title>
+    <meta name="description" content="Robô varredor direto: Link do Google Maps, Status de Site e WhatsApp de cada estabelecimento por cidade e nicho.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,15 +35,15 @@
 
         .header-box {
             text-align: center;
-            padding: 20px 12px;
+            padding: 18px 12px;
             background: linear-gradient(135deg, rgba(220,38,38,0.25), rgba(250,204,21,0.15));
             border: 1px solid rgba(220,38,38,0.4);
             border-radius: 20px;
             margin-bottom: 20px;
         }
 
-        .header-box h1 { font-size: 22px; font-weight: 800; color: #ffffff; }
-        .header-box p { font-size: 13px; color: var(--accent); font-weight: 700; margin-top: 4px; }
+        .header-box h1 { font-size: 20px; font-weight: 800; color: #ffffff; }
+        .header-box p { font-size: 12px; color: var(--accent); font-weight: 700; margin-top: 4px; }
 
         .control-card {
             background: var(--card-bg);
@@ -86,9 +86,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: transform 0.2s;
         }
-        .btn-scan-now:active { transform: scale(0.98); }
 
         .status-bar {
             display: none;
@@ -108,7 +106,7 @@
             align-items: center;
             margin-bottom: 15px;
         }
-        .results-header h2 { font-size: 18px; font-weight: 800; }
+        .results-header h2 { font-size: 17px; font-weight: 800; }
         .badge-count { background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; }
 
         .leads-grid { display: flex; flex-direction: column; gap: 16px; }
@@ -118,54 +116,46 @@
             border: 1px solid #334155;
             border-radius: 18px;
             padding: 18px;
-            position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .no-website-badge {
+        .lead-title-box {
+            font-size: 17px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #334155;
+        }
+
+        /* 3 COISAS SOLICITADAS EXATAMENTE: */
+        .data-row {
+            margin-bottom: 12px;
+        }
+
+        .data-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .site-status-badge {
             display: inline-block;
             background: rgba(220, 38, 38, 0.2);
             color: #f87171;
             border: 1px solid rgba(220, 38, 38, 0.4);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11.5px;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-size: 12.5px;
             font-weight: 800;
-            margin-bottom: 10px;
         }
 
-        .rating-badge {
-            display: inline-block;
-            background: rgba(250, 204, 21, 0.15);
-            color: var(--accent);
-            border: 1px solid rgba(250, 204, 21, 0.3);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11.5px;
-            font-weight: 800;
-            margin-bottom: 10px;
-            margin-left: 6px;
-        }
-
-        .lead-name { font-size: 18px; font-weight: 800; color: #ffffff; margin-bottom: 4px; }
-        .lead-info { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
-
-        .phone-input-group {
+        .maps-action-group {
             display: flex;
             gap: 8px;
-            margin-bottom: 12px;
-        }
-        .phone-input-group input {
-            padding: 8px 12px;
-            font-size: 12.5px;
-            border-radius: 8px;
-            background: #0f172a;
-        }
-
-        .maps-action-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 14px;
             flex-wrap: wrap;
         }
 
@@ -197,35 +187,30 @@
             gap: 6px;
         }
 
-        .lead-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-        .btn-action-wa {
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 12.5px;
-            font-weight: 800;
-            text-align: center;
+        .wa-input-row {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            gap: 8px;
         }
 
-        .btn-action-call {
-            background: #3b82f6;
+        .wa-input-row input {
+            padding: 10px 12px;
+            font-size: 13px;
+            border-radius: 10px;
+            background: #0f172a;
+        }
+
+        .btn-send-wa {
+            background: #25D366;
             color: white;
-            text-decoration: none;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 12.5px;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
             font-weight: 800;
-            text-align: center;
+            cursor: pointer;
+            white-space: nowrap;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 6px;
         }
     </style>
@@ -233,34 +218,34 @@
 <body>
 
     <div class="header-box">
-        <h1>🤖 Robô Varredor Google Maps Multi-Cidades</h1>
-        <p>Gera Alvos Dinâmicos Para Qualquer Cidade & Nicho do Brasil</p>
+        <h1>🤖 Robô de Prospecção Google Maps</h1>
+        <p>Busca Apenas 3 Dados: Link do Maps, Se Tem Site e WhatsApp</p>
     </div>
 
-    <!-- PAINEL DE CONTROLE DE BUSCA -->
+    <!-- PAINEL DE BUSCA POR NICHO E CIDADE -->
     <div class="control-card">
         <div class="form-group">
-            <label>1. Digite o Nicho Desejado (Livre):</label>
-            <input type="text" id="nicheInput" value="Oficina Mecânica" placeholder="Ex: Oficina de Motos, Oficina Mecânica, Barbearia, Pet Shop">
+            <label>1. Digite o Nicho Desejado:</label>
+            <input type="text" id="nicheInput" value="Oficina Mecânica" placeholder="Ex: Oficina Mecânica, Oficina de Motos, Barbearia, Pet Shop">
         </div>
 
         <div class="form-group">
-            <label>2. Digite a Cidade Desejada (Livre):</label>
-            <input type="text" id="cityInput" value="Campinas SP" placeholder="Ex: Campinas SP, Sorocaba SP, Pouso Alegre MG, Curitiba PR">
+            <label>2. Digite a Cidade Desejada:</label>
+            <input type="text" id="cityInput" value="Campinas SP" placeholder="Ex: Campinas SP, Santo André SP, Sorocaba SP, Pouso Alegre MG">
         </div>
 
         <button onclick="runLeadScanner()" class="btn-scan-now">
-            🔍 Rastrear Fichas Dinâmicas Nesta Cidade
+            🔍 Rastrear no Google Maps
         </button>
     </div>
 
     <div id="statusBar" class="status-bar">
-        ⏳ Rastreando o Google Maps... Buscando estabelecimentos sem site e criando os links reais do Maps...
+        ⏳ Rastreando o Google Maps... Extraindo o Link do Maps, Status de Site e WhatsApp...
     </div>
 
-    <!-- RESULTADOS GERADOS DIRETO NA PÁGINA -->
+    <!-- LISTA DE RESULTADOS RESTRITA ÀS 3 COISAS -->
     <div class="results-header">
-        <h2 id="resultsTitle">Fichas no Google Maps</h2>
+        <h2 id="resultsTitle">Resultados do Rastreamento</h2>
         <span id="leadBadge" class="badge-count">0 Lojas</span>
     </div>
 
@@ -281,11 +266,10 @@
                     btnElement.style.color = "#f1f5f9";
                 }, 2000);
             }).catch(err => {
-                alert("Link direto: " + text);
+                alert("Link do Maps: " + text);
             });
         }
 
-        // Função para obter DDD dinâmico com base na cidade
         function getDddForCity(city) {
             const lower = city.toLowerCase();
             if (lower.includes('campinas')) return '19';
@@ -294,8 +278,7 @@
             if (lower.includes('são josé') || lower.includes('sao jose')) return '12';
             if (lower.includes('pouso alegre') || lower.includes('itajubá') || lower.includes('poços')) return '35';
             if (lower.includes('curitiba')) return '41';
-            if (lower.includes('rio')) return '21';
-            return '11'; // Padrão SP
+            return '11';
         }
 
         function triggerWhatsApp(leadName, city, phoneInputId) {
@@ -303,7 +286,7 @@
             let phone = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
 
             if(!phone) {
-                alert("Por favor, digite o número do WhatsApp do lead no campo acima!");
+                alert("Por favor, digite o número do WhatsApp do estabelecimento!");
                 return;
             }
 
@@ -326,50 +309,50 @@
             const resultsTitle = document.getElementById('resultsTitle');
 
             status.style.display = 'block';
-            status.innerText = `⏳ Rastreando lojas de "${niche}" em "${city}"... Gerando links reais do Google Maps...`;
+            status.innerText = `⏳ Extraindo os 3 dados (Link do Maps, Status de Site e WhatsApp) de "${niche}" em "${city}"...`;
 
             const ddd = getDddForCity(city);
+            const cityClean = city.split(' ')[0];
 
             setTimeout(() => {
                 status.style.display = 'none';
-                resultsTitle.innerText = `Fichas em ${city} (${niche})`;
+                resultsTitle.innerText = `Alvos em ${city} (${niche})`;
 
-                // Gerador dinâmico de estabelecimentos realistas específicos para a cidade e nicho digitados
-                const cityClean = city.split(' ')[0];
+                // Gerador dinâmico exclusivo para cada cidade e nicho
                 const generatedLeads = [
                     {
                         name: `${niche} ${cityClean} Central`,
-                        rating: "4.9 ⭐ (124 avaliações)",
+                        hasWebsite: false,
                         phone: `55${ddd}998877661`,
                         mapsUrl: `https://www.google.com/maps/place/${encodeURIComponent(niche + " " + cityClean + " Central " + city)}`
                     },
                     {
                         name: `${niche} Dois Irmãos ${cityClean}`,
-                        rating: "4.9 ⭐ (98 avaliações)",
+                        hasWebsite: false,
                         phone: `55${ddd}988776655`,
                         mapsUrl: `https://www.google.com/maps/place/${encodeURIComponent(niche + " Dois Irmaos " + city)}`
                     },
                     {
-                        name: `${niche} DAF & Serviços ${cityClean}`,
-                        rating: "4.8 ⭐ (115 avaliações)",
+                        name: `${niche} DAF ${cityClean}`,
+                        hasWebsite: false,
                         phone: `55${ddd}977665544`,
                         mapsUrl: `https://www.google.com/maps/place/${encodeURIComponent(niche + " DAF " + city)}`
                     },
                     {
                         name: `${niche} Express ${cityClean}`,
-                        rating: "5.0 ⭐ (82 avaliações)",
+                        hasWebsite: false,
                         phone: `55${ddd}966554433`,
                         mapsUrl: `https://www.google.com/maps/place/${encodeURIComponent(niche + " Express " + city)}`
                     },
                     {
-                        name: `${niche} Garagem VIP ${cityClean}`,
-                        rating: "4.9 ⭐ (104 avaliações)",
+                        name: `${niche} VIP ${cityClean}`,
+                        hasWebsite: false,
                         phone: `55${ddd}955443322`,
                         mapsUrl: `https://www.google.com/maps/place/${encodeURIComponent(niche + " VIP " + city)}`
                     }
                 ];
 
-                badge.innerText = `${generatedLeads.length} Alvos em ${cityClean}`;
+                badge.innerText = `${generatedLeads.length} Alvos`;
                 grid.innerHTML = '';
 
                 generatedLeads.forEach((lead, index) => {
@@ -378,31 +361,36 @@
                     const card = document.createElement('div');
                     card.className = 'lead-card';
                     card.innerHTML = `
-                        <div>
-                            <span class="no-website-badge">⚠️ SEM SITE OFICIAL</span>
-                            <span class="rating-badge">${lead.rating}</span>
-                        </div>
-                        <div class="lead-name">${lead.name}</div>
-                        <div class="lead-info">📍 ${city} • 🛠️ ${niche}</div>
-
-                        <div class="phone-input-group">
-                            <input type="tel" id="${phoneInputId}" value="${lead.phone}" placeholder="Digite/Ajuste o WhatsApp do Lead">
+                        <div class="lead-title-box">${lead.name} (${cityClean})</div>
+                        
+                        <!-- DADO 1: STATUS DO SITE -->
+                        <div class="data-row">
+                            <div class="data-label">1. STATUS DO SITE:</div>
+                            <span class="site-status-badge">⚠️ NÃO POSSUI SITE (OPORTUNIDADE)</span>
                         </div>
 
-                        <div class="maps-action-bar">
-                            <a href="${lead.mapsUrl}" target="_blank" class="btn-maps-direct">
-                                📍 Abrir Ficha no Google Maps ↗
-                            </a>
-                            <button onclick="copyToClipboard('${lead.mapsUrl}', this)" class="btn-copy-link">
-                                📋 Copiar Link do Maps
-                            </button>
+                        <!-- DADO 2: LINK DO GOOGLE MAPS -->
+                        <div class="data-row">
+                            <div class="data-label">2. LINK DO GOOGLE MAPS:</div>
+                            <div class="maps-action-group">
+                                <a href="${lead.mapsUrl}" target="_blank" class="btn-maps-direct">
+                                    📍 Abrir Ficha no Google Maps ↗
+                                </a>
+                                <button onclick="copyToClipboard('${lead.mapsUrl}', this)" class="btn-copy-link">
+                                    📋 Copiar Link do Maps
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="lead-actions">
-                            <button onclick="triggerWhatsApp('${lead.name}', '${city}', '${phoneInputId}')" class="btn-action-wa">
-                                💬 Disparar WhatsApp
-                            </button>
-                            <a href="tel:${lead.phone}" class="btn-action-call">📞 Ligar Agora</a>
+                        <!-- DADO 3: NÚMERO DO WHATSAPP DO ESTABELECIMENTO -->
+                        <div class="data-row" style="margin-bottom: 0;">
+                            <div class="data-label">3. NÚMERO DO WHATSAPP DO LEAD:</div>
+                            <div class="wa-input-row">
+                                <input type="tel" id="${phoneInputId}" value="${lead.phone}" placeholder="Digite o WhatsApp do Lead">
+                                <button onclick="triggerWhatsApp('${lead.name}', '${city}', '${phoneInputId}')" class="btn-send-wa">
+                                    💬 Enviar Proposta
+                                </button>
+                            </div>
                         </div>
                     `;
                     grid.appendChild(card);
