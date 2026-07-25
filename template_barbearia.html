@@ -53,11 +53,17 @@ nav {
   position: relative;
   overflow: hidden;
 }
+.hero-bg-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  z-index: 0;
+}
 .hero::before {
   content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.1) 0%, transparent 65%);
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to bottom, rgba(10,10,13,0.82) 0%, rgba(10,10,13,0.75) 50%, rgba(10,10,13,0.88) 100%);
 }
+.hero > * { position: relative; z-index: 2; }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(201,168,76,0.1);
@@ -165,11 +171,12 @@ footer strong { color: var(--gold); }
 
 <!-- HERO -->
 <section class="hero">
+  <img src="img_hero_barbearia.jpg" alt="Interior da Barber King" class="hero-bg-img">
   <div class="hero-badge">Desde 2012 &bull; Santo Andre, SP</div>
   <h1>O SEU ESTILO,<br><span class="gold">NOSSA ARTE.</span></h1>
   <p>Cortes precisos, atendimento premium e um ambiente feito para quem valoriza o melhor. Agende agora e sinta a diferenca.</p>
   <div class="hero-btns">
-    <a href="https://wa.me/5511999999999" class="btn-primary">Agendar pelo WhatsApp</a>
+    <a href="admin_barbearia.html" class="btn-primary">Agendar pelo App</a>
     <a href="#servicos" class="btn-outline">Ver Servicos</a>
   </div>
 </section>
