@@ -108,7 +108,7 @@
         /* Hero Banner Vermelho & Amarelo */
         .hero-banner {
             position: relative;
-            background: linear-gradient(rgba(17, 24, 39, 0.88), rgba(185, 28, 28, 0.92)), url('https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1600&q=80');
+            background: linear-gradient(rgba(17, 24, 39, 0.88), rgba(185, 28, 28, 0.92)), url('moto_motor_conserto.jpg');
             background-size: cover;
             background-position: center;
             color: white;
@@ -228,57 +228,106 @@
         .feature-card h3 { font-size: 17px; font-weight: 800; color: #000; margin-bottom: 6px; }
         .feature-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
-        /* Cards de Serviços com 3 Imagens Totalmente Distintas e Reais de Conserto de Moto */
-        .services-grid {
+        /* GRID ESTILO MONTI PNEUS 100% EXATO DA IMAGEM DO USUÁRIO */
+        .monti-services-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 25px;
+            margin-bottom: 50px;
         }
 
-        .service-card {
-            background: white;
-            border-radius: 20px;
-            border: 1px solid #e2e8f0;
+        @media (max-width: 850px) {
+            .monti-services-container { grid-template-columns: 1fr; }
+        }
+
+        .monti-card-large {
+            position: relative;
+            height: 520px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-            transition: transform 0.3s;
+            background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             display: flex;
             flex-direction: column;
-        }
-        .service-card:hover { transform: translateY(-5px); }
-
-        .service-img-box {
-            height: 220px;
-            width: 100%;
-            overflow: hidden;
-            background: #111827;
+            justify-content: flex-end;
+            padding: 35px;
+            color: white;
         }
 
-        .service-img-box img {
-            width: 100%;
-            height: 100%;
+        .monti-card-large img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
+            opacity: 0.8;
+            transition: transform 0.4s;
         }
 
-        .service-body { padding: 25px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .service-body h4 { font-size: 22px; font-weight: 800; color: #000; margin-bottom: 10px; }
-        .service-body p { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        .monti-card-large:hover img { transform: scale(1.04); }
 
-        .btn-card-wa {
-            display: block;
-            text-align: center;
-            background: #fef2f2;
-            color: var(--primary);
-            border: 1px solid rgba(220, 38, 38, 0.3);
-            padding: 14px;
-            border-radius: 12px;
+        .monti-card-overlay {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.4), transparent);
+            margin: -35px;
+            padding: 35px;
+            border-radius: 0 0 24px 24px;
+        }
+
+        .monti-card-large h4 { font-size: 26px; font-weight: 800; color: #ffffff; margin-bottom: 10px; }
+        .monti-card-large p { font-size: 14px; color: #cbd5e1; margin-bottom: 20px; line-height: 1.6; max-width: 90%; }
+
+        .btn-monti-wa {
+            color: #ef4444;
             font-weight: 800;
             text-decoration: none;
-            transition: all 0.2s;
-            cursor: pointer;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.2s;
         }
-        .btn-card-wa:hover { background: var(--primary); color: white; }
+        .btn-monti-wa:hover { gap: 12px; color: #f87171; }
+
+        .monti-right-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .monti-card-small {
+            position: relative;
+            height: 247.5px;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 25px;
+            color: white;
+        }
+
+        .monti-card-small img {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.75;
+            transition: transform 0.4s;
+        }
+
+        .monti-card-small:hover img { transform: scale(1.04); }
+
+        .monti-small-overlay {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            margin: -25px;
+            padding: 25px;
+        }
+
+        .monti-card-small h4 { font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .monti-card-small p { font-size: 13px; color: #cbd5e1; margin-bottom: 12px; }
 
         /* Google Maps */
         .maps-box {
@@ -413,7 +462,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* Seção de Avaliações Google Maps Reais */
+        /* Avaliações 5 Estrelas */
         .reviews-box {
             background: #f1f5f9;
             padding: 50px 25px;
@@ -468,7 +517,7 @@
             font-size: 12px;
         }
 
-        /* Botão Flutuante de WhatsApp na Cor Amarela Oficial */
+        /* Botão Flutuante Amarelo */
         .fixed-wa-float {
             position: fixed;
             bottom: 20px;
@@ -565,51 +614,47 @@
 
             <div class="section-title-box">
                 <h3>Nossas Especialidades em Conserto de Motos</h3>
-                <p>Fotos reais do serviço mecânico prestado pela Oficina Dois Amigos</p>
+                <p>Confira o layout idêntico à Monti Pneus com fotos reais de mecânicos trabalhando nas motos</p>
             </div>
 
-            <div class="services-grid">
-                <!-- Card 1: Conserto de Pneu de Moto -->
-                <div class="service-card">
-                    <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80" alt="Conserto e troca de pneu de moto">
-                    </div>
-                    <div class="service-body">
-                        <div>
-                            <h4>Conserto & Troca de Pneus de Moto</h4>
-                            <p>Desmontagem, remendo técnico de câmara/tubeless, troca de pneu novo e alinhamento de roda para a sua máxima segurança.</p>
-                        </div>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Conserto%20de%20Pneu%20de%20Moto" target="_blank" class="btn-card-wa">Solicitar no WhatsApp ➔</a>
+            <!-- LAYOUT GRID IDÊNTICO À MONTI PNEUS (1 GRANDE NA ESQUERDA + 2 NA DIREITA) -->
+            <div class="monti-services-container">
+                
+                <!-- CARD 1 ESQUERDA (GRANDE): CONSERTO DE PNEUS -->
+                <div class="monti-card-large">
+                    <img src="moto_pneu_conserto.jpg" alt="Mecânico fazendo conserto de pneu de moto">
+                    <div class="monti-card-overlay">
+                        <h4>Pneus e Balanceamento</h4>
+                        <p>Manutenção e conserto profissional de pneus de moto. Troca de câmaras, montagem de pneus tubeless e balanceamento computadorizado de rodas.</p>
+                        <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Pneus%20e%20Balanceamento" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
                     </div>
                 </div>
 
-                <!-- Card 2: Conserto de Freio & Bengala de Moto -->
-                <div class="service-card">
-                    <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558980664-769d59546b3d?auto=format&fit=crop&w=800&q=80" alt="Conserto de freios e suspensão de moto">
-                    </div>
-                    <div class="service-body">
-                        <div>
-                            <h4>Conserto de Suspensão & Freios</h4>
-                            <p>Troca de pastilhas, lonas, sangria de fluido de freio e substituição de óleo/retentor das bengalas dianteiras da moto.</p>
+                <!-- CARDS 2 E 3 DIREITA (EMPILHADOS) -->
+                <div class="monti-right-stack">
+                    
+                    <!-- CARD 2: SUSPENSÃO E FREIOS DE MOTO -->
+                    <div class="monti-card-small">
+                        <img src="moto_freio_conserto.jpg" alt="Mecânico consertando freio e suspensão de moto">
+                        <div class="monti-small-overlay">
+                            <h4>🔧 Suspensão e Freios</h4>
+                            <p>Troca de pastilhas, fluido de freio, retífica de bengalas e retentores para moto.</p>
+                            <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
                         </div>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Manuten%C3%A7%C3%A3o%20de%20Freios%20de%20Moto" target="_blank" class="btn-card-wa">Solicitar no WhatsApp ➔</a>
                     </div>
+
+                    <!-- CARD 3: MECÂNICA GERAL E MOTORES -->
+                    <div class="monti-card-small">
+                        <img src="moto_motor_conserto.jpg" alt="Mecânico realizando conserto no motor da moto">
+                        <div class="monti-small-overlay">
+                            <h4>🛠️ Mecânica Geral & Motores</h4>
+                            <p>Conserto de motores, troca de óleo, kit relação e diagnóstico de injeção eletrônica.</p>
+                            <a href="https://wa.me/5511968066402?text=Solicitar%20Or%C3%A7amento%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-monti-wa">Solicitar Orçamento ➔</a>
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- Card 3: Conserto de Motor de Moto -->
-                <div class="service-card">
-                    <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80" alt="Conserto de motor e relação de moto">
-                    </div>
-                    <div class="service-body">
-                        <div>
-                            <h4>Conserto de Motores, Óleo & Relação</h4>
-                            <p>Conserto e regulagem do motor da moto, troca de óleo com lubrificantes originais e montagem completa do kit transmissão/relação.</p>
-                        </div>
-                        <a href="https://wa.me/5511968066402?text=Or%C3%A7amento%20Conserto%20de%20Motor%20e%20Troca%20de%20%C3%93leo" target="_blank" class="btn-card-wa">Solicitar no WhatsApp ➔</a>
-                    </div>
-                </div>
             </div>
 
             <div class="info-text-block">
@@ -657,43 +702,33 @@
                 <p>Confira todas as soluções para sua motocicleta na Oficina Dois Amigos</p>
             </div>
 
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=80" alt="Conserto de Pneu de Moto">
-                    </div>
-                    <div class="service-body">
-                        <div>
-                            <h4>Pneus e Balanceamento</h4>
-                            <p>Troca de pneus dianteiros e traseiros, alinhamento de rodas e balanceamento de alta precisão.</p>
-                        </div>
-                        <a href="https://wa.me/5511968066402?text=Solicitar%20Pneus%20e%20Balanceamento" target="_blank" class="btn-card-wa">Solicitar ➔</a>
+            <div class="monti-services-container">
+                <div class="monti-card-large">
+                    <img src="moto_pneu_conserto.jpg" alt="Conserto de pneu de moto">
+                    <div class="monti-card-overlay">
+                        <h4>Pneus e Balanceamento</h4>
+                        <p>Troca de pneus dianteiros e traseiros, alinhamento de rodas e balanceamento de alta precisão.</p>
+                        <a href="https://wa.me/5511968066402?text=Solicitar%20Pneus%20e%20Balanceamento" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
                     </div>
                 </div>
 
-                <div class="service-card">
-                    <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558980664-769d59546b3d?auto=format&fit=crop&w=800&q=80" alt="Suspensão e Freios de Moto">
-                    </div>
-                    <div class="service-body">
-                        <div>
+                <div class="monti-right-stack">
+                    <div class="monti-card-small">
+                        <img src="moto_freio_conserto.jpg" alt="Suspensão e freios de moto">
+                        <div class="monti-small-overlay">
                             <h4>Suspensão e Freios</h4>
                             <p>Troca de pastilhas, lonas, fluido de freio, amortecedores e retífica de bengala.</p>
+                            <a href="https://wa.me/5511968066402?text=Solicitar%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
                         </div>
-                        <a href="https://wa.me/5511968066402?text=Solicitar%20Suspens%C3%A3o%20e%20Freios" target="_blank" class="btn-card-wa">Solicitar ➔</a>
                     </div>
-                </div>
 
-                <div class="service-card">
-                    <div class="service-img-box">
-                        <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=800&q=80" alt="Mecânica Geral de Moto">
-                    </div>
-                    <div class="service-body">
-                        <div>
+                    <div class="monti-card-small">
+                        <img src="moto_motor_conserto.jpg" alt="Mecânica geral de moto">
+                        <div class="monti-small-overlay">
                             <h4>Mecânica Geral & Motores</h4>
                             <p>Kit relação, troca de óleo, injeção eletrônica, regulagem de válvulas e elétrica completa.</p>
+                            <a href="https://wa.me/5511968066402?text=Solicitar%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-monti-wa">Solicitar ➔</a>
                         </div>
-                        <a href="https://wa.me/5511968066402?text=Solicitar%20Mec%C3%A2nica%20Geral" target="_blank" class="btn-card-wa">Solicitar ➔</a>
                     </div>
                 </div>
             </div>
@@ -716,7 +751,7 @@
             </div>
         </div>
 
-        <!-- ABA AVALIAÇÕES DO GOOGLE MAPS REAIS (TODAS NOTA 5) -->
+        <!-- ABA AVALIAÇÕES DO GOOGLE MAPS REAIS -->
         <div id="tab-avaliacoes" class="tab-content">
             <div class="reviews-box">
                 <div class="section-title-box">
