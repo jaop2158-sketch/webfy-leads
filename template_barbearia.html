@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barbearia Premium – O Seu Estilo, Nossa Arte</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0d0d0d;
+  --gold: #c9a84c;
+  --gold2: #f0c96b;
+  --text: #f0ede8;
+  --muted: #888880;
+  --card: #141414;
+  --border: #222;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px;
+  background: rgba(13,13,13,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 3px; color: var(--gold); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: var(--gold);
+  color: #0d0d0d;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+.nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.1) 0%, transparent 65%);
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  color: var(--gold);
+  padding: 8px 20px; border-radius: 50px;
+  font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 12vw, 100px); letter-spacing: 4px; line-height: 1; margin-bottom: 20px; }
+.hero h1 .gold { color: var(--gold); }
+.hero p { color: var(--muted); font-size: 17px; max-width: 520px; margin: 0 auto 40px; line-height: 1.7; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.btn-primary {
+  background: linear-gradient(135deg, #c9a84c, #f0c96b);
+  color: #0d0d0d;
+  padding: 16px 36px;
+  border-radius: 12px;
+  font-size: 15px; font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(201,168,76,0.35); }
+.btn-outline {
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--gold);
+  padding: 16px 36px;
+  border-radius: 12px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-outline:hover { background: rgba(201,168,76,0.08); }
+
+/* STATS */
+.stats {
+  display: flex; justify-content: center; gap: 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+.stat { flex: 1; max-width: 220px; text-align: center; padding: 32px 24px; border-right: 1px solid var(--border); }
+.stat:last-child { border-right: none; }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--gold); letter-spacing: 2px; }
+.stat-label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* SERVICES */
+.section { padding: 90px 24px; max-width: 1100px; margin: 0 auto; }
+.section-label { color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 5vw, 52px); letter-spacing: 2px; margin-bottom: 48px; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.service-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.service-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+.service-icon { font-size: 32px; margin-bottom: 14px; }
+.service-name { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.service-desc { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+/* DEPOIMENTOS */
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.review-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+.stars { color: var(--gold); font-size: 16px; margin-bottom: 12px; }
+.review-text { color: var(--text); font-size: 14px; line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+.review-author { font-size: 13px; font-weight: 700; color: var(--gold); }
+
+/* CTA FINAL */
+.cta-section {
+  text-align: center;
+  padding: 90px 24px;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.1) 0%, transparent 70%);
+  border-top: 1px solid var(--border);
+}
+.cta-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 7vw, 64px); letter-spacing: 3px; margin-bottom: 16px; }
+.cta-section p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
+
+/* FOOTER */
+footer { background: #080808; border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; color: var(--muted); font-size: 13px; }
+footer strong { color: var(--gold); }
+
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .stats { flex-wrap: wrap; }
+  .stat { min-width: 50%; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">BARBER KING</div>
+  <ul class="nav-links">
+    <li><a href="#servicos">Servicos</a></li>
+    <li><a href="#depoimentos">Avaliacoes</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5511999999999" class="nav-cta">Agendar Agora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Desde 2012 &bull; Santo Andre, SP</div>
+  <h1>O SEU ESTILO,<br><span class="gold">NOSSA ARTE.</span></h1>
+  <p>Cortes precisos, atendimento premium e um ambiente feito para quem valoriza o melhor. Agende agora e sinta a diferenca.</p>
+  <div class="hero-btns">
+    <a href="https://wa.me/5511999999999" class="btn-primary">Agendar pelo WhatsApp</a>
+    <a href="#servicos" class="btn-outline">Ver Servicos</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">12+</div>
+    <div class="stat-label">Anos no Mercado</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4.9</div>
+    <div class="stat-label">Nota no Google</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3K+</div>
+    <div class="stat-label">Clientes Satisfeitos</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Atendimento Honesto</div>
+  </div>
+</div>
+
+<!-- SERVICOS -->
+<div id="servicos" class="section">
+  <div class="section-label">O que fazemos</div>
+  <div class="section-title">NOSSOS SERVICOS</div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">✂️</div>
+      <div class="service-name">Corte Masculino</div>
+      <div class="service-desc">Do degrade ao classico. Tecnicos especializados em todos os tipos de cabelo.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🪒</div>
+      <div class="service-name">Barba Completa</div>
+      <div class="service-desc">Navalha quente, toalha quente e acabamento perfeito. Experiencia de barbearia tradicional.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💆</div>
+      <div class="service-name">Tratamento Capilar</div>
+      <div class="service-desc">Hidratacao, relaxamento e cuidados especializados para o seu cabelo.</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🧴</div>
+      <div class="service-name">Sobrancelha & Design</div>
+      <div class="service-desc">Sobrancelha alinhada faz toda a diferenca no visual. Faca o teste!</div>
+    </div>
+  </div>
+</div>
+
+<!-- DEPOIMENTOS -->
+<div id="depoimentos" class="section" style="background: #0a0a0a; max-width: 100%; padding: 90px 24px;">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-label">O que os clientes dizem</div>
+    <div class="section-title">AVALIACOES REAIS</div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <div class="review-text">"Melhor barbearia da regiao! Atendimento incrivel, ambiente top e o corte ficou exatamente como eu queria."</div>
+        <div class="review-author">— Rodrigo M.</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <div class="review-text">"Ja fui em varias barbearias mas nao tem igual. O barbeiro conhece meu jeito e sabe exatamente o que fazer."</div>
+        <div class="review-author">— Lucas T.</div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <div class="review-text">"Ambiente confortavel, wi-fi, cafe e um corte perfeito. Ja sao 3 anos sendo cliente e nunca decepcionou."</div>
+        <div class="review-author">— Andre S.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA FINAL -->
+<div id="contato" class="cta-section">
+  <h2>PRONTO PARA O<br>MELHOR CORTE?</h2>
+  <p>Agende agora pelo WhatsApp e garanta seu horario hoje mesmo!</p>
+  <a href="https://wa.me/5511999999999" class="btn-primary" style="font-size:17px; padding:18px 44px;">Agendar Agora pelo WhatsApp</a>
+</div>
+
+<footer>
+  <strong>Barber King</strong> &mdash; Santo Andre, SP &mdash; Todos os direitos reservados &mdash; Desenvolvido por <strong>Webfy</strong>
+</footer>
+
+</body>
+</html>

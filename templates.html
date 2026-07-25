@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webfy – Templates de Sites por Nicho</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0f;
+    --card: #13131a;
+    --border: #1e1e2e;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --green: #22c55e;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(108,99,255,0.18) 0%, transparent 70%);
+  }
+  .hero .badge {
+    display: inline-block;
+    background: rgba(108,99,255,0.15);
+    border: 1px solid rgba(108,99,255,0.4);
+    color: #a89cff;
+    padding: 6px 18px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero h1 { font-size: clamp(28px,6vw,52px); font-weight: 900; line-height: 1.15; margin-bottom: 14px; }
+  .hero h1 span { background: linear-gradient(90deg, #6c63ff, #ff6584); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { color: var(--muted); font-size: 16px; max-width: 520px; margin: 0 auto 32px; }
+
+  /* TABELA */
+  .table-section { padding: 0 20px 60px; max-width: 900px; margin: 0 auto; }
+  .table-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 20px; text-align: center; color: var(--text); }
+  .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: rgba(108,99,255,0.12); }
+  thead th { padding: 14px 18px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #a89cff; text-align: left; }
+  tbody tr { border-top: 1px solid var(--border); transition: background 0.2s; }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+  tbody td { padding: 14px 18px; font-size: 14px; color: var(--text); }
+  tbody td:first-child { font-weight: 700; }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .tag.green { background: rgba(34,197,94,0.12); color: var(--green); }
+  .tag.yellow { background: rgba(245,158,11,0.12); color: var(--yellow); }
+  .tag.red { background: rgba(239,68,68,0.12); color: var(--red); }
+  .tag.fast { background: rgba(34,197,94,0.12); color: var(--green); }
+  .tag.medium { background: rgba(245,158,11,0.12); color: var(--yellow); }
+  .tag.slow { background: rgba(239,68,68,0.12); color: var(--red); }
+
+  /* GRID DE CARDS */
+  .cards-section { padding: 0 20px 80px; max-width: 1100px; margin: 0 auto; }
+  .cards-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    display: block;
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 12px 40px rgba(108,99,255,0.18); }
+  .card-icon { font-size: 40px; margin-bottom: 14px; }
+  .card-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+  .card-desc { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 18px; }
+  .card-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .card-cta {
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(108,99,255,0.1);
+    border: 1px solid rgba(108,99,255,0.25);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #a89cff;
+  }
+  .card-cta span { font-size: 18px; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); }
+  footer strong { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Webfy – Kit de Templates</div>
+  <h1>Templates Prontos<br>por <span>Nicho de Mercado</span></h1>
+  <p>Prévia profissional pronta para enviar ao cliente em segundos. Escolha o nicho e mande o link!</p>
+</div>
+
+<!-- TABELA COMPARATIVA -->
+<div class="table-section">
+  <h2>Tabela Comparativa de Nichos</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Nicho</th>
+          <th>Dificuldade</th>
+          <th>Ticket Médio</th>
+          <th>Velocidade de Fechar</th>
+          <th>Potencial</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>💈 Barbearia</td>
+          <td><span class="tag green">Fácil</span></td>
+          <td>R$ 299 – 499</td>
+          <td><span class="tag fast">Rápida</span></td>
+          <td>⭐⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>🦷 Odontologia</td>
+          <td><span class="tag yellow">Médio</span></td>
+          <td>R$ 399 – 699</td>
+          <td><span class="tag medium">Média</span></td>
+          <td>⭐⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>⚖️ Advocacia</td>
+          <td><span class="tag yellow">Médio</span></td>
+          <td>R$ 499 – 899</td>
+          <td><span class="tag medium">Média</span></td>
+          <td>⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>🏋️ Academia</td>
+          <td><span class="tag green">Fácil</span></td>
+          <td>R$ 299 – 499</td>
+          <td><span class="tag fast">Rápida</span></td>
+          <td>⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>🍕 Restaurante / Pizzaria</td>
+          <td><span class="tag green">Fácil</span></td>
+          <td>R$ 249 – 449</td>
+          <td><span class="tag fast">Rápida</span></td>
+          <td>⭐⭐⭐⭐</td>
+        </tr>
+        <tr>
+          <td>👗 Loja de Roupa</td>
+          <td><span class="tag red">Difícil</span></td>
+          <td>R$ 799 – 1.500</td>
+          <td><span class="tag slow">Lenta</span></td>
+          <td>⭐⭐⭐</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- GRID DE TEMPLATES -->
+<div class="cards-section">
+  <h2>Prévias Prontas para Enviar</h2>
+  <div class="grid">
+
+    <a href="template_barbearia.html" class="card">
+      <div class="card-icon">💈</div>
+      <div class="card-title">Barbearia</div>
+      <div class="card-desc">Visual escuro e masculino. Perfeito para barbearias que querem atrair agendamentos direto pelo WhatsApp.</div>
+      <div class="card-meta">
+        <span class="tag green">Fácil</span>
+        <span class="tag fast">Fecha Rápido</span>
+      </div>
+      <div class="card-cta">Ver Prévia <span>→</span></div>
+    </a>
+
+    <a href="template_odontologia.html" class="card">
+      <div class="card-icon">🦷</div>
+      <div class="card-title">Odontologia</div>
+      <div class="card-desc">Visual clean e profissional. Transmite confiança e converte visitas no Google em consultas agendadas.</div>
+      <div class="card-meta">
+        <span class="tag yellow">Médio</span>
+        <span class="tag medium">Ticket Alto</span>
+      </div>
+      <div class="card-cta">Ver Prévia <span>→</span></div>
+    </a>
+
+    <a href="template_advocacia.html" class="card">
+      <div class="card-icon">⚖️</div>
+      <div class="card-title">Advocacia</div>
+      <div class="card-desc">Elegante e institucional. Advogados valorizam muito presença digital e pagam bem por sites sérios.</div>
+      <div class="card-meta">
+        <span class="tag yellow">Médio</span>
+        <span class="tag yellow">Ticket Premium</span>
+      </div>
+      <div class="card-cta">Ver Prévia <span>→</span></div>
+    </a>
+
+    <a href="template_academia.html" class="card">
+      <div class="card-icon">🏋️</div>
+      <div class="card-title">Academia</div>
+      <div class="card-desc">Energia e impacto visual. Foca em captação de matrículas e planos mensais pelo WhatsApp.</div>
+      <div class="card-meta">
+        <span class="tag green">Fácil</span>
+        <span class="tag fast">Alta Demanda</span>
+      </div>
+      <div class="card-cta">Ver Prévia <span>→</span></div>
+    </a>
+
+    <a href="template_restaurante.html" class="card">
+      <div class="card-icon">🍕</div>
+      <div class="card-title">Restaurante / Pizzaria</div>
+      <div class="card-desc">Apetitoso e moderno. Cardápio visual que converte visitas em pedidos de delivery e reservas.</div>
+      <div class="card-meta">
+        <span class="tag green">Fácil</span>
+        <span class="tag fast">Nicho Enorme</span>
+      </div>
+      <div class="card-cta">Ver Prévia <span>→</span></div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  Desenvolvido por <strong>Webfy</strong> — Templates profissionais prontos para fechar contratos.
+</footer>
+
+</body>
+</html>

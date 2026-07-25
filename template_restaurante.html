@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizzaria Forno Vivo – A Pizza do Jeito Certo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0e0a06;
+  --card: #151009;
+  --border: #1e1608;
+  --orange: #e85d04;
+  --orange2: #fb8500;
+  --yellow: #ffb703;
+  --text: #f5f0e8;
+  --muted: #8a7a6a;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 36px;
+  background: rgba(14,10,6,0.95);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(232,93,4,0.2);
+}
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--yellow); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--orange2); }
+.nav-cta {
+  background: linear-gradient(135deg, #e85d04, #fb8500);
+  color: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,93,4,0.4); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  padding: 130px 24px 90px;
+  position: relative;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(232,93,4,0.12) 0%, transparent 65%);
+}
+.hero-badge {
+  display: inline-block;
+  background: rgba(232,93,4,0.12);
+  border: 1px solid rgba(232,93,4,0.3);
+  color: var(--orange2);
+  padding: 7px 20px; border-radius: 50px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+  margin-bottom: 32px;
+}
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(44px, 10vw, 88px); font-weight: 900; line-height: 1.05; margin-bottom: 24px; }
+.hero h1 .hot { color: var(--orange2); }
+.hero p { color: var(--muted); font-size: 17px; max-width: 540px; line-height: 1.8; margin: 0 auto 44px; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.btn-fire {
+  background: linear-gradient(135deg, #e85d04, #fb8500);
+  color: white;
+  padding: 16px 36px; border-radius: 10px;
+  font-size: 15px; font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-fire:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(232,93,4,0.4); }
+.btn-outline {
+  border: 1px solid rgba(232,93,4,0.3);
+  color: var(--orange2);
+  padding: 16px 36px; border-radius: 10px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-outline:hover { background: rgba(232,93,4,0.08); }
+
+/* STATS */
+.stats { display: flex; justify-content: center; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stat { flex: 1; max-width: 220px; text-align: center; padding: 32px 20px; border-right: 1px solid var(--border); }
+.stat:last-child { border-right: none; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 44px; color: var(--orange2); font-weight: 900; }
+.stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 6px; }
+
+/* CARDAPIO */
+.section { padding: 90px 24px; max-width: 1100px; margin: 0 auto; }
+.section-tag { display: inline-block; background: rgba(232,93,4,0.1); color: var(--orange); border: 1px solid rgba(232,93,4,0.2); padding: 5px 14px; border-radius: 50px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; margin-bottom: 48px; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.menu-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 24px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.menu-item:hover { transform: translateY(-4px); border-color: var(--orange); }
+.menu-emoji { font-size: 44px; margin-bottom: 16px; }
+.menu-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--yellow); }
+.menu-desc { color: var(--muted); font-size: 13px; line-height: 1.7; margin-bottom: 16px; }
+.menu-price { font-size: 18px; font-weight: 800; color: var(--orange2); }
+
+/* DEPOIMENTOS */
+.reviews-section { background: rgba(255,255,255,0.015); padding: 90px 24px; border-top: 1px solid var(--border); }
+.reviews-inner { max-width: 1100px; margin: 0 auto; }
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.review { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+.stars { color: var(--yellow); font-size: 16px; margin-bottom: 12px; }
+.review-text { font-size: 14px; line-height: 1.8; font-style: italic; color: #ccc; margin-bottom: 14px; }
+.review-author { font-size: 13px; font-weight: 700; color: var(--orange2); }
+
+/* CTA DELIVERY */
+.cta {
+  text-align: center;
+  padding: 90px 24px;
+  background: radial-gradient(ellipse at center, rgba(232,93,4,0.1) 0%, transparent 65%);
+  border-top: 1px solid var(--border);
+}
+.cta h2 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 60px); font-weight: 900; margin-bottom: 16px; }
+.cta p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
+
+/* FOOTER */
+footer { background: #050402; border-top: 1px solid var(--border); text-align: center; padding: 32px; color: var(--muted); font-size: 13px; }
+footer strong { color: var(--orange2); }
+
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .stats { flex-wrap: wrap; }
+  .stat { min-width: 50%; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Forno Vivo</div>
+  <ul class="nav-links">
+    <li><a href="#cardapio">Cardapio</a></li>
+    <li><a href="#avaliacoes">Avaliacoes</a></li>
+    <li><a href="#delivery">Delivery</a></li>
+  </ul>
+  <a href="https://wa.me/5511999999999" class="nav-cta">Pedir Agora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Pizzaria Artesanal &bull; Santo Andre, SP</div>
+  <h1>A Pizza Do<br><span class="hot">Jeito Certo.</span></h1>
+  <p>Massa fresca feita na hora, ingredientes selecionados e um forno a lenha que garante o sabor que voce nunca vai esquecer.</p>
+  <div class="hero-btns">
+    <a href="https://wa.me/5511999999999" class="btn-fire">Pedir pelo WhatsApp</a>
+    <a href="#cardapio" class="btn-outline">Ver Cardapio</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Anos de Tradição</div></div>
+  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Google Maps</div></div>
+  <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Sabores no Cardapio</div></div>
+  <div class="stat"><div class="stat-num">30min</div><div class="stat-label">Entrega Garantida</div></div>
+</div>
+
+<!-- CARDAPIO -->
+<div id="cardapio" class="section">
+  <div class="section-tag">Nosso Cardapio</div>
+  <div class="section-title">Sabores que Fazem Voce<br>Voltar Sempre</div>
+  <div class="menu-grid">
+    <div class="menu-item"><div class="menu-emoji">🍕</div><div class="menu-name">Margherita Classica</div><div class="menu-desc">Molho de tomate artesanal, mussarela de bufala, manjericao fresco e azeite extra virgem.</div><div class="menu-price">A partir de R$ 44</div></div>
+    <div class="menu-item"><div class="menu-emoji">🥩</div><div class="menu-name">Calabresa Especial</div><div class="menu-desc">Calabresa artesanal grelhada, cebola roxa, mussarela premium e toque de oregano.</div><div class="menu-price">A partir de R$ 48</div></div>
+    <div class="menu-item"><div class="menu-emoji">🍖</div><div class="menu-name">Frango com Catupiry</div><div class="menu-desc">Frango desfiado temperado, catupiry cremoso e cobertura de mussarela derretida.</div><div class="menu-price">A partir de R$ 48</div></div>
+    <div class="menu-item"><div class="menu-emoji">🍫</div><div class="menu-name">Chocolate Belga</div><div class="menu-desc">Pizza doce com chocolate belga, morango fresco e Nutella. O encerramento perfeito.</div><div class="menu-price">A partir de R$ 42</div></div>
+  </div>
+</div>
+
+<!-- DEPOIMENTOS -->
+<div id="avaliacoes" class="reviews-section">
+  <div class="reviews-inner">
+    <div class="section-tag">Avaliacoes</div>
+    <div class="section-title" style="font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,48px);">O Que Nossos Clientes Dizem</div>
+    <div class="reviews-grid">
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"A melhor pizza da regiao, sem duvida! Massa fininha, ingredientes de qualidade e entrega super rapida."</div><div class="review-author">— Carlos M.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Ja experimentei muitas pizzarias mas essa e outra categoria. Recomendo o frango com catupiry!"</div><div class="review-author">— Ana P.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Pedi no WhatsApp, foi super facil e a pizza chegou quentinha em menos de 30 minutos. Viciada!"</div><div class="review-author">— Juliana K.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA DELIVERY -->
+<div id="delivery" class="cta">
+  <h2>Com Fome Agora?<br>Peca Pelo WhatsApp!</h2>
+  <p>Delivery rapido para toda a regiao. Pedido minimo de R$ 40. Frete gratis a partir de R$ 70!</p>
+  <a href="https://wa.me/5511999999999" class="btn-fire" style="font-size:16px; padding:18px 44px;">Pedir Agora pelo WhatsApp</a>
+</div>
+
+<footer>
+  <strong>Forno Vivo Pizzaria</strong> &mdash; Santo Andre, SP &mdash; Desenvolvido por <strong>Webfy</strong>
+</footer>
+
+</body>
+</html>

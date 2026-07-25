@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinica Odontologica – Seu Sorriso e Nossa Missao</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f8fafe;
+  --blue: #1a56db;
+  --blue-light: #3b82f6;
+  --blue-soft: #eff6ff;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --white: #ffffff;
+  --border: #e5e7eb;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 36px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { width: 36px; height: 36px; background: var(--blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.logo-text { font-size: 18px; font-weight: 800; color: var(--text); }
+.logo-text span { color: var(--blue); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--blue); }
+.nav-cta {
+  background: var(--blue);
+  color: white;
+  padding: 11px 24px;
+  border-radius: 10px;
+  font-size: 14px; font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+.nav-cta:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 36px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 60px;
+}
+.hero-content { flex: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--blue-soft);
+  border: 1px solid rgba(59,130,246,0.2);
+  color: var(--blue);
+  padding: 7px 16px; border-radius: 50px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+  margin-bottom: 28px;
+}
+.hero h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 900; line-height: 1.15; margin-bottom: 20px; }
+.hero h1 .blue { color: var(--blue); }
+.hero p { color: var(--muted); font-size: 17px; line-height: 1.8; max-width: 500px; margin-bottom: 36px; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--blue);
+  color: white;
+  padding: 15px 32px; border-radius: 12px;
+  font-size: 15px; font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(26,86,219,0.35); }
+.btn-outline {
+  border: 2px solid var(--border);
+  color: var(--text);
+  padding: 15px 32px; border-radius: 12px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+.hero-visual { flex: 1; display: flex; justify-content: center; }
+.hero-card {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 24px 80px rgba(26,86,219,0.14);
+  text-align: center;
+  max-width: 320px;
+}
+.hero-card .icon { font-size: 64px; margin-bottom: 20px; }
+.hero-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+.hero-card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+.card-stars { color: #f59e0b; font-size: 20px; margin-bottom: 8px; }
+.card-note { font-size: 13px; color: var(--muted); }
+
+/* SERVICOS */
+.section { padding: 90px 36px; max-width: 1100px; margin: 0 auto; }
+.section-tag { display: inline-block; background: var(--blue-soft); color: var(--blue); padding: 5px 14px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 14px; }
+.section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 48px; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+.svc {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.svc:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,86,219,0.1); }
+.svc-icon { font-size: 36px; margin-bottom: 14px; }
+.svc-name { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+.svc-desc { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+/* STATS */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; background: var(--blue); border-radius: 24px; padding: 40px; margin: 0 36px; }
+.stat { text-align: center; }
+.stat-num { font-size: 42px; font-weight: 900; color: white; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+
+/* DEPOIMENTOS */
+.reviews-section { background: white; padding: 90px 36px; }
+.reviews-inner { max-width: 1100px; margin: 0 auto; }
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.review {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+}
+.stars { color: #f59e0b; font-size: 16px; margin-bottom: 12px; }
+.review-text { font-size: 14px; line-height: 1.8; color: var(--text); margin-bottom: 16px; font-style: italic; }
+.review-author { font-size: 13px; font-weight: 700; color: var(--blue); }
+
+/* CTA */
+.cta { text-align: center; padding: 90px 36px; max-width: 700px; margin: 0 auto; }
+.cta h2 { font-size: clamp(32px, 5vw, 52px); font-weight: 900; margin-bottom: 16px; line-height: 1.2; }
+.cta p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
+
+/* FOOTER */
+footer { background: var(--text); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
+footer strong { color: #60a5fa; }
+
+@media (max-width: 768px) {
+  .hero { flex-direction: column; padding: 100px 20px 60px; }
+  .hero-visual { display: none; }
+  .stats { grid-template-columns: repeat(2, 1fr); margin: 0 20px; }
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-icon">🦷</div>
+    <div class="logo-text">Sorrir<span>Bem</span></div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#servicos">Tratamentos</a></li>
+    <li><a href="#avaliacoes">Avaliacoes</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5511999999999" class="nav-cta">Agendar Consulta</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Clinica Odontologica &bull; Sao Paulo, SP</div>
+    <h1>Seu Sorriso e<br><span class="blue">Nossa Missao.</span></h1>
+    <p>Tratamentos modernos com tecnologia de ponta para voce ter o sorriso que sempre quis. Agende sua consulta gratuita hoje mesmo.</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/5511999999999" class="btn-primary">Agendar pelo WhatsApp</a>
+      <a href="#servicos" class="btn-outline">Ver Tratamentos</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="icon">🦷</div>
+      <h3>Avaliacao Gratuita</h3>
+      <p>Venha conhecer a clinica e fazer sua avaliacao sem compromisso. Nossa equipe cuida de voce com carinho.</p>
+      <div class="card-stars">★★★★★</div>
+      <div class="card-note">4.9 no Google Maps</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Anos de Experiencia</div></div>
+  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Nota no Google</div></div>
+  <div class="stat"><div class="stat-num">2K+</div><div class="stat-label">Pacientes Atendidos</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Satisfacao Garantida</div></div>
+</div>
+
+<!-- SERVICOS -->
+<div id="servicos" class="section">
+  <div class="section-tag">Nossos Tratamentos</div>
+  <div class="section-title">Cuidamos de Cada Detalhe<br>do seu Sorriso</div>
+  <div class="services-grid">
+    <div class="svc"><div class="svc-icon">✨</div><div class="svc-name">Clareamento Dental</div><div class="svc-desc">Dentes at 8 tons mais claros em apenas uma sessao com tecnologia a laser.</div></div>
+    <div class="svc"><div class="svc-icon">🔄</div><div class="svc-name">Aparelho Invisalign</div><div class="svc-desc">Alinhe seus dentes sem aparelho metalico. Discreto, confortavel e eficiente.</div></div>
+    <div class="svc"><div class="svc-icon">🦷</div><div class="svc-name">Implante Dental</div><div class="svc-desc">Substituicao de dentes com implantes que durao a vida toda com estetica natural.</div></div>
+    <div class="svc"><div class="svc-icon">💧</div><div class="svc-name">Limpeza & Prevencao</div><div class="svc-desc">Profilaxia completa, aplicacao de fluor e orientacoes personalizadas de higiene.</div></div>
+  </div>
+</div>
+
+<!-- DEPOIMENTOS -->
+<div id="avaliacoes" class="reviews-section">
+  <div class="reviews-inner">
+    <div class="section-tag">Avaliacoes Reais</div>
+    <div class="section-title">O Que Nossos Pacientes Dizem</div>
+    <div class="reviews-grid">
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Atendimento excelente! A doutora e super atenciosa e o resultado do clareamento superou minhas expectativas."</div><div class="review-author">— Camila R.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Finalmente encontrei uma clinica de confianca. Equipe incrivel, clinica moderna e preco justo."</div><div class="review-author">— Felipe A.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Fiz meu implante aqui e ficou perfeito. Recomendo muito! Atendimento desde o primeiro contato ate o pos-operatorio."</div><div class="review-author">— Patricia N.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div id="contato" class="cta">
+  <h2>Pronto para Transformar seu Sorriso?</h2>
+  <p>Agende sua consulta gratuita agora e comece essa jornada com a gente!</p>
+  <a href="https://wa.me/5511999999999" class="btn-primary" style="font-size:16px; padding:17px 40px;">Agendar Consulta Gratuita</a>
+</div>
+
+<footer>
+  <strong>SorrirBem Odontologia</strong> &mdash; Sao Paulo, SP &mdash; Desenvolvido por <strong>Webfy</strong>
+</footer>
+
+</body>
+</html>

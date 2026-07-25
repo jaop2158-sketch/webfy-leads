@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academia Forge – Transforme Seu Corpo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #09090b;
+  --card: #111114;
+  --border: #1c1c22;
+  --red: #e63946;
+  --red2: #ff6b78;
+  --orange: #f77f00;
+  --text: #f0f0f0;
+  --muted: #888;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 36px;
+  background: rgba(9,9,11,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(230,57,70,0.2);
+}
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; background: linear-gradient(90deg, #e63946, #f77f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--red2); }
+.nav-cta {
+  background: linear-gradient(135deg, #e63946, #f77f00);
+  color: white;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(230,57,70,0.4); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+  padding: 130px 24px 90px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 30%, rgba(230,57,70,0.12) 0%, transparent 65%);
+}
+.hero-eyebrow { color: var(--red); font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 24px; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px, 14vw, 120px); letter-spacing: 4px; line-height: 1; margin-bottom: 24px; }
+.hero h1 .fire { background: linear-gradient(90deg, #e63946, #f77f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { color: var(--muted); font-size: 17px; max-width: 520px; line-height: 1.8; margin: 0 auto 44px; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+.btn-fire {
+  background: linear-gradient(135deg, #e63946, #f77f00);
+  color: white;
+  padding: 16px 38px; border-radius: 10px;
+  font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-fire:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(230,57,70,0.4); }
+.btn-outline {
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 16px 38px; border-radius: 10px;
+  font-size: 15px; font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+.btn-outline:hover { border-color: var(--red); color: var(--red2); }
+
+/* STATS */
+.stats-bar { display: flex; justify-content: center; background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.stat { flex: 1; max-width: 220px; text-align: center; padding: 32px 20px; border-right: 1px solid var(--border); }
+.stat:last-child { border-right: none; }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; background: linear-gradient(90deg, #e63946, #f77f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
+.stat-label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; }
+
+/* PLANOS */
+.section { padding: 90px 24px; max-width: 1100px; margin: 0 auto; }
+.section-label { color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(32px, 5vw, 56px); letter-spacing: 2px; margin-bottom: 48px; }
+.plans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.plan {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 28px;
+  position: relative;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.plan:hover { transform: translateY(-4px); }
+.plan.featured { border-color: var(--red); }
+.plan.featured::before {
+  content: 'MAIS POPULAR';
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, #e63946, #f77f00);
+  color: white; font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  padding: 4px 16px; border-radius: 50px;
+}
+.plan-name { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 8px; }
+.plan-price { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--text); letter-spacing: 2px; }
+.plan-period { color: var(--muted); font-size: 13px; }
+.plan-features { margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
+.plan-feat { font-size: 14px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.plan-feat::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+.plan-cta {
+  display: block; text-align: center;
+  background: linear-gradient(135deg, #e63946, #f77f00);
+  color: white; padding: 14px; border-radius: 10px;
+  font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+  text-decoration: none; margin-top: 24px;
+  transition: transform 0.2s;
+}
+.plan-cta:hover { transform: translateY(-2px); }
+
+/* DEPOIMENTOS */
+.reviews-section { background: #050507; padding: 90px 24px; border-top: 1px solid var(--border); }
+.reviews-inner { max-width: 1100px; margin: 0 auto; }
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.review { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+.stars { color: #f77f00; font-size: 16px; margin-bottom: 12px; }
+.review-text { font-size: 14px; line-height: 1.8; font-style: italic; color: #ccc; margin-bottom: 14px; }
+.review-author { font-size: 13px; font-weight: 700; color: var(--red2); }
+
+/* CTA */
+.cta { text-align: center; padding: 90px 24px; }
+.cta h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px, 8vw, 72px); letter-spacing: 3px; margin-bottom: 16px; }
+.cta p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
+
+/* FOOTER */
+footer { background: #030304; border-top: 1px solid var(--border); text-align: center; padding: 32px; color: var(--muted); font-size: 13px; }
+footer strong { color: var(--red); }
+
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+  .stats-bar { flex-wrap: wrap; }
+  .stat { min-width: 50%; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">FORGE GYM</div>
+  <ul class="nav-links">
+    <li><a href="#planos">Planos</a></li>
+    <li><a href="#avaliacoes">Avaliacoes</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="https://wa.me/5511999999999" class="nav-cta">Matricular Agora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Academia &bull; Santo Andre, SP</div>
+  <h1>TRANSFORME<br><span class="fire">SEU CORPO.</span></h1>
+  <p>Equipamentos de ponta, instrutores certificados e uma comunidade que vai te motivar todos os dias. Sua mudanca comeca aqui.</p>
+  <div class="hero-btns">
+    <a href="https://wa.me/5511999999999" class="btn-fire">Matricular Agora</a>
+    <a href="#planos" class="btn-outline">Ver Planos</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Anos no Mercado</div></div>
+  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Google Maps</div></div>
+  <div class="stat"><div class="stat-num">1K+</div><div class="stat-label">Alunos Ativos</div></div>
+  <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Funcionamento</div></div>
+</div>
+
+<!-- PLANOS -->
+<div id="planos" class="section">
+  <div class="section-label">Escolha seu plano</div>
+  <div class="section-title">INVISTA EM VOCE</div>
+  <div class="plans-grid">
+    <div class="plan">
+      <div class="plan-name">Mensal</div>
+      <div class="plan-price">R$ 99</div>
+      <div class="plan-period">/mes</div>
+      <div class="plan-features">
+        <div class="plan-feat">Acesso a todos os equipamentos</div>
+        <div class="plan-feat">Musculacao e cardio</div>
+        <div class="plan-feat">Avaliacao fisica mensal</div>
+      </div>
+      <a href="https://wa.me/5511999999999" class="plan-cta">Matricular</a>
+    </div>
+    <div class="plan featured">
+      <div class="plan-name">Trimestral</div>
+      <div class="plan-price">R$ 79</div>
+      <div class="plan-period">/mes &bull; Cobrado a cada 3 meses</div>
+      <div class="plan-features">
+        <div class="plan-feat">Tudo do plano mensal</div>
+        <div class="plan-feat">Aula de treino com personal</div>
+        <div class="plan-feat">Acesso a aulas coletivas</div>
+        <div class="plan-feat">App de acompanhamento</div>
+      </div>
+      <a href="https://wa.me/5511999999999" class="plan-cta">Matricular</a>
+    </div>
+    <div class="plan">
+      <div class="plan-name">Anual</div>
+      <div class="plan-price">R$ 59</div>
+      <div class="plan-period">/mes &bull; Melhor custo-beneficio</div>
+      <div class="plan-features">
+        <div class="plan-feat">Tudo do plano trimestral</div>
+        <div class="plan-feat">Personal trainer incluso</div>
+        <div class="plan-feat">Dieta personalizada</div>
+        <div class="plan-feat">Acesso 24 horas</div>
+      </div>
+      <a href="https://wa.me/5511999999999" class="plan-cta">Matricular</a>
+    </div>
+  </div>
+</div>
+
+<!-- DEPOIMENTOS -->
+<div id="avaliacoes" class="reviews-section">
+  <div class="reviews-inner">
+    <div class="section-label">O que dizem</div>
+    <div class="section-title" style="font-family:'Bebas Neue',sans-serif; font-size: clamp(32px,5vw,56px); letter-spacing:2px;">RESULTADOS REAIS</div>
+    <div class="reviews-grid">
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Perdi 12kg em 3 meses! O ambiente e os instrutores me motivam todos os dias. Melhor academia que ja fui."</div><div class="review-author">— Thiago R.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Equipamentos novos, espaco limpo e os professores sao excelentes. Indico para todo mundo!"</div><div class="review-author">— Fernanda L.</div></div>
+      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Comecei sem saber nada de musculacao e em 6 meses ja tenho resultados visiveis. Estrutura incrivel!"</div><div class="review-author">— Bruno K.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div id="contato" class="cta">
+  <h2>COMECE HOJE<br>SUA TRANSFORMACAO</h2>
+  <p>Primeira semana gratis! Venha conhecer e experimente sem compromisso.</p>
+  <a href="https://wa.me/5511999999999" class="btn-fire" style="font-size:16px; padding:18px 44px;">Garantir Semana Gratis</a>
+</div>
+
+<footer>
+  <strong>Forge Gym</strong> &mdash; Santo Andre, SP &mdash; Desenvolvido por <strong>Webfy</strong>
+</footer>
+
+</body>
+</html>
