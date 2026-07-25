@@ -10,7 +10,7 @@
 
 <style>
 /* ==========================================================================
-   RESET & VARIAVEIS (AZUL CLARO E BRANCO)
+   RESET & VARIAVEIS
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -62,7 +62,7 @@ nav.scrolled { padding: 16px 60px; }
 .nav-btn:hover { background: var(--blue-dark); transform: scale(1.05); }
 
 /* ==========================================================================
-   HERO (FOTO BEM NO COMECO - SPLIT LAYOUT)
+   HERO (SCROLL TRIGGER ANIMATION)
    ========================================================================== */
 .hero {
   min-height: 100vh;
@@ -94,35 +94,18 @@ nav.scrolled { padding: 16px 60px; }
   box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15);
 }
 .hero-image img {
+  position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover;
 }
+.hero-img-antes { z-index: 1; }
+/* Imagem Depois sobrepoe e começa escondida. O scroll ira revelar ela */
+.hero-img-depois { z-index: 2; clip-path: inset(0 0 100% 0); } /* Comeca escondida de baixo para cima */
 
 /* ==========================================================================
-   STATEMENT & DOUTORA
-   ========================================================================== */
-.statement {
-  background: var(--white); padding: 120px 60px;
-  display: flex; align-items: center; justify-content: space-between; gap: 80px;
-}
-.st-image { flex: 1; border-radius: 24px; overflow: hidden; height: 600px; }
-.st-image img { width: 100%; height: 100%; object-fit: cover; }
-.st-text-wrap { flex: 1; }
-.st-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(36px, 4vw, 56px); line-height: 1.2;
-  font-weight: 400; color: var(--text); margin-bottom: 40px;
-}
-.st-text em { color: var(--blue); font-style: italic; }
-.st-desc { font-size: 16px; color: var(--text-light); line-height: 1.8; }
-.st-stats { display: flex; gap: 40px; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 40px; }
-.stat-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 48px; color: var(--blue); font-weight: 400; line-height: 1; }
-.stat-box p { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-top: 8px; }
-
-/* ==========================================================================
-   TRATAMENTOS (GRID LIMPO E ELEGANTE)
+   TRATAMENTOS
    ========================================================================== */
 .services {
-  background: var(--light-blue); padding: 120px 60px;
+  background: var(--white); padding: 120px 60px;
 }
 .sec-header { text-align: center; margin-bottom: 80px; }
 .sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); font-weight: 400; color: var(--text); }
@@ -133,8 +116,8 @@ nav.scrolled { padding: 16px 60px; }
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1200px; margin: 0 auto;
 }
 .srv-card {
-  background: var(--white); border-radius: 20px; overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: transform 0.3s;
+  background: var(--light-blue); border-radius: 20px; overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: transform 0.3s;
 }
 .srv-card:hover { transform: translateY(-10px); }
 .srv-card-img { height: 280px; width: 100%; overflow: hidden; }
@@ -145,17 +128,17 @@ nav.scrolled { padding: 16px 60px; }
 .srv-card p { font-size: 15px; color: var(--text-light); line-height: 1.7; }
 
 /* ==========================================================================
-   TRANSFORMACOES (SCROLL-DRIVEN SLIDER SEM TRAVAR A TELA)
+   TRANSFORMACOES (SCROLL-DRIVEN SLIDER PURO)
    ========================================================================== */
 .transformacoes {
-  background: var(--white); padding: 150px 60px; color: var(--text);
-  display: flex; gap: 80px; align-items: center; justify-content: space-between;
+  background: var(--light-blue); padding: 150px 60px; color: var(--text);
+  display: flex; gap: 80px; align-items: center; justify-content: center;
 }
-.tr-left { flex: 1; }
-.tr-right { flex: 1.2; position: relative; }
+.tr-left { flex: 1; max-width: 500px; }
+.tr-right { flex: 1; display: flex; justify-content: center; position: relative; }
 .tr-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 60px); line-height: 1.1; margin-bottom: 30px; font-weight: 400; }
 .tr-title em { color: var(--blue); font-style: italic; }
-.tr-desc { font-size: 16px; color: var(--text-light); max-width: 400px; line-height: 1.8; margin-bottom: 40px; }
+.tr-desc { font-size: 16px; color: var(--text-light); line-height: 1.8; margin-bottom: 40px; }
 .btn-solid {
   background: var(--blue); color: white; padding: 16px 36px; border-radius: 50px;
   font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
@@ -163,60 +146,49 @@ nav.scrolled { padding: 16px 60px; }
 }
 .btn-solid:hover { background: var(--blue-dark); transform: translateY(-3px); }
 
-/* Componente Slider */
+/* Componente Slider (Tamanho reduzido) */
 .ba-wrap {
-  position: relative; width: 100%; aspect-ratio: 4/5;
+  position: relative; width: 100%; max-width: 420px; aspect-ratio: 4/5;
   border-radius: 24px; overflow: hidden;
   box-shadow: 0 40px 80px rgba(2, 132, 199, 0.15);
 }
 .ba-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .ba-img.after { z-index: 1; }
+/* Wipe sem linha nem bolinha */
 .ba-img.before { z-index: 2; clip-path: inset(0 50% 0 0); }
-.ba-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: white; z-index: 10; transform: translateX(-50%); box-shadow: 0 0 10px rgba(0,0,0,0.2); }
-.ba-knob {
-  position: absolute; top: 50%; left: 50%; z-index: 11; transform: translate(-50%, -50%);
-  width: 64px; height: 64px; border-radius: 50%; background: white;
-  display: flex; align-items: center; justify-content: center; cursor: ew-resize;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-.ba-knob svg { width: 28px; height: 28px; stroke: var(--blue); stroke-width: 2; }
+
 .ba-tag {
   position: absolute; z-index: 12; bottom: 30px;
   padding: 8px 16px; border-radius: 50px;
   font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
   background: rgba(255,255,255,0.9); color: var(--blue-dark); backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 .ba-tag.left { left: 30px; }
 .ba-tag.right { right: 30px; background: var(--blue); color: white; }
 
 /* ==========================================================================
-   DEPOIMENTOS
+   DEPOIMENTOS & FAQ & FOOTER
    ========================================================================== */
 .testimonials {
-  background: var(--light-blue); padding: 120px 60px; text-align: center;
+  background: var(--white); padding: 120px 60px; text-align: center;
 }
 .test-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 60px auto 0;
 }
 .test-card {
-  background: var(--white); padding: 40px; border-radius: 20px;
-  text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  background: var(--light-blue); padding: 40px; border-radius: 20px;
+  text-align: left; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
 }
 .stars { color: #f59e0b; margin-bottom: 20px; font-size: 20px; }
 .test-text { font-size: 15px; color: var(--text-light); line-height: 1.7; font-style: italic; margin-bottom: 24px; }
 .test-author { font-weight: 700; color: var(--text); font-size: 14px; }
 
-/* ==========================================================================
-   FAQ
-   ========================================================================== */
-.faq { background: var(--white); padding: 120px 60px; max-width: 900px; margin: 0 auto; }
+.faq { background: var(--white); padding: 120px 60px; max-width: 900px; margin: 0 auto; border-top: 1px solid var(--border); }
 .faq-item { border-bottom: 1px solid var(--border); padding: 30px 0; }
 .faq-question { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--blue-dark); margin-bottom: 10px; }
 .faq-answer { font-size: 15px; color: var(--text-light); line-height: 1.7; }
 
-/* ==========================================================================
-   FOOTER
-   ========================================================================== */
 .footer-wrap { position: relative; background: var(--text); color: white; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
 footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justify-content: space-between; }
 .footer-top { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; }
@@ -240,9 +212,6 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
   nav { padding: 20px; } .nav-links { display: none; }
   .hero { flex-direction: column; padding: 120px 30px 60px; text-align: center; }
   .hero-image { width: 100%; height: 50vh; }
-  .statement { flex-direction: column-reverse; padding: 80px 30px; text-align: center; }
-  .st-image { height: 400px; width: 100%; }
-  .st-stats { justify-content: center; }
   .srv-grid { grid-template-columns: 1fr; }
   .transformacoes { flex-direction: column; padding: 80px 30px; text-align: center; }
   .test-grid { grid-template-columns: 1fr; }
@@ -257,7 +226,6 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
 <nav id="nav">
   <div class="nav-logo">Ana Fernandes.</div>
   <ul class="nav-links">
-    <li><a href="#clinica">A Clinica</a></li>
     <li><a href="#tratamentos">Tratamentos</a></li>
     <li><a href="#resultados">Resultados</a></li>
     <li><a href="#depoimentos">Depoimentos</a></li>
@@ -265,7 +233,7 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
   <a href="https://wa.me/5511999999999" class="nav-btn">Agendar</a>
 </nav>
 
-<!-- HERO (FOTO DIRETO NO INICIO) -->
+<!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero-content">
     <div class="hero-eyebrow"><span class="gs-eyebrow">Alta Estetica Dental</span></div>
@@ -273,28 +241,14 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
     <p class="gs-desc">Tecnologia avancada, conforto absoluto e um olhar artistico dedicado a criar a melhor versao do seu sorriso. Descubra a odontologia premium.</p>
     <a href="https://wa.me/5511999999999" class="btn-solid gs-desc">Agendar Avaliacao</a>
   </div>
+  <!-- Imagem com Efeito ScrollTrigger -->
   <div class="hero-image gs-img">
-    <img src="odonto_hero_smile_1785016150873.jpg" alt="Paciente sorrindo">
+    <img src="hero_antes.jpg" alt="Sorriso Antes" class="hero-img-antes">
+    <img src="hero_depois.jpg" alt="Sorriso Depois" class="hero-img-depois" id="hero-wipe">
   </div>
 </section>
 
-<!-- STATEMENT & DOUTORA -->
-<section class="statement" id="clinica">
-  <div class="st-image gs-fade-up">
-    <!-- Usando a foto do interior da clinica ou uma medica -->
-    <img src="odonto_clinic_interior_1785016163974.jpg" alt="Interior da Clinica Premium">
-  </div>
-  <div class="st-text-wrap">
-    <h2 class="st-text gs-fade-up">"Nosso compromisso e com a <em>excelencia</em> em cada detalhe do seu sorriso."</h2>
-    <p class="st-desc gs-fade-up">A Dra. Ana Fernandes e especialista em reabilitacao oral e estetica dental. Com uma estrutura de ultima geracao, garantimos procedimentos precisos, rapidos e indolores para que sua experiencia seja incrivel do inicio ao fim.</p>
-    <div class="st-stats gs-fade-up">
-      <div class="stat-box"><h4>15+</h4><p>Anos de Experiencia</p></div>
-      <div class="stat-box"><h4>3k+</h4><p>Sorrisos Transformados</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- TRATAMENTOS (GRID LIMPO) -->
+<!-- TRATAMENTOS -->
 <section class="services" id="tratamentos">
   <div class="sec-header gs-fade-up">
     <h2 class="sec-title">Nossas<br><em>Especialidades</em></h2>
@@ -303,21 +257,21 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
   
   <div class="srv-grid">
     <div class="srv-card gs-fade-up">
-      <div class="srv-card-img"><img src="img_depois_odonto.jpg" alt="Lentes de Contato"></div>
+      <div class="srv-card-img"><img src="hero_depois.jpg" alt="Lentes de Contato"></div>
       <div class="srv-card-content">
         <h3>Lentes de Contato</h3>
         <p>Laminas ultrafinas de porcelana premium que corrigem imperfeicoes, formato e cor com resultado permanente e hiper-realista.</p>
       </div>
     </div>
     <div class="srv-card gs-fade-up" style="transition-delay: 0.1s;">
-      <div class="srv-card-img"><img src="odonto_treatment_photo_1785016178956.jpg" alt="Clareamento a Laser"></div>
+      <div class="srv-card-img"><img src="treatment_photo.jpg" alt="Clareamento a Laser"></div>
       <div class="srv-card-content">
         <h3>Clareamento Laser</h3>
         <p>Dentes significativamente mais brancos em uma unica sessao, utilizando protocolo sem sensibilidade para seu total conforto.</p>
       </div>
     </div>
     <div class="srv-card gs-fade-up">
-      <div class="srv-card-img"><img src="odonto_clinic_interior_1785016163974.jpg" alt="Implantes"></div>
+      <div class="srv-card-img"><img src="img_depois_odonto.jpg" alt="Implantes"></div>
       <div class="srv-card-content">
         <h3>Implantes Premium</h3>
         <p>Recupere a seguranca ao sorrir e mastigar. Utilizamos componentes importados de altissima qualidade com resultados imperceptiveis.</p>
@@ -333,21 +287,19 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
   </div>
 </section>
 
-<!-- ANTES E DEPOIS (SCROLL DRIVEN SEM TRAVAR) -->
+<!-- ANTES E DEPOIS (SCROLL DRIVEN PURO, SEM DRAG, TAMANHO REDUZIDO) -->
 <section class="transformacoes" id="resultados">
   <div class="tr-left gs-fade-up">
     <h2 class="tr-title">O Poder de um<br><em>Novo Sorriso</em></h2>
-    <p class="tr-desc">Resultados reais que mudam vidas. A estetica dental vai muito alem da beleza; ela devolve a confianca e a autoestima.<br><br><b>Role a tela</b> para ver a transformacao acontecer magicamente.</p>
+    <p class="tr-desc">Resultados reais que mudam vidas. A estetica dental vai muito alem da beleza; ela devolve a confianca e a autoestima.<br><br><b>Role a tela</b> para revelar a transformacao de forma organica.</p>
     <a href="https://wa.me/5511999999999" class="btn-solid">Quero Transformar meu Sorriso</a>
   </div>
   <div class="tr-right">
+    <!-- Removido botão/linha. Wrapper reduzido (max-width 420px via CSS) -->
     <div class="ba-wrap gs-ba-wrap">
       <img src="img_depois_odonto.jpg" class="ba-img after" alt="">
       <img src="img_antes_odonto.jpg" class="ba-img before" id="ba-before" alt="">
-      <div class="ba-line" id="ba-line"></div>
-      <div class="ba-knob" id="ba-knob">
-        <svg viewBox="0 0 24 24" fill="none"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="8 8 4 12 8 16"/><polyline points="16 8 20 12 16 16"/></svg>
-      </div>
+      
       <div class="ba-tag left" id="tag-antes">ANTES</div>
       <div class="ba-tag right" id="tag-depois">DEPOIS</div>
     </div>
@@ -391,10 +343,6 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
     <h3 class="faq-question">O clareamento dental causa sensibilidade?</h3>
     <p class="faq-answer">Nosso protocolo a laser e projetado justamente para evitar a sensibilidade. Utilizamos geis de altissima qualidade aliados a lasers dessensibilizantes, garantindo total conforto.</p>
   </div>
-  <div class="faq-item">
-    <h3 class="faq-question">Quanto tempo dura o tratamento de lentes?</h3>
-    <p class="faq-answer">Apos o planejamento digital aprovado por voce, o tratamento completo pode ser finalizado em apenas duas a tres sessoes clinicas, de forma rapida e extremamente eficiente.</p>
-  </div>
 </section>
 
 <!-- FOOTER -->
@@ -405,7 +353,7 @@ footer { padding: 100px 60px 40px; display: flex; flex-direction: column; justif
       <div class="footer-links">
         <div class="f-col">
           <h4>Clinica</h4>
-          <ul><li><a href="#tratamentos">Tratamentos</a></li><li><a href="#resultados">Resultados</a></li><li><a href="#clinica">Corpo Clinico</a></li></ul>
+          <ul><li><a href="#tratamentos">Tratamentos</a></li><li><a href="#resultados">Resultados</a></li></ul>
         </div>
         <div class="f-col">
           <h4>Contato</h4>
@@ -454,6 +402,19 @@ document.addEventListener("DOMContentLoaded", () => {
     .from('.gs-title', { y: 50, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
     .from('.gs-desc', { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }, '-=0.6');
 
+  // ANIMACAO HERO (ANTES/DEPOIS NO SCROLL)
+  // Conforme o usuario da scroll, a imagem de cima vai sendo revelada
+  gsap.to('#hero-wipe', {
+    clipPath: 'inset(0 0 0% 0)', // Revela tudo
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.hero',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: 1 // scrub leve
+    }
+  });
+
   // Fade Up Elements Generic
   gsap.utils.toArray('.gs-fade-up').forEach(el => {
     gsap.from(el, {
@@ -462,52 +423,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 3. Componente Antes/Depois (SCROLL-DRIVEN SEM TRAVAR A TELA)
-  // Removemos o 'pin: true'. A animacao ocorre puramente baseada na passagem do scroll
+  // 3. Componente Antes/Depois (WIPE SIMPLES SEM DRAG, SEM LINHA)
   const baWrap = document.querySelector('.gs-ba-wrap');
   
   const tlBa = gsap.timeline({
     scrollTrigger: {
       trigger: '#resultados',
-      start: 'top 80%', // Inicia quando a secao entra na tela
-      end: 'bottom 20%', // Termina quando a secao esta saindo da tela
-      scrub: true, // Liga a animacao ao scroll sem travar!
+      start: 'top 70%', 
+      end: 'bottom 40%', 
+      scrub: 1, 
     }
   });
 
-  // Animamos da posicao 90% (antes) ate a 10% (depois revelado) suavemente durante o scroll normal
+  // O wipe ocorre mudando o clip-path puramente via GSAP
   tlBa.fromTo('#ba-before', 
-    { clipPath: 'inset(0 10% 0 0)' }, 
-    { clipPath: 'inset(0 90% 0 0)', ease: 'none' }, 0
+    { clipPath: 'inset(0 0% 0 0)' }, // Comeca sem wipe (mostra o 'Antes' 100%)
+    { clipPath: 'inset(0 100% 0 0)', ease: 'none' }, 0 // Termina wipeado totalmente (revela o 'Depois')
   );
-  tlBa.fromTo('#ba-line', 
-    { left: '90%' }, 
-    { left: '10%', ease: 'none' }, 0
-  );
-  tlBa.fromTo('#ba-knob', 
-    { left: '90%' }, 
-    { left: '10%', ease: 'none' }, 0
-  );
-  // Fade out tag Antes / In tag Depois
-  tlBa.to('#tag-antes', { opacity: 0.2, ease: 'none' }, 0);
-  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#0369a1', color: 'white', ease: 'none' }, 0);
 
-  // Funcionalidade de clique/arraste mantida caso o usuario prefira interagir manualmente 
-  // (Isso pausa o ScrollTrigger temporariamente ou sobrescreve o valor)
-  let isDragging = false;
-  function setBa(x) {
-    const r = baWrap.getBoundingClientRect();
-    let p = Math.max(2, Math.min(98, ((x - r.left)/r.width)*100));
-    document.getElementById('ba-before').style.clipPath = `inset(0 ${100-p}% 0 0)`; 
-    document.getElementById('ba-line').style.left = `${p}%`; 
-    document.getElementById('ba-knob').style.left = `${p}%`;
-  }
-  baWrap.addEventListener('mousedown', e => { isDragging = true; setBa(e.clientX); e.preventDefault(); });
-  window.addEventListener('mousemove', e => { if(isDragging) setBa(e.clientX); });
-  window.addEventListener('mouseup', () => isDragging = false);
-  baWrap.addEventListener('touchstart', e => { isDragging = true; setBa(e.touches[0].clientX); }, {passive:true});
-  window.addEventListener('touchmove', e => { if(isDragging) setBa(e.touches[0].clientX); }, {passive:true});
-  window.addEventListener('touchend', () => isDragging = false);
+  // Fade nas tags
+  tlBa.to('#tag-antes', { opacity: 0, ease: 'none' }, 0);
+  tlBa.to('#tag-depois', { scale: 1.1, backgroundColor: '#0369a1', color: 'white', ease: 'none' }, 0);
 });
 </script>
 </body>
