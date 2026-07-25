@@ -3,242 +3,543 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clinica Odontologica – Seu Sorriso e Nossa Missao</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Sorriso Premium – Clinica Odontologica de Alta Estetica</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #f8fafe;
-  --blue: #1a56db;
-  --blue-light: #3b82f6;
-  --blue-soft: #eff6ff;
-  --text: #1a1a2e;
-  --muted: #6b7280;
+  --bg: #faf8f4;
+  --cream: #f5f0e8;
+  --dark: #1a1714;
+  --dark2: #2a2520;
+  --gold: #c9a96e;
+  --gold2: #b8893e;
+  --gold-light: #e8d5b0;
+  --text: #2a2520;
+  --muted: #8a7a6a;
+  --border: #e5ddd0;
   --white: #ffffff;
-  --border: #e5e7eb;
+  --rose: #e8d5d5;
 }
 html { scroll-behavior: smooth; }
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-/* NAV */
+/* ============================================================
+   NAV
+   ============================================================ */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 36px;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(12px);
+  padding: 18px 48px;
+  background: rgba(250,248,244,0.96);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 12px rgba(0,0,0,0.06);
 }
-.nav-logo { display: flex; align-items: center; gap: 10px; }
-.logo-icon { width: 36px; height: 36px; background: var(--blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-.logo-text { font-size: 18px; font-weight: 800; color: var(--text); }
-.logo-text span { color: var(--blue); }
-.nav-links { display: flex; gap: 28px; list-style: none; }
-.nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
-.nav-links a:hover { color: var(--blue); }
+.nav-logo {
+  display: flex; flex-direction: column; line-height: 1;
+}
+.nav-logo-main { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--dark); letter-spacing: 1px; }
+.nav-logo-sub { font-size: 10px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-top: 2px; }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.5px; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold2); }
 .nav-cta {
-  background: var(--blue);
-  color: white;
-  padding: 11px 24px;
-  border-radius: 10px;
-  font-size: 14px; font-weight: 700;
+  border: 1px solid var(--gold);
+  color: var(--gold2);
+  padding: 10px 26px;
+  border-radius: 4px;
+  font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
   text-decoration: none;
-  transition: background 0.2s, transform 0.2s;
+  transition: background 0.25s, color 0.25s;
 }
-.nav-cta:hover { background: var(--blue-light); transform: translateY(-1px); }
+.nav-cta:hover { background: var(--gold); color: white; }
 
-/* HERO */
+/* ============================================================
+   HERO
+   ============================================================ */
 .hero {
   min-height: 100vh;
-  display: flex; align-items: center;
-  padding: 120px 36px 80px;
-  max-width: 1200px;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  padding: 110px 48px 80px;
+  max-width: 1300px;
   margin: 0 auto;
-  gap: 60px;
+  gap: 80px;
 }
-.hero-content { flex: 1; }
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--blue-soft);
-  border: 1px solid rgba(59,130,246,0.2);
-  color: var(--blue);
-  padding: 7px 16px; border-radius: 50px;
-  font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+.hero-content {}
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 32px;
+}
+.eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+.eyebrow-text { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 5vw, 72px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--dark);
+  margin-bottom: 8px;
+}
+.hero h1 em { font-style: italic; color: var(--gold2); }
+.hero h1 strong { font-weight: 700; display: block; }
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 300; font-style: italic;
+  color: var(--muted);
+  margin-bottom: 28px;
+  letter-spacing: 0.5px;
+}
+.hero-desc { color: var(--muted); font-size: 15px; line-height: 1.9; max-width: 480px; margin-bottom: 44px; }
+.hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-gold {
+  background: linear-gradient(135deg, #c9a96e, #b8893e);
+  color: white;
+  padding: 15px 36px; border-radius: 4px;
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 28px rgba(184,137,62,0.3);
+}
+.btn-gold:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(184,137,62,0.4); }
+.btn-ghost {
+  border: 1px solid var(--border);
+  color: var(--dark);
+  padding: 15px 36px; border-radius: 4px;
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold2); }
+
+/* Hero Visual */
+.hero-visual { display: flex; flex-direction: column; gap: 20px; }
+.hero-card-main {
+  background: var(--dark);
+  border-radius: 16px;
+  padding: 44px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-card-main::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #c9a96e, #b8893e, #c9a96e);
+}
+.card-main-icon { font-size: 56px; margin-bottom: 20px; }
+.card-main-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: white; margin-bottom: 10px; letter-spacing: 1px; }
+.card-main-desc { color: rgba(255,255,255,0.55); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+.card-rating { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.stars { color: var(--gold); font-size: 20px; letter-spacing: 3px; }
+.rating-text { color: var(--gold-light); font-size: 13px; font-weight: 500; }
+
+.hero-cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.hero-mini-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.mini-icon { font-size: 28px; margin-bottom: 8px; }
+.mini-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; color: var(--dark); }
+.mini-label { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-top: 2px; }
+
+/* ============================================================
+   SECTION HEADER
+   ============================================================ */
+.sec-head { text-align: center; margin-bottom: 60px; }
+.sec-eyebrow { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.sec-eyebrow-line { width: 32px; height: 1px; background: var(--gold); }
+.sec-eyebrow-text { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); }
+.sec-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 4vw, 50px); font-weight: 300; line-height: 1.2; color: var(--dark); }
+.sec-title em { font-style: italic; color: var(--gold2); }
+.sec-desc { color: var(--muted); font-size: 15px; line-height: 1.8; max-width: 560px; margin: 18px auto 0; }
+
+/* ============================================================
+   TRATAMENTOS
+   ============================================================ */
+.trat-section { padding: 100px 48px; background: var(--white); }
+.trat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.trat {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 36px 28px;
+  text-align: center;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  background: var(--white);
+}
+.trat:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(184,137,62,0.1); border-color: var(--gold-light); }
+.trat-icon { font-size: 40px; margin-bottom: 18px; }
+.trat-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--dark); margin-bottom: 12px; }
+.trat-desc { color: var(--muted); font-size: 13px; line-height: 1.8; }
+.trat-tag { display: inline-block; margin-top: 16px; background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.3); color: var(--gold2); padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; }
+
+/* ============================================================
+   EXPERIENCIA
+   ============================================================ */
+.exp-section { padding: 100px 48px; background: var(--cream); }
+.exp-inner { max-width: 1100px; margin: 0 auto; }
+.exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.exp-text {}
+.exp-text .sec-head { text-align: left; margin-bottom: 36px; }
+.exp-text .sec-eyebrow { justify-content: flex-start; }
+.exp-items { display: flex; flex-direction: column; gap: 24px; }
+.exp-item { display: flex; gap: 18px; align-items: flex-start; }
+.exp-bullet { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #c9a96e, #b8893e); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+.exp-item-text h4 { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+.exp-item-text p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.exp-card-visual {
+  background: var(--dark);
+  border-radius: 20px;
+  padding: 48px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.exp-card-visual::after {
+  content: '"';
+  position: absolute; bottom: 20px; right: 32px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 120px; color: rgba(201,169,110,0.1);
+  line-height: 1;
+}
+.exp-card-visual p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 300; font-style: italic;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.6;
   margin-bottom: 28px;
 }
-.hero h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 900; line-height: 1.15; margin-bottom: 20px; }
-.hero h1 .blue { color: var(--blue); }
-.hero p { color: var(--muted); font-size: 17px; line-height: 1.8; max-width: 500px; margin-bottom: 36px; }
-.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
-.btn-primary {
-  background: var(--blue);
-  color: white;
-  padding: 15px 32px; border-radius: 12px;
-  font-size: 15px; font-weight: 700;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  display: inline-flex; align-items: center; gap: 8px;
-}
-.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(26,86,219,0.35); }
-.btn-outline {
-  border: 2px solid var(--border);
-  color: var(--text);
-  padding: 15px 32px; border-radius: 12px;
-  font-size: 15px; font-weight: 600;
-  text-decoration: none;
-  transition: border-color 0.2s;
-}
-.btn-outline:hover { border-color: var(--blue); color: var(--blue); }
-.hero-visual { flex: 1; display: flex; justify-content: center; }
-.hero-card {
-  background: white;
-  border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 24px 80px rgba(26,86,219,0.14);
-  text-align: center;
-  max-width: 320px;
-}
-.hero-card .icon { font-size: 64px; margin-bottom: 20px; }
-.hero-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; }
-.hero-card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
-.card-stars { color: #f59e0b; font-size: 20px; margin-bottom: 8px; }
-.card-note { font-size: 13px; color: var(--muted); }
+.exp-card-visual .author { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.exp-card-visual .stars { font-size: 16px; color: var(--gold); margin-bottom: 14px; }
 
-/* SERVICOS */
-.section { padding: 90px 36px; max-width: 1100px; margin: 0 auto; }
-.section-tag { display: inline-block; background: var(--blue-soft); color: var(--blue); padding: 5px 14px; border-radius: 50px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 14px; }
-.section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 48px; }
-.services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-.svc {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 28px 24px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.svc:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,86,219,0.1); }
-.svc-icon { font-size: 36px; margin-bottom: 14px; }
-.svc-name { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
-.svc-desc { color: var(--muted); font-size: 13px; line-height: 1.6; }
-
-/* STATS */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; background: var(--blue); border-radius: 24px; padding: 40px; margin: 0 36px; }
-.stat { text-align: center; }
-.stat-num { font-size: 42px; font-weight: 900; color: white; }
-.stat-label { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
-
-/* DEPOIMENTOS */
-.reviews-section { background: white; padding: 90px 36px; }
-.reviews-inner { max-width: 1100px; margin: 0 auto; }
-.reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-.review {
+/* ============================================================
+   DEPOIMENTOS
+   ============================================================ */
+.dep-section { padding: 100px 48px; background: var(--white); }
+.dep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.dep {
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 24px;
+  border-radius: 16px;
+  padding: 32px 28px;
+  transition: transform 0.2s;
 }
-.stars { color: #f59e0b; font-size: 16px; margin-bottom: 12px; }
-.review-text { font-size: 14px; line-height: 1.8; color: var(--text); margin-bottom: 16px; font-style: italic; }
-.review-author { font-size: 13px; font-weight: 700; color: var(--blue); }
+.dep:hover { transform: translateY(-3px); }
+.dep-stars { color: var(--gold); font-size: 16px; letter-spacing: 3px; margin-bottom: 16px; }
+.dep-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 400; font-style: italic; line-height: 1.8; color: var(--dark2); margin-bottom: 22px; }
+.dep-divider { width: 32px; height: 1px; background: var(--gold-light); margin-bottom: 16px; }
+.dep-author { font-size: 13px; font-weight: 600; color: var(--dark); }
+.dep-proc { font-size: 12px; color: var(--gold); margin-top: 2px; }
 
-/* CTA */
-.cta { text-align: center; padding: 90px 36px; max-width: 700px; margin: 0 auto; }
-.cta h2 { font-size: clamp(32px, 5vw, 52px); font-weight: 900; margin-bottom: 16px; line-height: 1.2; }
-.cta p { color: var(--muted); font-size: 16px; margin-bottom: 36px; }
+/* ============================================================
+   CTA FINAL
+   ============================================================ */
+.cta-section {
+  padding: 110px 48px;
+  background: var(--dark);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(201,169,110,0.12) 0%, transparent 70%);
+}
+.cta-section .sec-eyebrow-text { color: var(--gold); }
+.cta-section .sec-eyebrow-line { background: var(--gold); }
+.cta-section .sec-title { color: white; }
+.cta-section .sec-title em { color: var(--gold-light); }
+.cta-section .sec-desc { color: rgba(255,255,255,0.55); }
+.cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 44px; }
+.cta-btn-primary {
+  background: linear-gradient(135deg, #c9a96e, #b8893e);
+  color: white;
+  padding: 16px 44px; border-radius: 4px;
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 28px rgba(184,137,62,0.35);
+}
+.cta-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(184,137,62,0.5); }
+.cta-btn-ghost {
+  border: 1px solid rgba(201,169,110,0.4);
+  color: var(--gold-light);
+  padding: 16px 44px; border-radius: 4px;
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.cta-btn-ghost:hover { background: rgba(201,169,110,0.08); }
 
-/* FOOTER */
-footer { background: var(--text); color: rgba(255,255,255,0.6); text-align: center; padding: 32px 24px; font-size: 13px; }
-footer strong { color: #60a5fa; }
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  background: #111009;
+  border-top: 1px solid rgba(201,169,110,0.15);
+  padding: 44px 48px;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+}
+.footer-logo-main { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: white; letter-spacing: 1px; }
+.footer-logo-sub { font-size: 10px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-top: 2px; }
+.footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+.footer-links a { color: rgba(255,255,255,0.4); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+.footer-copy { color: rgba(255,255,255,0.25); font-size: 12px; text-align: right; }
+.footer-copy strong { color: var(--gold); }
 
-@media (max-width: 768px) {
-  .hero { flex-direction: column; padding: 100px 20px 60px; }
-  .hero-visual { display: none; }
-  .stats { grid-template-columns: repeat(2, 1fr); margin: 0 20px; }
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 40px; }
+  .hero-visual { order: -1; }
+  .exp-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
   nav { padding: 14px 20px; }
   .nav-links { display: none; }
+  .trat-section, .dep-section, .cta-section, .exp-section { padding: 70px 24px; }
+  footer { padding: 32px 20px; flex-direction: column; text-align: center; }
+  .footer-copy { text-align: center; }
 }
 </style>
 </head>
 <body>
 
+<!-- ============================================================ NAV ============================================================ -->
 <nav>
   <div class="nav-logo">
-    <div class="logo-icon">🦷</div>
-    <div class="logo-text">Sorrir<span>Bem</span></div>
+    <div class="nav-logo-main">Dra. Ana Fernandes</div>
+    <div class="nav-logo-sub">Odontologia Premium</div>
   </div>
   <ul class="nav-links">
-    <li><a href="#servicos">Tratamentos</a></li>
-    <li><a href="#avaliacoes">Avaliacoes</a></li>
-    <li><a href="#contato">Contato</a></li>
+    <li><a href="#tratamentos">Tratamentos</a></li>
+    <li><a href="#experiencia">Diferenciais</a></li>
+    <li><a href="#depoimentos">Avaliacoes</a></li>
   </ul>
   <a href="https://wa.me/5511999999999" class="nav-cta">Agendar Consulta</a>
 </nav>
 
-<!-- HERO -->
-<div class="hero">
+<!-- ============================================================ HERO ============================================================ -->
+<section class="hero">
   <div class="hero-content">
-    <div class="hero-badge">Clinica Odontologica &bull; Sao Paulo, SP</div>
-    <h1>Seu Sorriso e<br><span class="blue">Nossa Missao.</span></h1>
-    <p>Tratamentos modernos com tecnologia de ponta para voce ter o sorriso que sempre quis. Agende sua consulta gratuita hoje mesmo.</p>
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <div class="eyebrow-text">Clinica de Alta Estetica &bull; Sao Paulo, SP</div>
+    </div>
+    <h1>
+      O Sorriso Que<br>
+      <em>Sempre</em>
+      <strong>Voce Merece.</strong>
+    </h1>
+    <p class="hero-subtitle">Precisao, estetica e exclusividade em cada detalhe.</p>
+    <p class="hero-desc">Combinamos tecnologia de ultima geracao com um olhar artistico para criar sorrisos naturais e transformadores. Cada tratamento e pensado exclusivamente para voce.</p>
     <div class="hero-btns">
-      <a href="https://wa.me/5511999999999" class="btn-primary">Agendar pelo WhatsApp</a>
-      <a href="#servicos" class="btn-outline">Ver Tratamentos</a>
+      <a href="https://wa.me/5511999999999" class="btn-gold">Agendar Consulta Gratuita</a>
+      <a href="#tratamentos" class="btn-ghost">Ver Tratamentos</a>
     </div>
   </div>
   <div class="hero-visual">
-    <div class="hero-card">
-      <div class="icon">🦷</div>
-      <h3>Avaliacao Gratuita</h3>
-      <p>Venha conhecer a clinica e fazer sua avaliacao sem compromisso. Nossa equipe cuida de voce com carinho.</p>
-      <div class="card-stars">★★★★★</div>
-      <div class="card-note">4.9 no Google Maps</div>
+    <div class="hero-card-main">
+      <div class="card-main-icon">✨</div>
+      <div class="card-main-title">Experiencia Premium</div>
+      <div class="card-main-desc">Atendimento exclusivo, personalizado e com resultado que transforma vidas. Do primeiro contato ao resultado final.</div>
+      <div class="card-rating">
+        <div class="stars">★★★★★</div>
+        <div class="rating-text">4.9 no Google &bull; +200 avaliacoes</div>
+      </div>
+    </div>
+    <div class="hero-cards-row">
+      <div class="hero-mini-card">
+        <div class="mini-icon">🦷</div>
+        <div class="mini-num">10+</div>
+        <div class="mini-label">Anos de Experiencia</div>
+      </div>
+      <div class="hero-mini-card">
+        <div class="mini-icon">😁</div>
+        <div class="mini-num">1K+</div>
+        <div class="mini-label">Sorrisos Transformados</div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- STATS -->
-<div class="stats">
-  <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Anos de Experiencia</div></div>
-  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Nota no Google</div></div>
-  <div class="stat"><div class="stat-num">2K+</div><div class="stat-label">Pacientes Atendidos</div></div>
-  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Satisfacao Garantida</div></div>
-</div>
-
-<!-- SERVICOS -->
-<div id="servicos" class="section">
-  <div class="section-tag">Nossos Tratamentos</div>
-  <div class="section-title">Cuidamos de Cada Detalhe<br>do seu Sorriso</div>
-  <div class="services-grid">
-    <div class="svc"><div class="svc-icon">✨</div><div class="svc-name">Clareamento Dental</div><div class="svc-desc">Dentes at 8 tons mais claros em apenas uma sessao com tecnologia a laser.</div></div>
-    <div class="svc"><div class="svc-icon">🔄</div><div class="svc-name">Aparelho Invisalign</div><div class="svc-desc">Alinhe seus dentes sem aparelho metalico. Discreto, confortavel e eficiente.</div></div>
-    <div class="svc"><div class="svc-icon">🦷</div><div class="svc-name">Implante Dental</div><div class="svc-desc">Substituicao de dentes com implantes que durao a vida toda com estetica natural.</div></div>
-    <div class="svc"><div class="svc-icon">💧</div><div class="svc-name">Limpeza & Prevencao</div><div class="svc-desc">Profilaxia completa, aplicacao de fluor e orientacoes personalizadas de higiene.</div></div>
+<!-- ============================================================ TRATAMENTOS ============================================================ -->
+<section id="tratamentos" class="trat-section">
+  <div class="sec-head">
+    <div class="sec-eyebrow">
+      <div class="sec-eyebrow-line"></div>
+      <div class="sec-eyebrow-text">Nossos Servicos</div>
+      <div class="sec-eyebrow-line"></div>
+    </div>
+    <div class="sec-title">Tratamentos que <em>Transformam</em></div>
+    <div class="sec-desc">Cada procedimento e realizado com equipamentos de ultima geracao e materiais premium para garantir resultados excepcionais.</div>
   </div>
-</div>
-
-<!-- DEPOIMENTOS -->
-<div id="avaliacoes" class="reviews-section">
-  <div class="reviews-inner">
-    <div class="section-tag">Avaliacoes Reais</div>
-    <div class="section-title">O Que Nossos Pacientes Dizem</div>
-    <div class="reviews-grid">
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Atendimento excelente! A doutora e super atenciosa e o resultado do clareamento superou minhas expectativas."</div><div class="review-author">— Camila R.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Finalmente encontrei uma clinica de confianca. Equipe incrivel, clinica moderna e preco justo."</div><div class="review-author">— Felipe A.</div></div>
-      <div class="review"><div class="stars">★★★★★</div><div class="review-text">"Fiz meu implante aqui e ficou perfeito. Recomendo muito! Atendimento desde o primeiro contato ate o pos-operatorio."</div><div class="review-author">— Patricia N.</div></div>
+  <div class="trat-grid">
+    <div class="trat">
+      <div class="trat-icon">✨</div>
+      <div class="trat-name">Lentes de Contato Dental</div>
+      <div class="trat-desc">Finas camadas de porcelana que transformam o formato, cor e harmonia do seu sorriso de forma minimamente invasiva.</div>
+      <div class="trat-tag">Alta Estetica</div>
+    </div>
+    <div class="trat">
+      <div class="trat-icon">🌟</div>
+      <div class="trat-name">Clareamento a Laser</div>
+      <div class="trat-desc">Tecnologia LED de ultima geracao para dentes ate 8 tons mais claros em uma unica sessao, com resultado duradouro.</div>
+      <div class="trat-tag">Sessao Unica</div>
+    </div>
+    <div class="trat">
+      <div class="trat-icon">🔄</div>
+      <div class="trat-name">Alinhador Invisivel</div>
+      <div class="trat-desc">Corrija o alinhamento dos seus dentes com placas quase invisiveis. Conforto, estetica e eficiencia clinica.</div>
+      <div class="trat-tag">Sem Aparelho</div>
+    </div>
+    <div class="trat">
+      <div class="trat-icon">🏆</div>
+      <div class="trat-name">Implante Premium</div>
+      <div class="trat-desc">Implantes de titanio com coroa de zirconia, o material mais resistente e estetico disponivel no mercado atual.</div>
+      <div class="trat-tag">Definitivo</div>
+    </div>
+    <div class="trat">
+      <div class="trat-icon">💎</div>
+      <div class="trat-name">Design do Sorriso</div>
+      <div class="trat-desc">Planejamento digital completo com preview antes de qualquer procedimento. Voce aprova cada detalhe antes.</div>
+      <div class="trat-tag">Digital</div>
+    </div>
+    <div class="trat">
+      <div class="trat-icon">🤍</div>
+      <div class="trat-name">Botox & Harmonizacao</div>
+      <div class="trat-desc">Harmonizacao orofacial para equilibrar os pontos do rosto e realcar a beleza natural do seu sorriso.</div>
+      <div class="trat-tag">Facial</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- CTA -->
-<div id="contato" class="cta">
-  <h2>Pronto para Transformar seu Sorriso?</h2>
-  <p>Agende sua consulta gratuita agora e comece essa jornada com a gente!</p>
-  <a href="https://wa.me/5511999999999" class="btn-primary" style="font-size:16px; padding:17px 40px;">Agendar Consulta Gratuita</a>
-</div>
+<!-- ============================================================ EXPERIENCIA ============================================================ -->
+<section id="experiencia" class="exp-section">
+  <div class="exp-inner">
+    <div class="exp-grid">
+      <div class="exp-text">
+        <div class="sec-head">
+          <div class="sec-eyebrow">
+            <div class="sec-eyebrow-line"></div>
+            <div class="sec-eyebrow-text">Por que nos escolher</div>
+          </div>
+          <div class="sec-title">Uma Experiencia <em>Diferente</em></div>
+        </div>
+        <div class="exp-items">
+          <div class="exp-item">
+            <div class="exp-bullet">🛡️</div>
+            <div class="exp-item-text">
+              <h4>Tecnologia de Ponta</h4>
+              <p>Scanner 3D intraoral, planejamento digital e materiais premium importados para o melhor resultado.</p>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-bullet">💛</div>
+            <div class="exp-item-text">
+              <h4>Atendimento Humanizado</h4>
+              <p>Cada paciente e unico. Ouvimos, planejamos e executamos com atencao a cada detalhe da sua historia.</p>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-bullet">✅</div>
+            <div class="exp-item-text">
+              <h4>Resultado com Garantia</h4>
+              <p>Acompanhamos cada etapa do tratamento e garantimos sua satisfacao do inicio ao resultado final.</p>
+            </div>
+          </div>
+          <div class="exp-item">
+            <div class="exp-bullet">📍</div>
+            <div class="exp-item-text">
+              <h4>Localizacao Privilegiada</h4>
+              <p>Clinica moderna, confortavel e de facil acesso. Um espaco pensado para voce se sentir acolhido.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="exp-card-visual">
+        <div class="stars">★★★★★</div>
+        <p>"Nunca imaginei que um tratamento odontologico pudesse ser tao tranquilo e com um resultado tao lindo. A doutora tem um cuidado incrivel com cada detalhe."</p>
+        <div class="author">— Renata A., Paciente Premium</div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- ============================================================ DEPOIMENTOS ============================================================ -->
+<section id="depoimentos" class="dep-section">
+  <div class="sec-head">
+    <div class="sec-eyebrow">
+      <div class="sec-eyebrow-line"></div>
+      <div class="sec-eyebrow-text">Depoimentos</div>
+      <div class="sec-eyebrow-line"></div>
+    </div>
+    <div class="sec-title">Historias de <em>Transformacao</em></div>
+    <div class="sec-desc">Resultados reais de pacientes que confiaram em nos para transformar seus sorrisos e sua autoestima.</div>
+  </div>
+  <div class="dep-grid">
+    <div class="dep">
+      <div class="dep-stars">★★★★★</div>
+      <div class="dep-text">"As lentes de contato mudaram completamente minha relacao com o espelho. Resultado natural, perfeito e sem dor nenhuma."</div>
+      <div class="dep-divider"></div>
+      <div class="dep-author">Camila R.</div>
+      <div class="dep-proc">Lentes de Contato Dental</div>
+    </div>
+    <div class="dep">
+      <div class="dep-stars">★★★★★</div>
+      <div class="dep-text">"Fiz o clareamento e o resultado foi impressionante logo na primeira sessao. Atendimento de um nivel que nunca tinha experimentado."</div>
+      <div class="dep-divider"></div>
+      <div class="dep-author">Felipe M.</div>
+      <div class="dep-proc">Clareamento a Laser</div>
+    </div>
+    <div class="dep">
+      <div class="dep-stars">★★★★★</div>
+      <div class="dep-text">"Tinha muito medo de dentista mas aqui me senti acolhida desde o primeiro contato. Fiz implante e ficou melhor do que imaginava!"</div>
+      <div class="dep-divider"></div>
+      <div class="dep-author">Patricia N.</div>
+      <div class="dep-proc">Implante Premium</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CTA FINAL ============================================================ -->
+<section class="cta-section">
+  <div class="sec-eyebrow" style="justify-content:center; display:flex;">
+    <div class="sec-eyebrow-line"></div>
+    <div class="sec-eyebrow-text">Comece Sua Transformacao</div>
+    <div class="sec-eyebrow-line"></div>
+  </div>
+  <div class="sec-title" style="color:white; font-family:'Cormorant Garamond',serif; font-size:clamp(36px,5vw,62px); font-weight:300; margin-top:18px;">
+    Seu Novo Sorriso<br><em style="color:#e8d5b0;">Comeca Aqui.</em>
+  </div>
+  <div class="sec-desc" style="color:rgba(255,255,255,0.5);">Agende sua consulta gratuita e descubra o tratamento ideal para voce. Sem compromisso, com todo o cuidado que voce merece.</div>
+  <div class="cta-btns">
+    <a href="https://wa.me/5511999999999" class="cta-btn-primary">Agendar Consulta Gratuita</a>
+    <a href="#tratamentos" class="cta-btn-ghost">Ver Tratamentos</a>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER ============================================================ -->
 <footer>
-  <strong>SorrirBem Odontologia</strong> &mdash; Sao Paulo, SP &mdash; Desenvolvido por <strong>Webfy</strong>
+  <div>
+    <div class="footer-logo-main">Dra. Ana Fernandes</div>
+    <div class="footer-logo-sub">Odontologia Premium &bull; Sao Paulo, SP</div>
+  </div>
+  <div class="footer-links">
+    <a href="#tratamentos">Tratamentos</a>
+    <a href="#experiencia">Diferenciais</a>
+    <a href="#depoimentos">Avaliacoes</a>
+    <a href="https://wa.me/5511999999999">WhatsApp</a>
+  </div>
+  <div class="footer-copy">
+    Desenvolvido por <strong>Webfy</strong><br>
+    <span style="opacity:0.4">Todos os direitos reservados</span>
+  </div>
 </footer>
 
 </body>
