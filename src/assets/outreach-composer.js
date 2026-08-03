@@ -5,6 +5,16 @@
   const leads = typeof rawLeads !== 'undefined' ? rawLeads : [];
   if (!leads.length || typeof crm === 'undefined') return;
 
+  const topbar = document.querySelector('.topbar');
+  if (topbar && !topbar.querySelector('.melvex-brand')) {
+    const brand = document.createElement('a');
+    brand.className = 'melvex-brand';
+    brand.href = '../index.html';
+    brand.setAttribute('aria-label', 'Melvex Leads');
+    brand.innerHTML = '<img src="../wordmark-branco.svg" alt="Melvex Tecnologia" style="display:block;width:172px;max-width:42vw;height:auto">';
+    topbar.prepend(brand);
+  }
+
   crm.settings ||= {};
   crm.settings[SETTINGS_KEY] ||= {};
   let selectedId = leadId(leads[0]);
