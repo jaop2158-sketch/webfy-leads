@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 110" font-family="Arial, sans-serif">
+<g transform="translate(0,8) scale(0.95)">
+<path d="M50 8 L83 66 L67 66 L50 36 L33 66 L17 66 Z" fill="#F4F6FA"/>
+<path d="M17 66 L33 66 L24 82 L8 82 Z" fill="#D9A441"/>
+<path d="M67 66 L83 66 L92 82 L76 82 Z" fill="#F4F6FA"/>
+<path d="M42 74 L58 74 L50 90 Z" fill="#D9A441"/>
+</g>
+<text x="115" y="58" font-size="44" font-weight="700" fill="#F4F6FA" letter-spacing="1.4">MELVEX<tspan fill="#D9A441">.</tspan></text>
+<text x="117" y="85" font-size="12.5" font-weight="500" fill="#8FA3C2" letter-spacing="5.2">TECNOLOGIA</text>
+</svg>
