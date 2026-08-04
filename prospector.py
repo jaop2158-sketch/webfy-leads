@@ -4,6 +4,7 @@ import json
 import os
 import re
 import sys
+from pathlib import Path
 import pandas as pd
 import urllib3
 from ddgs import DDGS
@@ -11,6 +12,7 @@ from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.enum.text import PP_ALIGN
 from pptx.dml.color import RGBColor
+from scripts.publish_extraction import update_site
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -620,20 +622,28 @@ def export_reports(leads, nicho, cidade, output_dir="."):
         f.write(html_content)
     print(f"📊 Dashboard visual HTML gerado: {html_file}")
     
-    # 1. Atualizar o Portal Central index.html automaticamente
+    # Atualizar a rota CRM estável e publicar apenas os artefatos desta extração.
+    project_dir = Path(output_dir).resolve()
+    generated_artifacts = [
+        Path(csv_file),
+        Path(xlsx_file),
+        Path(pptx_file),
+        Path(html_file),
+    ]
     try:
-        from build_portal import build_central_portal
-        build_central_portal(output_dir)
-    except Exception as e:
-        print(f"⚠️ Aviso ao atualizar o portal central: {e}")
+        update_site(
+            project_dir=project_dir,
+            leads=leads,
+            category=nicho,
+            city=cidade,
+            artifacts=generated_artifacts,
+            publish=True,
+        )
+    except Exception as exc:
+        print(f"❌ A extração foi salva localmente, mas o site não foi publicado: {exc}")
+        raise
 
-    # 2. Enviar atualizações para o GitHub e Vercel 100% AUTOMÁTICO
-    try:
-        print("\n🚀 Enviando atualizações AUTOMATICAMENTE para o GitHub e Vercel...")
-        os.system('git add . && git commit -m "Add strict niche category validator and mobile 9-digit WhatsApp number filter" && git push')
-        print("✅ Tudo sincronizado! Seu site no Vercel foi atualizado sozinho no ar!")
-    except Exception as e:
-        print(f"⚠️ Aviso ao sincronizar com o Vercel: {e}")
+    print("✅ Extração validada, CRM atualizado e publicação enviada ao GitHub/Vercel.")
 
 def main():
     print("=" * 60)
